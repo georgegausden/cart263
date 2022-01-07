@@ -18,6 +18,8 @@ let animals = [];
 let sausageDogImage;
 let sausageDog;
 
+let level = 0;
+
 let state = 'start';
 
 
@@ -41,17 +43,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   //create the animals
-  for (let i = 0; i<NUM_ANIMALS; i++){
-    let x = random(0,width);
-    let y = random(0,height);
-    let animalImage = random(animalImages);
-    let animal = new Animal(x,y,animalImage);
-    animals.push(animal);
-  }
-
-  let x = random(0,width);
-  let y = random(0,height);
-  sausageDog = new SausageDog(x,y,sausageDogImage);
+  setupCharacters();
 
 }
 
@@ -75,6 +67,8 @@ function draw() {
 
 
 function start(){
+  background(255);
+
   push();
   textAlign(CENTER);
   textSize(30);
@@ -98,17 +92,56 @@ function simulation(){
 }
 
 function end(){
+  background(255);
+
   push();
   textAlign(CENTER);
   textSize(30);
   text('Congratulations you found him!',width/2,height/2);
   pop();
+
+
+  //allow the user to be able to restart the game if they choose to
 }
 
 function keyPressed(){
-  state = 'simulation';
+  if (state === 'start'){
+    state = 'simulation';
+  }
+  else if (state === 'end'){
+    //reset parameters
+    resetGame();
+    state = 'start';
+  }
+
 }
 
 function mousePressed(){
   sausageDog.mousePressed();
+}
+
+function resetGame(){
+  //reset all the things that need to be reset
+  //delete all the previous animals
+
+  sausageDog.found = false;
+  sausageDog.angle = 0;
+
+  setupCharacters();
+
+}
+
+function setupCharacters(){
+  //create the animals
+  for (let i = 0; i<NUM_ANIMALS; i++){
+    let x = random(0,width);
+    let y = random(0,height);
+    let animalImage = random(animalImages);
+    let animal = new Animal(x,y,animalImage);
+    animals.push(animal);
+  }
+
+  let x = random(0,width);
+  let y = random(0,height);
+  sausageDog = new SausageDog(x,y,sausageDogImage);
 }
