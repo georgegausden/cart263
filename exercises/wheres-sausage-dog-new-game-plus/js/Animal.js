@@ -3,8 +3,9 @@ class Animal{
     this.x = x;
     this.y = y;
     this.image = image;
-    this.vx = random(-2,2);
-    this.vy = random(-2,2);
+    this.maxSpeed = 1
+    this.vx = random(-this.maxSpeed,this.maxSpeed);
+    this.vy = random(-this.maxSpeed,this.maxSpeed);
 
     this.angle = 0;
   }
@@ -32,8 +33,8 @@ class Animal{
 
   move(){
     //make each animal move along the screen fairly slowly.
-    this.x += this.vx;
-    this.y += this.vy;
+    this.x += this.vx * (level+1);
+    this.y += this.vy * (level+1);
   }
 
   wrap(){

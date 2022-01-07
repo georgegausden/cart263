@@ -12,7 +12,8 @@ class SausageDog extends Animal{
     if (this.found){
       this.angle += this.rotationSpeed;
       level += 1;
-      state = 'end';
+      state = 'levelDisplay';
+
     }
   }
 

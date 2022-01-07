@@ -59,6 +59,9 @@ function draw() {
   else if (state === 'simulation'){
     simulation();
   }
+  else if (state === 'levelDisplay'){
+    levelDisplay();
+  }
   else if (state === 'end'){
     end();
   }
@@ -85,9 +88,24 @@ function simulation(){
 
     animal.update();
   }
-
   sausageDog.update();
+}
 
+function levelDisplay(){
+  //display the level of the user if they passed a level
+  background(255);
+
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  text('Level: '+level,width/2,height/2);
+  pop();
+
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  text('Press any key to continue playing',width/2,height/2+200);
+  pop();
 
 }
 
@@ -113,6 +131,10 @@ function keyPressed(){
     resetGame();
     state = 'start';
   }
+  else if (state === 'levelDisplay'){
+    sausageDog.found = false;
+    state = 'simulation';
+  }
 
 }
 
@@ -124,7 +146,7 @@ function resetGame(){
   //reset all the things that need to be reset
   //delete all the previous animals
   animals = [];
-      
+
   sausageDog.found = false;
   sausageDog.angle = 0;
 
