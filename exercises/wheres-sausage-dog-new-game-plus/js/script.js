@@ -1,6 +1,6 @@
 /**
-Title of Project
-Author Name
+Where's Sausage Dog New Game Plus
+George Gausden
 
 This is a template. You must fill in the title,
 author, and this description to match your project!
@@ -18,6 +18,8 @@ let animals = [];
 let sausageDogImage;
 let sausageDog;
 
+let state = 'start';
+
 
 /**
 Description of preload
@@ -28,9 +30,7 @@ function preload() {
     let animalImage = loadImage(`assets/images/animal${i}.png`);
     animalImages.push(animalImage);
   }
-
   sausageDogImage = loadImage('assets/images/sausage-dog.png');
-
 }
 
 
@@ -39,7 +39,6 @@ Description of setup
 */
 function setup() {
   createCanvas(windowWidth, windowHeight);
-
 
   //create the animals
   for (let i = 0; i<NUM_ANIMALS; i++){
@@ -61,6 +60,30 @@ function setup() {
 Description of draw()
 */
 function draw() {
+
+  if (state === 'start'){
+    start();
+  }
+  else if (state === 'simulation'){
+    simulation();
+  }
+  else if (state === 'end'){
+    end();
+  }
+
+}
+
+
+function start(){
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  text('Press any key to continue',width/2,height/2);
+  pop();
+}
+
+function simulation(){
+
   background(255,255,0);
 
   for (let i = 0; i<animals.length; i++){
@@ -70,6 +93,20 @@ function draw() {
   }
 
   sausageDog.update();
+
+
+}
+
+function end(){
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  text('Congratulations you found him!',width/2,height/2);
+  pop();
+}
+
+function keyPressed(){
+  state = 'simulation';
 }
 
 function mousePressed(){
