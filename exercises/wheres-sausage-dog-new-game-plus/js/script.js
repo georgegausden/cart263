@@ -11,6 +11,7 @@ author, and this description to match your project!
 //declare global constants
 const NUM_ANIMAL_IMAGES = 10;
 const NUM_ANIMALS = 100;
+const WINNING_LEVEL = 5;
 
 let animalImages = [];
 let animals = [];
@@ -21,6 +22,9 @@ let sausageDog;
 let level = 0;
 
 let state = 'start';
+
+let backgroundMusic = undefined;
+let dogFoundSFX = undefined;
 
 
 /**
@@ -33,6 +37,9 @@ function preload() {
     animalImages.push(animalImage);
   }
   sausageDogImage = loadImage('assets/images/sausage-dog.png');
+
+  backgroundMusic = loadSound('assets/sounds/meow.mp3');
+  dogFoundSFX = loadSound('assets/sounds/dogFound.mov');
 }
 
 
@@ -81,6 +88,10 @@ function start(){
 
 function simulation(){
 
+  if (!backgroundMusic.isPlaying()){
+    backgroundMusic.play();
+  }
+
   background(255,255,0);
 
   for (let i = 0; i<animals.length; i++){
@@ -89,6 +100,9 @@ function simulation(){
     animal.update();
   }
   sausageDog.update();
+
+  setTimeout(function (){
+    background(255,0,0,200)},5000);
 }
 
 function levelDisplay(){
@@ -167,4 +181,11 @@ function setupCharacters(){
   let x = random(0,width);
   let y = random(0,height);
   sausageDog = new SausageDog(x,y,sausageDogImage);
+}
+
+function strobingLight(){
+  //create a strobing light effect
+  setTimeout(function (){
+    background(255,0,0,50)},5000);
+
 }
