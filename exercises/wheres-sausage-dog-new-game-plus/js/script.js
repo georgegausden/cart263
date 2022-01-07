@@ -123,7 +123,8 @@ function mousePressed(){
 function resetGame(){
   //reset all the things that need to be reset
   //delete all the previous animals
-
+  animals = [];
+      
   sausageDog.found = false;
   sausageDog.angle = 0;
 
