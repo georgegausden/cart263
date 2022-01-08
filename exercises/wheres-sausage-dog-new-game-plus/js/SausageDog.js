@@ -9,20 +9,21 @@ class SausageDog extends Animal{
   update(){
     super.update();
 
-    if (this.found && level < WINNING_LEVEL){
+    if (this.found){
       if (!dogFoundSFX.isPlaying()){
         dogFoundSFX.play();
       }
-      this.angle += this.rotationSpeed;
-      level += 1;
-      resetGame();
-      state = 'levelDisplay';
-    }
-    else if (this.found && level === WINNING_LEVEL){
-      if (!dogFoundSFX.isPlaying()){
-        dogFoundSFX.play();
+
+      if (level<WINNING_LEVEL){
+        this.angle += this.rotationSpeed;
+        level += 1;
+        resetGame();
+        state = 'levelDisplay';
       }
-      state = 'end';
+      else{
+        state = 'end';
+      }
+
     }
   }
 
