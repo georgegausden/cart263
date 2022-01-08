@@ -46,6 +46,7 @@ function preload() {
   }
   sausageDogImage = loadImage('assets/images/sausage-dog.png');
 
+  //the background music as well as the sound effects were all taken from YouTube
   backgroundMusic = loadSound('assets/sounds/meow.mp3');
   dogSFX = loadSound('assets/sounds/dogFound.mov');
   catSFX = loadSound('assets/sounds/cat.mp3');
