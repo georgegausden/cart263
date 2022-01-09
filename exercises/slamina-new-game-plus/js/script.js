@@ -147,6 +147,9 @@ const animals = [
 
 let currentAnimal = '';
 let currentAnswer = '';
+
+let state = 'start';
+
 /**
 Description of preload
 */
@@ -177,11 +180,39 @@ function setup() {
 
 
 /**
-Description of draw()
+Creates the states of the game (start, simulation, levelDisplay and end)
 */
 function draw() {
-  background(0);
 
+
+  if (state === 'start') {
+    start();
+  } else if (state === 'simulation') {
+    simulation();
+  } else if (state === 'levelDisplay') {
+    levelDisplay();
+  } else if (state === 'end') {
+    end();
+  }
+
+
+
+}
+
+//creates the start state of the game, displays some info
+function start() {
+  background(255);
+
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  text('Press any key to continue', width / 2, height / 2);
+  pop();
+}
+
+//creates the simulation state of the game, this is where the user interacts with the animals
+function simulation() {
+  background(0);
   if (currentAnswer === currentAnimal){
     fill(0,255,0);
   }
@@ -193,10 +224,32 @@ function draw() {
 
 }
 
+//displays the end state of the game to the user, lets the user restart if they want
+function end() {
+  background(255);
+
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  text('Congratulations you beat the game!', width / 2, height / 2 - 100);
+  text('To restart, press any key', width / 2, height / 2 + 100);
+  pop();
+
+}
+
+//defines what pressing a key does in each state
+function keyPressed() {
+  if (state === 'start') {
+    state = 'simulation';
+  }
+}
+
 function mousePressed(){
-  currentAnimal = random(animals);
-  let reverseAnimal = reverseString(currentAnimal);
-  responsiveVoice.speak(reverseAnimal);
+  if (state = 'simulation'){
+    currentAnimal = random(animals);
+    let reverseAnimal = reverseString(currentAnimal);
+    responsiveVoice.speak(reverseAnimal);
+  }
 }
 
 function guessAnimal(animal){
