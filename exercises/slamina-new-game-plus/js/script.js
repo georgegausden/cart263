@@ -147,8 +147,9 @@ const animals = [
 
 let currentAnimal = '';
 let currentAnswer = '';
-
+let score = 0;
 let state = 'start';
+let simulationState = 'instructions';
 
 /**
 Description of preload
@@ -201,26 +202,32 @@ function draw() {
 
 //creates the start state of the game, displays some info
 function start() {
-  background(255);
+  rectMode(CENTER);
+  fill(0);
+  rect(width/2,height/2,450,450);
+  fill(255);
+  rect(width/2,height/2,500,500);
+
 
   push();
   textAlign(CENTER);
   textSize(30);
-  text('Press any key to continue', width / 2, height / 2);
+  fill(0);
+  text('Guess the animal name game!', width / 2, height / 2 - 50);
+  text('Press any key to continue', width / 2, height / 2 + 50);
   pop();
 }
 
-//creates the simulation state of the game, this is where the user interacts with the animals
+//creates the simulation state of the game, this is where the program compares the user's input with the expected input
 function simulation() {
   background(0);
-  if (currentAnswer === currentAnimal){
-    fill(0,255,0);
-  }
-  else {
-    fill(255,0,0);
-  }
 
-  text(currentAnswer, width/2, height/2);
+  if (simulationState = 'instructions'){
+    displayRules();
+  }
+  else if (simulationState = 'game'){
+    game();
+  }
 
 }
 
@@ -241,6 +248,8 @@ function end() {
 function keyPressed() {
   if (state === 'start') {
     state = 'simulation';
+    score = 0;
+    simulationState = 'instructions';
   }
 }
 
@@ -249,6 +258,10 @@ function mousePressed(){
     currentAnimal = random(animals);
     let reverseAnimal = reverseString(currentAnimal);
     responsiveVoice.speak(reverseAnimal);
+  }
+
+  if (simulationState = 'instructions'){
+    simulationState = 'game';
   }
 }
 
@@ -268,4 +281,26 @@ function reverseString(string) {
   let result = reverseCharacters.join('');
   // Return the result
   return result;
+}
+
+function displayRules(){
+  push();
+  fill(255);
+  textAlign(CENTER);
+  textSize(25);
+  text(`Start your sentence with\n "I think it is", then name the animal`,width/2,height/2-60);
+  text(`To start, click on the canvas`,width/2,height/2+60);
+  pop();
+}
+
+function game(){
+  if (currentAnswer === currentAnimal){
+    fill(0,255,0);
+  }
+  else {
+    fill(255,0,0);
+  }
+
+  text(currentAnswer, width/2, height/2);
+  console.log(currentAnswer);
 }
