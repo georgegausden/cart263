@@ -144,11 +144,12 @@ const animals = [
       "yak",
       "zebra"
     ];
+const WINNING_SCORE = 5;
 
 let currentAnimal = '';
 let currentAnswer = '';
 let score = 0;
-let state = 'start';
+let state = 'end';
 let simulationState = 'instructions';
 
 /**
@@ -222,12 +223,14 @@ function start() {
 function simulation() {
   background(0);
 
-  if (simulationState = 'instructions'){
-    displayRules();
-  }
-  else if (simulationState = 'game'){
-    game();
-  }
+  game();
+
+  // if (simulationState = 'instructions'){
+  //   displayRules();
+  // }
+  // else if (simulationState = 'game'){
+  //   game();
+  // }
 
 }
 
@@ -238,7 +241,7 @@ function end() {
   push();
   textAlign(CENTER);
   textSize(30);
-  text('Congratulations you beat the game!', width / 2, height / 2 - 100);
+  text('Congratulations,\n you beat the game!', width / 2, height / 2 - 100);
   text('To restart, press any key', width / 2, height / 2 + 100);
   pop();
 
@@ -249,7 +252,10 @@ function keyPressed() {
   if (state === 'start') {
     state = 'simulation';
     score = 0;
-    simulationState = 'instructions';
+  }
+  else if (state === 'end'){
+    score = 0;
+    state = 'start';
   }
 }
 
@@ -294,13 +300,35 @@ function displayRules(){
 }
 
 function game(){
-  if (currentAnswer === currentAnimal){
+  if (score === WINNING_SCORE){
+    state = 'end';
+  }
+
+  let displayCurrentAnswer = currentAnswer;
+
+  if (currentAnswer === currentAnimal && currentAnswer != ''){
     fill(0,255,0);
+    score +=1;
+    currentAnswer = '';
   }
   else {
     fill(255,0,0);
   }
 
-  text(currentAnswer, width/2, height/2);
+  //display the current score of the user
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  fill(255);
+  text("Score: "+score+"/"+WINNING_SCORE,width/2,height/2-100);
+  pop();
+
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  fill(255);
+  text(displayCurrentAnswer, width/2, height/2);
+  pop();
+
   console.log(currentAnswer);
 }
