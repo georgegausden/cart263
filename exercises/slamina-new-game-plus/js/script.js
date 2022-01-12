@@ -145,12 +145,19 @@ const animals = [
       "zebra"
     ];
 const WINNING_SCORE = 5;
+const LOSING_SCORE = 5;
+const MAX_TIME = 10;
 
 let currentAnimal = '';
 let currentAnswer = '';
 let score = 0;
-let state = 'end';
+let losses = 0;
+let state = 'start';
 let simulationState = 'instructions';
+let timeElapsed = 0;
+let timer = MAX_TIME;
+let pointTaken = false;
+
 
 /**
 Description of preload
@@ -168,7 +175,7 @@ function setup() {
 
   if (annyang){
     let commands = {
-      'I think it is *animal': guessAnimal
+      'I think it is *animal': guessAnimal,
     };
 
     annyang.addCommands(commands);
@@ -215,7 +222,7 @@ function start() {
   textSize(30);
   fill(0);
   text('Guess the animal name game!', width / 2, height / 2 - 50);
-  text('Press any key to continue', width / 2, height / 2 + 50);
+  text('Click with the mouse to start', width / 2, height / 2 + 50);
   pop();
 }
 
@@ -223,14 +230,24 @@ function start() {
 function simulation() {
   background(0);
 
-  game();
+  //display the time
+  push();
+  textSize(100);
+  fill(255);
+  text(timer, width/2,height/2);
+  pop();
 
-  // if (simulationState = 'instructions'){
-  //   displayRules();
-  // }
-  // else if (simulationState = 'game'){
-  //   game();
-  // }
+  //this part of the code was taken from an example by Mary Notari at the following link
+  // https://editor.p5js.org/marynotari/sketches/S1T2ZTMp-
+  if (frameCount % 60 == 0 && timer > 0){
+    timer -= 1;
+  }
+
+  if (timer == 0 && pointTaken == false){
+    losses += 1;
+    pointTaken = true;
+  }
+  game();
 
 }
 
@@ -261,13 +278,14 @@ function keyPressed() {
 
 function mousePressed(){
   if (state = 'simulation'){
+    timer = MAX_TIME;
     currentAnimal = random(animals);
     let reverseAnimal = reverseString(currentAnimal);
     responsiveVoice.speak(reverseAnimal);
-  }
-
-  if (simulationState = 'instructions'){
-    simulationState = 'game';
+    if (timer == 0 && pointTaken == true){
+      pointTaken = false;
+      timer = MAX_TIME;
+    }
   }
 }
 
@@ -320,15 +338,23 @@ function game(){
   textAlign(CENTER);
   textSize(30);
   fill(255);
-  text("Score: "+score+"/"+WINNING_SCORE,width/2,height/2-100);
+  text("Score",width/2,height/2-200);
   pop();
 
   push();
   textAlign(CENTER);
   textSize(30);
-  fill(255);
-  text(displayCurrentAnswer, width/2, height/2);
+  fill(0,255,0);
+  text(score + "/" + WINNING_SCORE,width/2 - 100,height/2-100);
   pop();
+
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  fill(255,0,0);
+  text(losses + "/" + LOSING_SCORE,width/2 + 100,height/2-100);
+  pop();
+
 
   console.log(currentAnswer);
 }
