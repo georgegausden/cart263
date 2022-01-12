@@ -156,7 +156,9 @@ let state = 'start';
 let simulationState = 'instructions';
 let timeElapsed = 0;
 let timer = MAX_TIME;
+
 let pointTaken = false;
+let pointWon = false;
 
 let yaySFX = undefined;
 let booSFX = undefined;
@@ -165,7 +167,7 @@ let clappingSFX = undefined;
 
 
 /**
-Description of preload
+Preloads all the sounds used in the game
 */
 function preload() {
 
@@ -178,7 +180,7 @@ function preload() {
 
 
 /**
-Description of setup
+Creates the canvas, sets up annyang and its functions
 */
 function setup() {
   createCanvas(500,500);
@@ -201,7 +203,7 @@ function setup() {
 
 
 /**
-Creates the states of the game (start, simulation, levelDisplay and end)
+Creates the states of the game (start, simulation and end)
 */
 function draw() {
 
@@ -210,10 +212,10 @@ function draw() {
     start();
   } else if (state === 'simulation') {
     simulation();
-  } else if (state === 'levelDisplay') {
-    levelDisplay();
-  } else if (state === 'end') {
-    end();
+  } else if (state === 'endWin') {
+    endWin();
+  } else if (state === 'endLose'){
+    endLose();
   }
 
 
@@ -255,19 +257,13 @@ function simulation() {
     timer -= 1;
   }
 
-  if (timer == 0 && pointTaken == false){
-    if (!booSFX.isPlaying()){
-      booSFX.play();
-    }
-    losses += 1;
-    pointTaken = true;
-  }
+
   game();
 
 }
 
-//displays the end state of the game to the user, lets the user restart if they want
-function end() {
+//displays the end state of the game to the user if they win, lets the user restart if they want
+function endWin() {
   background(255);
 
   if (!clappingSFX.isPlaying()){
@@ -283,14 +279,34 @@ function end() {
 
 }
 
+//displays the end state of the game to the user if they lose, lets the user restart if they want
+function endLose() {
+  background(255);
+
+  if (!disappointedSFX.isPlaying()){
+    disappointedSFX.play();
+  }
+
+  push();
+  textAlign(CENTER);
+  fill(255,0,0);
+  textSize(30);
+  text('Oh no!\n you lose the game!', width / 2, height / 2 - 100);
+  text('To restart, press any key', width / 2, height / 2 + 100);
+  pop();
+
+}
+
 //defines what pressing a key does in each state
 function keyPressed() {
-  if (state === 'start') {
-    state = 'simulation';
+  if (state === 'endWin'){
     score = 0;
+    losses = 0;
+    state = 'start';
   }
-  else if (state === 'end'){
+  else if (state === 'endLose'){
     score = 0;
+    losses = 0;
     state = 'start';
   }
 }
@@ -301,10 +317,14 @@ function mousePressed(){
     currentAnimal = random(animals);
     let reverseAnimal = reverseString(currentAnimal);
     responsiveVoice.speak(reverseAnimal);
-    if (timer == 0 && pointTaken == true){
+
+    //if the user clicks again during the game even if the game started, we give them another chance
+    if (pointTaken == true){
       pointTaken = false;
       timer = MAX_TIME;
     }
+  } else if (state = 'start'){
+    state = 'simulation';
   }
 }
 
@@ -337,22 +357,30 @@ function displayRules(){
 }
 
 function game(){
+
   if (score === WINNING_SCORE){
-    state = 'end';
+    state = 'endWin';
+  }
+  else if (losses === LOSING_SCORE){
+    state = 'endLose';
   }
 
   let displayCurrentAnswer = currentAnswer;
 
-  if (currentAnswer === currentAnimal && currentAnswer != ''){
-    if (!yaySFX.isPlaying()){
-      yaySFX.play();
-    }
-    fill(0,255,0);
-    score +=1;
-    currentAnswer = '';
+  //either the user guesses right in time, doesn't guess at all or guesses wrong in time
+  if (currentAnswer === currentAnimal && timer != 0 && pointWon === false){
+    winPoint();
+    pointWon = true;
+  } else if (currentAnswer === '' && timer === 0 && pointTaken === false && pointWon === false){
+    losePoint();
+    pointTaken = true;
+  } else if (currentAnswer != currentAnimal && currentAnswer != '' && timer != 0 && pointTaken === false && pointWon === false){
+    console.log('taken');
+    losePoint();
+    pointTaken = true;
   }
 
-  //display the current score of the user
+  //display the current score of the user as well as how many points the user has lost
   push();
   textAlign(CENTER);
   textSize(30);
@@ -373,7 +401,19 @@ function game(){
   fill(255,0,0);
   text(losses + "/" + LOSING_SCORE,width/2 + 100,height/2-100);
   pop();
-
-
   console.log(currentAnswer);
+}
+
+function losePoint(){
+  if (!booSFX.isPlaying()){
+    booSFX.play();
+  }
+  losses += 1;
+}
+
+function winPoint(){
+  if (!yaySFX.isPlaying()){
+    yaySFX.play();
+  }
+  score +=1;
 }
