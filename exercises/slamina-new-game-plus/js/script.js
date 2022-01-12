@@ -158,11 +158,21 @@ let timeElapsed = 0;
 let timer = MAX_TIME;
 let pointTaken = false;
 
+let yaySFX = undefined;
+let booSFX = undefined;
+let disappointedSFX = undefined;
+let clappingSFX = undefined;
+
 
 /**
 Description of preload
 */
 function preload() {
+
+  yaySFX = loadSound('assets/sounds/yaySFX.mp3');
+  booSFX = loadSound('assets/sounds/booSFX.mp3');
+  clappingSFX = loadSound('assets/sounds/clappingSFX.mp3');
+  disappointedSFX = loadSound('assets/sounds/disappointedSFX.mp3');
 
 }
 
@@ -185,6 +195,8 @@ function setup() {
     textStyle(BOLD);
     textAlign(CENTER,CENTER);
   }
+
+
 }
 
 
@@ -244,6 +256,9 @@ function simulation() {
   }
 
   if (timer == 0 && pointTaken == false){
+    if (!booSFX.isPlaying()){
+      booSFX.play();
+    }
     losses += 1;
     pointTaken = true;
   }
@@ -254,6 +269,10 @@ function simulation() {
 //displays the end state of the game to the user, lets the user restart if they want
 function end() {
   background(255);
+
+  if (!clappingSFX.isPlaying()){
+    clappingSFX.play();
+  }
 
   push();
   textAlign(CENTER);
@@ -325,12 +344,12 @@ function game(){
   let displayCurrentAnswer = currentAnswer;
 
   if (currentAnswer === currentAnimal && currentAnswer != ''){
+    if (!yaySFX.isPlaying()){
+      yaySFX.play();
+    }
     fill(0,255,0);
     score +=1;
     currentAnswer = '';
-  }
-  else {
-    fill(255,0,0);
   }
 
   //display the current score of the user
