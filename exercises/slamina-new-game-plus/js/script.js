@@ -152,13 +152,14 @@ let currentAnimal = '';
 let currentAnswer = '';
 let score = 0;
 let losses = 0;
-let state = 'start';
+let state = 'endLose';
 let simulationState = 'instructions';
 let timeElapsed = 0;
 let timer = MAX_TIME;
 
 let pointTaken = false;
 let pointWon = false;
+let wrongAnswer = false;
 
 let yaySFX = undefined;
 let booSFX = undefined;
@@ -253,7 +254,7 @@ function simulation() {
 
   //this part of the code was taken from an example by Mary Notari at the following link
   // https://editor.p5js.org/marynotari/sketches/S1T2ZTMp-
-  if (frameCount % 60 == 0 && timer > 0){
+  if (frameCount % 60 == 0 && timer > 0 && wrongAnswer == false){
     timer -= 1;
   }
 
@@ -273,6 +274,7 @@ function endWin() {
   push();
   textAlign(CENTER);
   textSize(30);
+  fill(0);
   text('Congratulations,\n you beat the game!', width / 2, height / 2 - 100);
   text('To restart, press any key', width / 2, height / 2 + 100);
   pop();
@@ -314,6 +316,9 @@ function keyPressed() {
 function mousePressed(){
   if (state = 'simulation'){
     timer = MAX_TIME;
+    wrongAnswer = false;
+    pointWon = false;
+    currentAnswer = '';
     currentAnimal = random(animals);
     let reverseAnimal = reverseString(currentAnimal);
     responsiveVoice.speak(reverseAnimal);
@@ -358,6 +363,8 @@ function displayRules(){
 
 function game(){
 
+  console.log(currentAnswer);
+
   if (score === WINNING_SCORE){
     state = 'endWin';
   }
@@ -371,12 +378,12 @@ function game(){
   if (currentAnswer === currentAnimal && timer != 0 && pointWon === false){
     winPoint();
     pointWon = true;
-  } else if (currentAnswer === '' && timer === 0 && pointTaken === false && pointWon === false){
+  } else if (currentAnswer != currentAnimal && timer === 0 && pointTaken === false && pointWon === false){
     losePoint();
     pointTaken = true;
-  } else if (currentAnswer != currentAnimal && currentAnswer != '' && timer != 0 && pointTaken === false && pointWon === false){
-    console.log('taken');
+  } else if (currentAnswer != '' && currentAnswer != currentAnimal && pointTaken === false && pointWon === false){
     losePoint();
+    wrongAnswer = true;
     pointTaken = true;
   }
 
@@ -401,6 +408,7 @@ function game(){
   fill(255,0,0);
   text(losses + "/" + LOSING_SCORE,width/2 + 100,height/2-100);
   pop();
+  console.log(currentAnimal);
   console.log(currentAnswer);
 }
 
