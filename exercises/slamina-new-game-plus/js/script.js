@@ -1,149 +1,149 @@
 /**
-Title of Project
-Author Name
+Slamina New Game+
+George Gausden
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+In Slamina New Game+, the user must correctly guess the animal names the computer tells them backwards.
 */
 
 "use strict";
 
+//declare all my constants and variables
 const animals = [
-      "aardvark",
-      "alligator",
-      "alpaca",
-      "antelope",
-      "ape",
-      "armadillo",
-      "baboon",
-      "badger",
-      "bat",
-      "bear",
-      "beaver",
-      "bison",
-      "boar",
-      "buffalo",
-      "bull",
-      "camel",
-      "canary",
-      "capybara",
-      "cat",
-      "chameleon",
-      "cheetah",
-      "chimpanzee",
-      "chinchilla",
-      "chipmunk",
-      "cougar",
-      "cow",
-      "coyote",
-      "crocodile",
-      "crow",
-      "deer",
-      "dingo",
-      "dog",
-      "donkey",
-      "dromedary",
-      "elephant",
-      "elk",
-      "ewe",
-      "ferret",
-      "finch",
-      "fish",
-      "fox",
-      "frog",
-      "gazelle",
-      "gila monster",
-      "giraffe",
-      "gnu",
-      "goat",
-      "gopher",
-      "gorilla",
-      "grizzly bear",
-      "ground hog",
-      "guinea pig",
-      "hamster",
-      "hedgehog",
-      "hippopotamus",
-      "hog",
-      "horse",
-      "hyena",
-      "ibex",
-      "iguana",
-      "impala",
-      "jackal",
-      "jaguar",
-      "kangaroo",
-      "koala",
-      "lamb",
-      "lemur",
-      "leopard",
-      "lion",
-      "lizard",
-      "llama",
-      "lynx",
-      "mandrill",
-      "marmoset",
-      "mink",
-      "mole",
-      "mongoose",
-      "monkey",
-      "moose",
-      "mountain goat",
-      "mouse",
-      "mule",
-      "muskrat",
-      "mustang",
-      "mynah bird",
-      "newt",
-      "ocelot",
-      "opossum",
-      "orangutan",
-      "oryx",
-      "otter",
-      "ox",
-      "panda",
-      "panther",
-      "parakeet",
-      "parrot",
-      "pig",
-      "platypus",
-      "polar bear",
-      "porcupine",
-      "porpoise",
-      "prairie dog",
-      "puma",
-      "rabbit",
-      "raccoon",
-      "ram",
-      "rat",
-      "reindeer",
-      "reptile",
-      "rhinoceros",
-      "salamander",
-      "seal",
-      "sheep",
-      "shrew",
-      "silver fox",
-      "skunk",
-      "sloth",
-      "snake",
-      "squirrel",
-      "tapir",
-      "tiger",
-      "toad",
-      "turtle",
-      "walrus",
-      "warthog",
-      "weasel",
-      "whale",
-      "wildcat",
-      "wolf",
-      "wolverine",
-      "wombat",
-      "woodchuck",
-      "yak",
-      "zebra"
-    ];
+  "aardvark",
+  "alligator",
+  "alpaca",
+  "antelope",
+  "ape",
+  "armadillo",
+  "baboon",
+  "badger",
+  "bat",
+  "bear",
+  "beaver",
+  "bison",
+  "boar",
+  "buffalo",
+  "bull",
+  "camel",
+  "canary",
+  "capybara",
+  "cat",
+  "chameleon",
+  "cheetah",
+  "chimpanzee",
+  "chinchilla",
+  "chipmunk",
+  "cougar",
+  "cow",
+  "coyote",
+  "crocodile",
+  "crow",
+  "deer",
+  "dingo",
+  "dog",
+  "donkey",
+  "dromedary",
+  "elephant",
+  "elk",
+  "ewe",
+  "ferret",
+  "finch",
+  "fish",
+  "fox",
+  "frog",
+  "gazelle",
+  "gila monster",
+  "giraffe",
+  "gnu",
+  "goat",
+  "gopher",
+  "gorilla",
+  "grizzly bear",
+  "ground hog",
+  "guinea pig",
+  "hamster",
+  "hedgehog",
+  "hippopotamus",
+  "hog",
+  "horse",
+  "hyena",
+  "ibex",
+  "iguana",
+  "impala",
+  "jackal",
+  "jaguar",
+  "kangaroo",
+  "koala",
+  "lamb",
+  "lemur",
+  "leopard",
+  "lion",
+  "lizard",
+  "llama",
+  "lynx",
+  "mandrill",
+  "marmoset",
+  "mink",
+  "mole",
+  "mongoose",
+  "monkey",
+  "moose",
+  "mountain goat",
+  "mouse",
+  "mule",
+  "muskrat",
+  "mustang",
+  "mynah bird",
+  "newt",
+  "ocelot",
+  "opossum",
+  "orangutan",
+  "oryx",
+  "otter",
+  "ox",
+  "panda",
+  "panther",
+  "parakeet",
+  "parrot",
+  "pig",
+  "platypus",
+  "polar bear",
+  "porcupine",
+  "porpoise",
+  "prairie dog",
+  "puma",
+  "rabbit",
+  "raccoon",
+  "ram",
+  "rat",
+  "reindeer",
+  "reptile",
+  "rhinoceros",
+  "salamander",
+  "seal",
+  "sheep",
+  "shrew",
+  "silver fox",
+  "skunk",
+  "sloth",
+  "snake",
+  "squirrel",
+  "tapir",
+  "tiger",
+  "toad",
+  "turtle",
+  "walrus",
+  "warthog",
+  "weasel",
+  "whale",
+  "wildcat",
+  "wolf",
+  "wolverine",
+  "wombat",
+  "woodchuck",
+  "yak",
+  "zebra"
+];
 const WINNING_SCORE = 5;
 const LOSING_SCORE = 5;
 const MAX_TIME = 10;
@@ -152,15 +152,17 @@ let currentAnimal = '';
 let currentAnswer = '';
 let score = 0;
 let losses = 0;
-let state = 'endLose';
+let state = 'start';
 let simulationState = 'instructions';
 let timeElapsed = 0;
 let timer = MAX_TIME;
 
+//declare my boolean variables
 let pointTaken = false;
 let pointWon = false;
 let wrongAnswer = false;
 
+//declare the assets used
 let yaySFX = undefined;
 let booSFX = undefined;
 let disappointedSFX = undefined;
@@ -176,7 +178,6 @@ function preload() {
   booSFX = loadSound('assets/sounds/booSFX.mp3');
   clappingSFX = loadSound('assets/sounds/clappingSFX.mp3');
   disappointedSFX = loadSound('assets/sounds/disappointedSFX.mp3');
-
 }
 
 
@@ -184,9 +185,9 @@ function preload() {
 Creates the canvas, sets up annyang and its functions
 */
 function setup() {
-  createCanvas(500,500);
+  createCanvas(500, 500);
 
-  if (annyang){
+  if (annyang) {
     let commands = {
       'I think it is *animal': guessAnimal,
     };
@@ -196,10 +197,8 @@ function setup() {
 
     textSize(32);
     textStyle(BOLD);
-    textAlign(CENTER,CENTER);
+    textAlign(CENTER, CENTER);
   }
-
-
 }
 
 
@@ -208,28 +207,24 @@ Creates the states of the game (start, simulation and end)
 */
 function draw() {
 
-
   if (state === 'start') {
     start();
   } else if (state === 'simulation') {
     simulation();
   } else if (state === 'endWin') {
     endWin();
-  } else if (state === 'endLose'){
+  } else if (state === 'endLose') {
     endLose();
   }
-
-
-
 }
 
 //creates the start state of the game, displays some info
 function start() {
   rectMode(CENTER);
   fill(0);
-  rect(width/2,height/2,450,450);
+  rect(width / 2, height / 2, 450, 450);
   fill(255);
-  rect(width/2,height/2,500,500);
+  rect(width / 2, height / 2, 500, 500);
 
 
   push();
@@ -245,20 +240,28 @@ function start() {
 function simulation() {
   background(0);
 
+  //change the state if the user has a certain amount of wins or losses
+  if (score === WINNING_SCORE) {
+    state = 'endWin';
+  } else if (losses === LOSING_SCORE) {
+    state = 'endLose';
+  }
+
   //display the time
   push();
   textSize(100);
   fill(255);
-  text(timer, width/2,height/2);
+  text(timer, width / 2, height / 2);
   pop();
 
   //this part of the code was taken from an example by Mary Notari at the following link
   // https://editor.p5js.org/marynotari/sketches/S1T2ZTMp-
-  if (frameCount % 60 == 0 && timer > 0 && wrongAnswer == false){
+  //makes the timer count down
+  if (frameCount % 60 == 0 && timer > 0 && wrongAnswer == false) {
     timer -= 1;
   }
 
-
+  //in game, the guess is processed and evaluated, it also displays the scores
   game();
 
 }
@@ -267,7 +270,7 @@ function simulation() {
 function endWin() {
   background(255);
 
-  if (!clappingSFX.isPlaying()){
+  if (!clappingSFX.isPlaying()) {
     clappingSFX.play();
   }
 
@@ -285,13 +288,13 @@ function endWin() {
 function endLose() {
   background(255);
 
-  if (!disappointedSFX.isPlaying()){
+  if (!disappointedSFX.isPlaying()) {
     disappointedSFX.play();
   }
 
   push();
   textAlign(CENTER);
-  fill(255,0,0);
+  fill(255, 0, 0);
   textSize(30);
   text('Oh no!\n you lose the game!', width / 2, height / 2 - 100);
   text('To restart, press any key', width / 2, height / 2 + 100);
@@ -301,20 +304,21 @@ function endLose() {
 
 //defines what pressing a key does in each state
 function keyPressed() {
-  if (state === 'endWin'){
+  if (state === 'endWin') {
     score = 0;
     losses = 0;
     state = 'start';
-  }
-  else if (state === 'endLose'){
+  } else if (state === 'endLose') {
     score = 0;
     losses = 0;
     state = 'start';
   }
 }
 
-function mousePressed(){
-  if (state = 'simulation'){
+//defines what the mouse pressed does, in this case it triggers events in simulation
+function mousePressed() {
+  if (state = 'simulation') {
+    //reset timer, as well as boolean variables. Sets the currrent answer as empty and picks a new word
     timer = MAX_TIME;
     wrongAnswer = false;
     pointWon = false;
@@ -324,16 +328,17 @@ function mousePressed(){
     responsiveVoice.speak(reverseAnimal);
 
     //if the user clicks again during the game even if the game started, we give them another chance
-    if (pointTaken == true){
+    if (pointTaken == true) {
       pointTaken = false;
       timer = MAX_TIME;
     }
-  } else if (state = 'start'){
+  } else if (state = 'start') {
     state = 'simulation';
   }
 }
 
-function guessAnimal(animal){
+//converts the answer into lower case letters
+function guessAnimal(animal) {
   currentAnswer = animal.toLowerCase();
 }
 
@@ -351,77 +356,61 @@ function reverseString(string) {
   return result;
 }
 
-function displayRules(){
-  push();
-  fill(255);
-  textAlign(CENTER);
-  textSize(25);
-  text(`Start your sentence with\n "I think it is", then name the animal`,width/2,height/2-60);
-  text(`To start, click on the canvas`,width/2,height/2+60);
-  pop();
-}
-
-function game(){
-
-  console.log(currentAnswer);
-
-  if (score === WINNING_SCORE){
-    state = 'endWin';
-  }
-  else if (losses === LOSING_SCORE){
-    state = 'endLose';
-  }
-
-  let displayCurrentAnswer = currentAnswer;
+//the main game, the users guesses are evaluated against the answer, also displays the score and losses
+function game() {
 
   //either the user guesses right in time, doesn't guess at all or guesses wrong in time
-  if (currentAnswer === currentAnimal && timer != 0 && pointWon === false){
+  if (currentAnswer === currentAnimal && timer != 0 && pointWon === false) {
     winPoint();
     pointWon = true;
-  } else if (currentAnswer != currentAnimal && timer === 0 && pointTaken === false && pointWon === false){
+  } else if (currentAnswer != currentAnimal && timer === 0 && pointTaken === false && pointWon === false) {
     losePoint();
     pointTaken = true;
-  } else if (currentAnswer != '' && currentAnswer != currentAnimal && pointTaken === false && pointWon === false){
+  } else if (currentAnswer != '' && currentAnswer != currentAnimal && pointTaken === false && pointWon === false) {
     losePoint();
     wrongAnswer = true;
     pointTaken = true;
   }
 
-  //display the current score of the user as well as how many points the user has lost
-  push();
-  textAlign(CENTER);
-  textSize(30);
-  fill(255);
-  text("Score",width/2,height/2-200);
-  pop();
-
-  push();
-  textAlign(CENTER);
-  textSize(30);
-  fill(0,255,0);
-  text(score + "/" + WINNING_SCORE,width/2 - 100,height/2-100);
-  pop();
-
-  push();
-  textAlign(CENTER);
-  textSize(30);
-  fill(255,0,0);
-  text(losses + "/" + LOSING_SCORE,width/2 + 100,height/2-100);
-  pop();
-  console.log(currentAnimal);
-  console.log(currentAnswer);
+  displayScore();
 }
 
-function losePoint(){
-  if (!booSFX.isPlaying()){
+//triggers a sound when the user loses and entails a loss of 1 point
+function losePoint() {
+  if (!booSFX.isPlaying()) {
     booSFX.play();
   }
   losses += 1;
 }
 
-function winPoint(){
-  if (!yaySFX.isPlaying()){
+//triggers a sound when the user wins and entails a win of 1 point
+function winPoint() {
+  if (!yaySFX.isPlaying()) {
     yaySFX.play();
   }
-  score +=1;
+  score += 1;
+}
+
+//displays the current score of the user as well as how many points the user has lost
+function displayScore() {
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  fill(255);
+  text("Score", width / 2, height / 2 - 200);
+  pop();
+
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  fill(0, 255, 0);
+  text(score + "/" + WINNING_SCORE, width / 2 - 100, height / 2 - 100);
+  pop();
+
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  fill(255, 0, 0);
+  text(losses + "/" + LOSING_SCORE, width / 2 + 100, height / 2 - 100);
+  pop();
 }
