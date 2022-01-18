@@ -20,6 +20,9 @@ https://github.com/dariusk/corpora/
 const TAROT_DATA_URL = `https://raw.githubusercontent.com/dariusk/corpora/master/data/divination/tarot_interpretations.json`;
 const OBJECT_DATA_URL = `https://raw.githubusercontent.com/dariusk/corpora/master/data/objects/objects.json`;
 const INSTRUMENT_DATA_URL = `https://raw.githubusercontent.com/dariusk/corpora/master/data/music/instruments.json`;
+const GENDER_DATA_URL = `https://raw.githubusercontent.com/dariusk/corpora/master/data/humans/genders.json`;
+const COLOUR_DATA_URL = `https://raw.githubusercontent.com/dariusk/corpora/master/data/colors/crayola.json`;
+const PROJECT_DATA_URL = `https://raw.githubusercontent.com/dariusk/corpora/master/data/governments/nsa_projects.json`;
 // The key used to save and load the data for this program
 const PROFILE_DATA_KEY = `spy-profile-data`;
 
@@ -28,13 +31,18 @@ let spyProfile = {
   name: `**REDACTED**`,
   alias: `**REDACTED**`,
   secretWeapon: `**REDACTED**`,
-  password: `**REDACTED**`
+  password: `**REDACTED**`,
+  gender: `**REDACTED**`,
+  favourite_colour:  `**REDACTED**`,
+  secret_project: `**REDACTED**`
 };
 // Variables to store JSON data for generating the profile
 let tarotData;
 let objectsData;
 let instrumentsData;
-
+let genderData;
+let colourData;
+let projectData;
 /**
 Loads the JSON data used to generate the profile
 */
@@ -42,6 +50,9 @@ function preload() {
   tarotData = loadJSON(TAROT_DATA_URL);
   objectsData = loadJSON(OBJECT_DATA_URL);
   instrumentsData = loadJSON(INSTRUMENT_DATA_URL);
+  genderData = loadJSON(GENDER_DATA_URL);
+  colourData = loadJSON(COLOUR_DATA_URL);
+  projectData = loadJSON(PROJECT_DATA_URL);
 }
 
 /**
@@ -77,6 +88,9 @@ function setupSpyProfile(data) {
   spyProfile.alias = data.alias;
   spyProfile.secretWeapon = data.secretWeapon;
   spyProfile.password = data.password;
+  spyProfile.gender = data.gender;
+  spyProfile.favourite_colour = data.colour;
+  spyProfile.secret_project = data.project;
 }
 
 /**
@@ -92,6 +106,15 @@ function generateSpyProfile() {
   // Generate a password from a random keyword for a random tarot card
   let card = random(tarotData.tarot_interpretations);
   spyProfile.password = random(card.keywords);
+  // Generate a random gender from the genders list
+  let category = random(genderData.genders);
+  spyProfile.gender = category.gender;
+  // Generate a random colour from the colours data
+  let favourite_colour = random(colourData.colors);
+  spyProfile.favourite_colour = favourite_colour.color;
+  // Generate a random secret project from the NSA projects data
+  let secret_project = random(projectData.codenames);
+  spyProfile.secret_project = `PROJECT ${secret_project}`;
   // Save the resulting profile to local storage
   localStorage.setItem(PROFILE_DATA_KEY, JSON.stringify(spyProfile));
 }
@@ -108,7 +131,10 @@ function draw() {
 Name: ${spyProfile.name}
 Alias: ${spyProfile.alias}
 Secret Weapon: ${spyProfile.secretWeapon}
-Password: ${spyProfile.password}`;
+Password: ${spyProfile.password}
+Gender: ${spyProfile.gender}
+Favourite Colour: ${spyProfile.favourite_colour}
+Mission: ${spyProfile.secret_project}`;
 
   // Display the profile
   push();
