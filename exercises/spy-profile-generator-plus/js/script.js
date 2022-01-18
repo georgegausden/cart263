@@ -45,9 +45,11 @@ let colourData;
 let projectData;
 // The flashlight the user uses to see the paper
 let flashlight = {
-  radius: 100,
+  radius: 300,
   fill: 255
-}
+};
+// The soundtrack playing in the background
+let spyMusic = undefined;
 /**
 Loads the JSON data used to generate the profile
 */
@@ -58,6 +60,8 @@ function preload() {
   genderData = loadJSON(GENDER_DATA_URL);
   colourData = loadJSON(COLOUR_DATA_URL);
   projectData = loadJSON(PROJECT_DATA_URL);
+
+  spyMusic = loadSound(`assets/sounds/SpyMusic.mp3`);
 }
 
 /**
@@ -65,6 +69,7 @@ Creates a canvas then handles loading profile data, checking password,
 and generating a profile as necessary.
 */
 function setup() {
+
   // Create the canvas
   createCanvas(windowWidth, windowHeight);
   // Try to load the data
@@ -128,6 +133,10 @@ function generateSpyProfile() {
 Displays the current spy profile.
 */
 function draw() {
+  //start playing the spy music
+  if (!spyMusic.isPlaying()){
+    spyMusic.play();
+  }
 
   background(0);
 
