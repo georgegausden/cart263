@@ -43,6 +43,11 @@ let instrumentsData;
 let genderData;
 let colourData;
 let projectData;
+// The flashlight the user uses to see the paper
+let flashlight = {
+  radius: 100,
+  fill: 255
+}
 /**
 Loads the JSON data used to generate the profile
 */
@@ -123,7 +128,14 @@ function generateSpyProfile() {
 Displays the current spy profile.
 */
 function draw() {
-  background(255);
+
+  background(0);
+
+  push();
+  fill(flashlight.fill);
+  circle(mouseX,mouseY,flashlight.radius);
+  //filter(BLUR,6);
+  pop();
 
   // Generate the profile as a string using the data
   let spyText = `** TOP SECRET SPY PROFILE **
