@@ -144,9 +144,25 @@ Mission: ${spyProfile.secret_project}`;
   fill(0);
   text(spyText, 0, 0);
   pop();
+
+  // Generate the instructions to delete the information of the spy profile
+  let instructions = `
+  **SENSITIVE INFORMATION**
+
+  TO DELETE SPY PROFILE DATA, PRESS THE DELETE KEY`;
+
+  // Display the intructions
+  push();
+  textSize(25);
+  textAlign(LEFT, TOP);
+  textFont(`Courier, monospace`);
+  fill(255,0,0);
+  text(instructions, 0, 400);
+  pop();
 }
 
 function keyPressed(){
+  //delete the local storage data if the delete key is pressed on the keyboard
   if (keyCode === 8){
     localStorage.clear();
   }
