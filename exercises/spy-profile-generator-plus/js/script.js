@@ -145,3 +145,9 @@ Mission: ${spyProfile.secret_project}`;
   text(spyText, 0, 0);
   pop();
 }
+
+function keyPressed(){
+  if (keyCode === 8){
+    localStorage.clear();
+  }
+}
