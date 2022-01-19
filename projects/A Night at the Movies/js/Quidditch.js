@@ -6,8 +6,6 @@ let player = {
 }
 
 //function that calls all the functions in the quidditch game, loads the game
-function playQuidditch(){
-
+function quidditch(){
+  background(0);
 }
-
-function
