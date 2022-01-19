@@ -10,7 +10,7 @@ function setup(){
       'Turn the light on': function(){
         on = true
       },
-      'Turn the light off': off
+      'Turn the light off': off,
     };
 
     annyang.addCommands(commands);

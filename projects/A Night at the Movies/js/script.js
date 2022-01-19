@@ -7,6 +7,7 @@ Harry Potter!
 
 "use strict";
 
+let bg = 0;
 
 /**
 Description of preload
@@ -21,6 +22,17 @@ Description of setup
 */
 function setup() {
 
+  createCanvas(500,500);
+
+  if (annyang){
+    let commands = {
+      'wingardium leviosa': levitate,
+      'lumos': lumos,
+    };
+
+    annyang.addCommands(commands);
+    annyang.start();
+  }
 }
 
 
@@ -28,5 +40,5 @@ function setup() {
 Description of draw()
 */
 function draw() {
-
+  background(bg);
 }
