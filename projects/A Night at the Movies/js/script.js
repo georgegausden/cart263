@@ -13,6 +13,7 @@ let bg = 0;
 let wand;
 let state = 'start';
 
+let myButton;
 
 
 /**
@@ -31,6 +32,14 @@ function setup() {
 
   createCanvas(windowWidth,windowHeight);
 
+  //load the buttons we want to use in the game
+  myButton = new Clickable();
+  myButton.locate(100, 200);
+
+  myButton.onRelease = function(){
+  state = 'quidditch';
+  }
+  
   if (annyang){
     let commands = {
       'wingardium leviosa': levitate,
@@ -40,9 +49,6 @@ function setup() {
     annyang.addCommands(commands);
     annyang.start();
   }
-
-
-
 }
 
 
@@ -50,8 +56,8 @@ function setup() {
 Description of draw()
 */
 function draw() {
-  background(255);
-  
+  background(0);
+
   mouse();
 
   if (state === 'start'){
@@ -63,15 +69,16 @@ function draw() {
   else if (state === 'potionsClass'){
     potionsClass();
   }
-
 }
 
 function start(){
 
+  myButton.draw();
+
 }
 
 function keyPressed(){
-  if (key === 32){
+  if (keyCode === 32){
     state = 'quidditch';
   }
 }

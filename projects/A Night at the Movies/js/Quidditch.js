@@ -8,4 +8,5 @@ let player = {
 //function that calls all the functions in the quidditch game, loads the game
 function quidditch(){
   background(0);
+  
 }
