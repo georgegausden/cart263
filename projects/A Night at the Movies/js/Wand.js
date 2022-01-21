@@ -1,11 +1,44 @@
 class Wand{
-  constructor(){
-    this.x = undefined;
-    this.y = undefined;
-    this.size = 200;
+  constructor(x,y){
+    this.x = x;
+    this.y = y;
+    this.size = 100;
+    this.lumosPlayed = false;
   }
 
   lumos(){
-    //make the wand behave light a flashlight 
+    //play the sound effect once
+    if (this.lumosPlayed == false){
+      lumosSFX.play();
+      this.lumosPlayed = true;
+    }
+
+    //make the wand behave light a flashlight
+    this.x = mouseX;
+    this.y = mouseY;
+
+    push();
+    fill(255);
+    circle(this.x,this.y,this.size);
+    pop();
+
+    push();
+    imageMode(CENTER);
+    image(wandImage,mouseX+10,mouseY+40,75,75);
+    pop();
+
+    //expand the light size slowly
+    this.size += 0.5;
+    this.size = constrain(this.size,100,200);
+  }
+
+  lumosMaxima(){
+
+  }
+
+  update(){
+    //update the position of the wand
+    this.x = mouseX;
+    this.y = mouseY;
   }
 }

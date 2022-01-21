@@ -1,7 +1,11 @@
 //a file containing the spells
 
 function lumos(){
-  bg = 255;
+  lumosCalled = true;
+}
+
+function lumosMaxima(){
+  
 }
 
 function levitate(){
