@@ -22,13 +22,15 @@ class Wand{
     circle(this.x,this.y,this.size);
     pop();
 
+
+
     push();
     imageMode(CENTER);
     image(wandImage,mouseX+10,mouseY+40,75,75);
     pop();
 
     //expand the light size slowly
-    this.size += 0.5;
+    this.size += 1;
     this.size = constrain(this.size,100,200);
   }
 

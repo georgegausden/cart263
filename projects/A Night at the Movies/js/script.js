@@ -17,6 +17,7 @@ let wand;
 // load the images used
 let wandImage;
 let logo;
+let clouds;
 
 // load the sounds used
 let themeSong;
@@ -25,12 +26,17 @@ let lumosSFX;
 // load the fonts
 let classicFont;
 
-let state = 'start';
+let state = 'quidditch';
 let title = 'Harry Potter';
 let titleSize = 90;
 
 //load the boolean triggers
 let lumosCalled = false;
+let loadQuidditch = false;
+
+//load the arrays
+let hoops = [];
+let numberOfHoops = 10;
 
 let myButton;
 
@@ -41,6 +47,8 @@ Description of preload
 function preload() {
   wandImage = loadImage(`assets/images/wand.png`);
   logo = loadImage(`assets/images/logo.png`);
+  clouds = loadImage(`assets/images/clouds.png`);
+
 
   themeSong = loadSound(`assets/sounds/themeSong.mp3`);
   lumosSFX = loadSound(`assets/sounds/lumosSFX.mov`);
@@ -105,28 +113,39 @@ function start(){
 
   background(bgStart);
 
-  //let the user call lumos to see the start page
-  if (lumosCalled === true){
-    wand.lumos();
+  mouse();
+
+  if (!lumosCalled){
+    push();
+    textAlign(CENTER);
+    textFont(classicFont);
+    fill(255);
+    textSize(40);
+    text(`Wave your wand and say 'lumos' for some light`,width/2,height/2);
+    pop();
   };
 
 
+  //let the user call lumos to see the start page
+  if (lumosCalled){
 
+    wand.lumos();
 
-  push();
-  textAlign(CENTER);
-  textFont(classicFont);
-  textSize(titleSize);
-  text(title,width/2,height/2);
-  pop();
+    push();
+    textAlign(CENTER);
+    textFont(classicFont);
+    textSize(titleSize);
+    text(title,width/2,height/2);
+    pop();
 
-  //animate each letter to move up and down a certain amount
+    //display the buttons
+    myButton.draw();
+  };
+
 
   // expand the title slowly then constrain
   titleSize+=0.1;
   titleSize = constrain(titleSize,90,200);
-  title
-  myButton.draw();
 
 }
 
