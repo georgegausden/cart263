@@ -24,13 +24,15 @@ let goldenSnitchImage;
 // load the sounds used
 let themeSong;
 let lumosSFX;
+let quidditchMusic;
 
 // load the fonts
 let classicFont;
 
-let state = 'quidditch';
+let state = 'start';
 let title = 'Harry Potter';
 let titleSize = 90;
+let instructionsSize = 40;
 
 //load the boolean triggers
 let lumosCalled = false;
@@ -59,6 +61,7 @@ function preload() {
 
   themeSong = loadSound(`assets/sounds/themeSong.mp3`);
   lumosSFX = loadSound(`assets/sounds/lumosSFX.mov`);
+  quidditchMusic = loadSound(`assets/sounds/quidditchMusic.mp3`);
 
   classicFont = loadFont(`assets/fonts/harryPotter.TTF`);
 }
@@ -98,9 +101,7 @@ function setup() {
 Description of draw()
 */
 function draw() {
-  if (!themeSong.isPlaying()){
-    themeSong.play();
-  }
+
 
   wand.update();
   mouse();
@@ -118,6 +119,10 @@ function draw() {
 
 function start(){
 
+  if (!themeSong.isPlaying()){
+    themeSong.play();
+  }
+
   background(bgStart);
 
   mouse();
@@ -127,7 +132,7 @@ function start(){
     textAlign(CENTER);
     textFont(classicFont);
     fill(255);
-    textSize(40);
+    textSize(instructionsSize);
     text(`Wave your wand and say 'lumos' for some light`,width/2,height/2);
     pop();
   };
@@ -153,6 +158,8 @@ function start(){
   // expand the title slowly then constrain
   titleSize+=0.1;
   titleSize = constrain(titleSize,90,200);
+  instructionsSize +=0.1;
+  instructionsSize = constrain(instructionsSize,40,70);
 
 }
 

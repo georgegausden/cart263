@@ -2,6 +2,14 @@
 
 //function that calls all the functions in the quidditch game, loads the game
 function quidditch(){
+  //load the quidditchMusic
+  if (themeSong.isPlaying()){
+    themeSong.stop();
+  }
+  if (!quidditchMusic.isPlaying()){
+    quidditchMusic.play();
+  }
+
   push();
   imageMode(CENTER);
   image(quidditchBackground,width/2,height/2,width,height);
