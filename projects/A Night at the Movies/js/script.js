@@ -36,6 +36,8 @@ let loadQuidditch = false;
 
 //load the arrays
 let hoops = [];
+let quidditchUser;
+let quidditchScore = 0;
 let numberOfHoops = 10;
 
 let myButton;

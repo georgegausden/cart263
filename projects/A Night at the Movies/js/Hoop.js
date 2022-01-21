@@ -3,13 +3,15 @@ class Hoop {
     this.x = x;
     this.y = y;
     this.size = size;
-    this.vx = 1;
+    this.vx = 3;
+    this.passedThrough = false;
   }
 
   display(){
     push();
     noFill();
-    noStroke();
+    strokeWeight(2);
+    stroke(0);
     circle(this.x,this.y,this.size);
     pop();
   }
@@ -17,5 +19,13 @@ class Hoop {
   // move the hoop to the left of the canvas
   move(){
     this.x -= this.vx;
+  }
+
+  wrap(){
+    if (this.x < 0){
+      this.x = width;
+      this.y = random(0,height);
+      this.passedThrough = false;
+    }
   }
 }
