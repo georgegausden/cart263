@@ -10,6 +10,7 @@ Harry Potter!
 //define the background colours
 let bg = 0;
 let bgStart = 0;
+let quidditchBackground;
 
 // define the wand object
 let wand;
@@ -18,6 +19,7 @@ let wand;
 let wandImage;
 let logo;
 let clouds;
+let goldenSnitchImage;
 
 // load the sounds used
 let themeSong;
@@ -38,7 +40,8 @@ let loadQuidditch = false;
 let hoops = [];
 let quidditchUser;
 let quidditchScore = 0;
-let numberOfHoops = 10;
+let numberOfHoops = 3;
+let goldenSnitch;
 
 let myButton;
 
@@ -50,6 +53,8 @@ function preload() {
   wandImage = loadImage(`assets/images/wand.png`);
   logo = loadImage(`assets/images/logo.png`);
   clouds = loadImage(`assets/images/clouds.png`);
+  quidditchBackground = loadImage(`assets/images/quidditchBackground.jpg`);
+  goldenSnitchImage = loadImage(`assets/images/goldenSnitchImage.gif`);
 
 
   themeSong = loadSound(`assets/sounds/themeSong.mp3`);

@@ -10,9 +10,14 @@ class Hoop {
   display(){
     push();
     noFill();
-    strokeWeight(2);
+    strokeWeight(4);
     stroke(0);
     circle(this.x,this.y,this.size);
+    pop();
+
+    push();
+    strokeWeight(4);
+    line(this.x,this.y+this.size/2,this.x,this.y+height);
     pop();
   }
 

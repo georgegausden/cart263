@@ -2,19 +2,25 @@
 
 //function that calls all the functions in the quidditch game, loads the game
 function quidditch(){
-  background(255);
+  push();
+  imageMode(CENTER);
+  image(quidditchBackground,width/2,height/2,width,height);
+  pop();
 
   if (!loadQuidditch){
     //load the parameters in the game
 
     //load the hoops in the game
     for (let i = 0; i<numberOfHoops; i++){
-      let hoop = new Hoop(random(width,2*width),random(0,height),100);
+      let hoop = new Hoop(width/9*(i+1),height/8*(i+1),100);
       hoops.push(hoop);
     }
 
     //load the user as a player
     quidditchUser = new Player();
+
+    //load the golden snitch
+    goldenSnitch = new GoldenSnitch(random(0,width/4),random(height/5,height/1.5));
 
     //close the loading function
     loadQuidditch = true;
@@ -27,6 +33,7 @@ function quidditch(){
   //load all the actions that happen in the game
   hoopActions();
   userActions();
+  goldenSnitchActions();
 
   //check if the user passes through one of the hoops
   for (let i = 0; i<hoops.length; i++){
@@ -54,7 +61,7 @@ function hoopActions(){
   for (let i = 0; i<hoops.length; i++){
     let hoop = hoops[i];
     hoop.display();
-    hoop.move();
+    //hoop.move();
     hoop.wrap();
   }
 }
@@ -62,6 +69,12 @@ function hoopActions(){
 function userActions(){
   quidditchUser.display();
   quidditchUser.move();
+}
+
+function goldenSnitchActions(){
+  goldenSnitch.display();
+  goldenSnitch.move();
+  goldenSnitch.wrap();
 }
 
 // function to display the current quidditch score
