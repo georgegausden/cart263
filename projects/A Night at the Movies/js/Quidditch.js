@@ -29,6 +29,12 @@ function quidditch(){
       hoops.push(hoop);
     }
 
+    //load the enemies in the game
+    for (let i = 0; i<numberOfQuidditchEnemies; i++){
+      let enemyPlayer = new EnemyQuidditchPlayer(random(0,width/2),random(height/8,7*height/8));
+      enemyQuidditchPlayers.push(enemyPlayer);
+    }
+
     //load the user as a player
     quidditchUser = new Player();
 
@@ -47,6 +53,7 @@ function quidditch(){
   hoopActions();
   userActions();
   goldenSnitchActions();
+  enemyPlayersActions();
 
   //check if the user passes through one of the hoops
   for (let i = 0; i<hoops.length; i++){
@@ -85,6 +92,16 @@ function userActions(){
   quidditchUser.checkWonPoint();
 }
 
+function enemyPlayersActions(){
+  for (let i = 0; i<enemyQuidditchPlayers.length; i++){
+    let enemyPlayer = enemyQuidditchPlayers[i];
+    enemyPlayer.display();
+    enemyPlayer.move();
+    enemyPlayer.wrap();
+
+  }
+}
+
 function goldenSnitchActions(){
   goldenSnitch.display();
   goldenSnitch.move();
@@ -94,6 +111,9 @@ function goldenSnitchActions(){
   if (snitchCaught(quidditchUser,goldenSnitch)){
     goldenSnitch.caught();
     quidditchUser.hasGoldenSnitch = true;
+  }
+  else{
+    quidditchUser.hasGoldenSnitch = false;
   }
 }
 

@@ -29,7 +29,7 @@ let quidditchMusic;
 // load the fonts
 let classicFont;
 
-let state = 'quidditch';
+let state = 'start';
 let title = 'Harry Potter';
 let titleSize = 90;
 let instructionsSize = 40;
@@ -40,9 +40,11 @@ let loadQuidditch = false;
 
 //load the arrays
 let hoops = [];
+let enemyQuidditchPlayers = [];
 let quidditchUser;
 let quidditchScore = 0;
 let numberOfHoops = 3;
+let numberOfQuidditchEnemies = 3;
 let goldenSnitch;
 
 let myButton;
@@ -176,4 +178,8 @@ function mouse(){
   imageMode(CENTER);
   image(wandImage,mouseX,mouseY,75,75);
   pop();
+}
+
+function mousePressed(){
+  lumos();
 }
