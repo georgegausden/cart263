@@ -49,4 +49,11 @@ class GoldenSnitch{
     }
   }
 
+  //the snitch has been caught, attach itself to the user
+  caught(){
+    //stick to the user
+    this.x = quidditchUser.x;
+    this.y = quidditchUser.y;
+  }
+
 }

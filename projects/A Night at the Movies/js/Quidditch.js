@@ -2,6 +2,9 @@
 
 //function that calls all the functions in the quidditch game, loads the game
 function quidditch(){
+
+
+
   //load the quidditchMusic
   if (themeSong.isPlaying()){
     themeSong.stop();
@@ -14,6 +17,8 @@ function quidditch(){
   imageMode(CENTER);
   image(quidditchBackground,width/2,height/2,width,height);
   pop();
+
+  mouse();
 
   if (!loadQuidditch){
     //load the parameters in the game
@@ -77,12 +82,27 @@ function hoopActions(){
 function userActions(){
   quidditchUser.display();
   quidditchUser.move();
+  quidditchUser.checkWonPoint();
 }
 
 function goldenSnitchActions(){
   goldenSnitch.display();
   goldenSnitch.move();
   goldenSnitch.wrap();
+
+  //check to see if the user touches the golden snitch
+  if (snitchCaught(quidditchUser,goldenSnitch)){
+    goldenSnitch.caught();
+    quidditchUser.hasGoldenSnitch = true;
+  }
+}
+
+function snitchCaught(user,snitch){
+  let d = dist(user.x,user.y,snitch.x,snitch.y);
+
+  if (d < snitch.size/2){
+    return true
+  }
 }
 
 // function to display the current quidditch score

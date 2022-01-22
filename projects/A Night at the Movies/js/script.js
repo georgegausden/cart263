@@ -29,7 +29,7 @@ let quidditchMusic;
 // load the fonts
 let classicFont;
 
-let state = 'start';
+let state = 'quidditch';
 let title = 'Harry Potter';
 let titleSize = 90;
 let instructionsSize = 40;
