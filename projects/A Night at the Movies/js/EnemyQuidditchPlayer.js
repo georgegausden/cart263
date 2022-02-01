@@ -6,7 +6,7 @@ class EnemyQuidditchPlayer{
     this.vy = 0;
     this.ax = 0.5;
     this.ay = 0.5;
-    this.maxSpeed = 5;
+    this.maxSpeed = 2;
     this.size = 50;
   }
 
@@ -35,11 +35,11 @@ class EnemyQuidditchPlayer{
 
     //add some randomness to the enemies movements
     let r = random(0,1);
-    if (r<0.2){
+    if (r<0.1){
       this.ax += 0.2;
       this.ay -= 0.1;
     }
-    else if (r>0.9){
+    else if (r>0.95){
       this.ax -= 0.3;
       this.ay += 0.2;
     }

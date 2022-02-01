@@ -25,11 +25,12 @@ let goldenSnitchImage;
 let themeSong;
 let lumosSFX;
 let quidditchMusic;
+let cheeringSFX;
 
 // load the fonts
 let classicFont;
 
-let state = 'start';
+let state = 'quidditch';
 let title = 'Harry Potter';
 let titleSize = 90;
 let instructionsSize = 40;
@@ -64,6 +65,7 @@ function preload() {
   themeSong = loadSound(`assets/sounds/themeSong.mp3`);
   lumosSFX = loadSound(`assets/sounds/lumosSFX.mov`);
   quidditchMusic = loadSound(`assets/sounds/quidditchMusic.mp3`);
+  cheeringSFX = loadSound(`assets/sounds/cheeringSFX.mov`);
 
   classicFont = loadFont(`assets/fonts/harryPotter.TTF`);
 }
@@ -178,8 +180,4 @@ function mouse(){
   imageMode(CENTER);
   image(wandImage,mouseX,mouseY,75,75);
   pop();
-}
-
-function mousePressed(){
-  lumos();
 }

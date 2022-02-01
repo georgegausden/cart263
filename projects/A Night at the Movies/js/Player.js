@@ -43,15 +43,30 @@ class Player{
   }
 
   checkWonPoint(){
-    //check if the user has the snitch and passes through one of the hoops
+    //check if the user passes through one of the hoops
     for (let i = 0; i<hoops.length; i++){
       let hoop = hoops[i];
-
-      if (this.hasGoldenSnitch && passesThrough(quidditchUser,hoop)){
+      //if user passes through, collect a point
+      if (passesThrough(quidditchUser,hoop) && this.hasGoldenSnitch){
+        //play a sound to indicate they won a point
+        cheeringSFX.play();
         quidditchScore += 1;
+
+        //place the snitch at a random location
+        goldenSnitch.x = random(0,width);
+        goldenSnitch.y = random(0,height);
+
+        //reset the position of the user
+        this.x = 5*width/6;
+        this.y = height/2;
+        //reset the position of the enemies
+        for (let i = 0; i<enemyQuidditchPlayers.length; i++){
+          let enemyPlayer = enemyQuidditchPlayers[i];
+          enemyPlayer.x = random(0,width/2);
+          enemyPlayer.y = random(height/8,7*height/8);
+        }
       }
     }
-
   }
 
 

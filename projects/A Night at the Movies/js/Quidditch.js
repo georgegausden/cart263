@@ -55,15 +55,6 @@ function quidditch(){
   goldenSnitchActions();
   enemyPlayersActions();
 
-  //check if the user passes through one of the hoops
-  for (let i = 0; i<hoops.length; i++){
-    let hoop = hoops[i];
-    //if user passes through, collect a point
-    if (passesThrough(quidditchUser,hoop) && hoop.passedThrough === false){
-      quidditchScore += 1
-      hoop.passedThrough = true;
-    };
-  }
 
 
 }
