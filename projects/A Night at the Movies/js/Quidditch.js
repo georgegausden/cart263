@@ -20,7 +20,9 @@ function quidditch(){
 
   mouse();
 
-  if (!loadQuidditch){
+  console.log(quidditchSpells);
+  //load all the parameters in the game
+  if (!loadedQuidditch){
     //load the parameters in the game
 
     //load the hoops in the game
@@ -42,7 +44,7 @@ function quidditch(){
     goldenSnitch = new GoldenSnitch(random(0,width/4),random(height/5,height/1.5));
 
     //close the loading function
-    loadQuidditch = true;
+    loadedQuidditch = true;
   }
 
 
@@ -52,6 +54,7 @@ function quidditch(){
   //load all the actions that happen in the game
   hoopActions();
   userActions();
+  spellActions();
   goldenSnitchActions();
   enemyPlayersActions();
 
@@ -81,6 +84,17 @@ function userActions(){
   quidditchUser.display();
   quidditchUser.move();
   quidditchUser.checkWonPoint();
+}
+
+function spellActions(){
+  //load the spells launched
+  if (quidditchSpells.length > 0){
+    for( let i = 0; i<quidditchSpells.length; i++){
+      let spell = quidditchSpells[i];
+      spell.launch();
+    }
+
+  }
 }
 
 function enemyPlayersActions(){

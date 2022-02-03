@@ -37,7 +37,7 @@ let instructionsSize = 40;
 
 //load the boolean triggers
 let lumosCalled = false;
-let loadQuidditch = false;
+let loadedQuidditch = false;
 
 //load the arrays
 let hoops = [];
@@ -46,6 +46,7 @@ let quidditchUser;
 let quidditchScore = 0;
 let numberOfHoops = 3;
 let numberOfQuidditchEnemies = 3;
+let quidditchSpells = [];
 let goldenSnitch;
 
 let myButton;
@@ -180,4 +181,13 @@ function mouse(){
   imageMode(CENTER);
   image(wandImage,mouseX,mouseY,75,75);
   pop();
+}
+
+function mousePressed(){
+  if (state === 'quidditch'){
+    //create an immobulus spell
+    let immobulus = new Immobulus(quidditchUser.x,quidditchUser.y,mouseX,mouseY);
+    //push it into the spells array to keep tab of where it is
+    quidditchSpells.push(immobulus);
+  }
 }

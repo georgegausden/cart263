@@ -1,13 +1,13 @@
 class Immobulus {
   //a class to represent the immobulus spell that the user can use in the quidditch match
 
-  constructor(x,y){
-    this.xi = undefined;
-    this.yi = undefined;
-    this.xf = undefined;
-    this.yf = undefined;
-    this.x = undefined;
-    this.y = undefined;
+  constructor(userX,userY,targetX,targetY){
+    this.xi = userX;
+    this.yi = userY;
+    this.xf = targetX;
+    this.yf = targetY;
+    this.x = userX;
+    this.y = userY;
     this.size = 100;
     this.image = undefined;
     this.vx = undefined;
@@ -49,7 +49,7 @@ class Immobulus {
     this.calculatedVelocities = true;
   }
 
-  
+
 
 
 
