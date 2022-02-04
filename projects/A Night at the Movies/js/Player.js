@@ -64,6 +64,7 @@ class Player{
           let enemyPlayer = enemyQuidditchPlayers[i];
           enemyPlayer.x = random(0,width/2);
           enemyPlayer.y = random(height/8,7*height/8);
+          enemyPlayer.immobilized = false;
         }
       }
     }

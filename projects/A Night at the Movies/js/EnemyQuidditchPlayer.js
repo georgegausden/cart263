@@ -8,6 +8,7 @@ class EnemyQuidditchPlayer{
     this.ay = 0.5;
     this.maxSpeed = 2;
     this.size = 50;
+    this.immobilized = false;
   }
 
   display(){
@@ -18,38 +19,41 @@ class EnemyQuidditchPlayer{
   }
 
   move(){
-    //make the enemy's character follow the user
-    if (this.x < quidditchUser.x){
-      this.vx += this.ax;
-    }
-    else if (this.x >= quidditchUser.x){
-      this.vx -= this.ax;
+    if (!this.immobilized){
+      //make the enemy's character follow the user
+      if (this.x < quidditchUser.x){
+        this.vx += this.ax;
+      }
+      else if (this.x >= quidditchUser.x){
+        this.vx -= this.ax;
+      }
+
+      if (this.y < quidditchUser.y){
+        this.vy += this.ay;
+      }
+      else if (this.y >= quidditchUser.y){
+        this.vy -= this.ay;
+      }
+
+      //add some randomness to the enemies movements
+      let r = random(0,1);
+      if (r<0.1){
+        this.ax += 0.2;
+        this.ay -= 0.1;
+      }
+      else if (r>0.95){
+        this.ax -= 0.3;
+        this.ay += 0.2;
+      }
+
+      this.x += this.vx;
+      this.y += this.vy;
+
+      //constrain the speeds
+      this.vx = constrain(this.vx, -this.maxSpeed, this.maxSpeed);
+      this.vy = constrain(this.vy, -this.maxSpeed, this.maxSpeed);
     }
 
-    if (this.y < quidditchUser.y){
-      this.vy += this.ay;
-    }
-    else if (this.y >= quidditchUser.y){
-      this.vy -= this.ay;
-    }
-
-    //add some randomness to the enemies movements
-    let r = random(0,1);
-    if (r<0.1){
-      this.ax += 0.2;
-      this.ay -= 0.1;
-    }
-    else if (r>0.95){
-      this.ax -= 0.3;
-      this.ay += 0.2;
-    }
-
-    this.x += this.vx;
-    this.y += this.vy;
-
-    //constrain the speeds
-    this.vx = constrain(this.vx, -this.maxSpeed, this.maxSpeed);
-    this.vy = constrain(this.vy, -this.maxSpeed, this.maxSpeed);
 
   }
 
@@ -67,5 +71,14 @@ class EnemyQuidditchPlayer{
     else if (this.y <0){
       this.y = height;
     }
+  }
+
+  //the player has been touched by the spell, freeze for a few seconds
+  immobulus(){
+    this.immobilized = true;
+    this.ax = 0;
+    this.ay = 0;
+    this.vx = 0;
+    this.vy = 0;
   }
 }

@@ -2,9 +2,6 @@
 
 //function that calls all the functions in the quidditch game, loads the game
 function quidditch(){
-
-
-
   //load the quidditchMusic
   if (themeSong.isPlaying()){
     themeSong.stop();
@@ -20,7 +17,6 @@ function quidditch(){
 
   mouse();
 
-  console.log(quidditchSpells);
   //load all the parameters in the game
   if (!loadedQuidditch){
     //load the parameters in the game
@@ -91,15 +87,16 @@ function spellActions(){
   for( let i = 0; i<quidditchSpells.length; i++){
     let spell = quidditchSpells[i];
     spell.launch();
+    for (let j = 0; j<enemyQuidditchPlayers.length; j++){
+      let enemy = enemyQuidditchPlayers[j];
+      //check if the spell touches one of the enemy players
+      if (checkTouch(spell,enemy)){
+        //immobilize the player for a certain amount of time
+        enemy.immobulus();
+      }
+    }
   }
-  //load the spells launched
-  // if (quidditchSpells.length > 0){
-  //   for( let i = 0; i<quidditchSpells.length; i++){
-  //     let spell = quidditchSpells[i];
-  //     spell.launch();
-  //   }
-  //
-  // }
+
 }
 
 function enemyPlayersActions(){
@@ -142,4 +139,13 @@ function displayScore(){
   fill(0);
   text(quidditchScore, width/2, height/4);
   pop();
+}
+
+//function to check if the spell touches an enemy
+function checkTouch(spell,enemy){
+  let d = dist(spell.x,spell.y,enemy.x,enemy.y);
+
+  if (d < (spell.size/2 + enemy.size/2)){
+    return true
+  }
 }

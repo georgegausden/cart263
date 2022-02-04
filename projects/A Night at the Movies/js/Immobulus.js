@@ -8,7 +8,7 @@ class Immobulus {
     this.yf = targetY;
     this.x = userX;
     this.y = userY;
-    this.size = 100;
+    this.size = 50;
     this.image = undefined;
     this.vx = undefined;
     this.vy = undefined;
@@ -31,14 +31,13 @@ class Immobulus {
 
   display(){
     push();
-    fill(0);
+    fill(255,0,0);
     circle(this.x,this.y,this.size);
     pop();
   }
 
   move(){
     //update the position of the particle
-    console.log(this.vx,this.vy);
     this.x += this.vx;
     this.y += this.vy;
   }
