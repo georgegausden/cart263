@@ -87,14 +87,19 @@ function userActions(){
 }
 
 function spellActions(){
-  //load the spells launched
-  if (quidditchSpells.length > 0){
-    for( let i = 0; i<quidditchSpells.length; i++){
-      let spell = quidditchSpells[i];
-      spell.launch();
-    }
 
+  for( let i = 0; i<quidditchSpells.length; i++){
+    let spell = quidditchSpells[i];
+    spell.launch();
   }
+  //load the spells launched
+  // if (quidditchSpells.length > 0){
+  //   for( let i = 0; i<quidditchSpells.length; i++){
+  //     let spell = quidditchSpells[i];
+  //     spell.launch();
+  //   }
+  //
+  // }
 }
 
 function enemyPlayersActions(){

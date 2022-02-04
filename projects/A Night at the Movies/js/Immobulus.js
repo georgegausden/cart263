@@ -12,8 +12,10 @@ class Immobulus {
     this.image = undefined;
     this.vx = undefined;
     this.vy = undefined;
+    this.time = undefined;
     this.touchedEnemy = false;
     this.calculatedVelocities = false;
+    this.maxSpeed = 20;
 
   }
 
@@ -36,11 +38,16 @@ class Immobulus {
 
   move(){
     //update the position of the particle
+    console.log(this.vx,this.vy);
     this.x += this.vx;
     this.y += this.vy;
   }
 
   calculateVelocities(){
+    //calculate the distance of the target from the user
+    let d = dist(this.x,this.y,this.xf,this.yf);
+    //calculate the velocity using the distance
+    this.time = d/(this.maxSpeed);
     //based on where the user clicks, calculate the x and y velocities. Try to normalize so that they always move in the same speed
     this.vx = (this.xf - this.xi) / this.time;
     this.vy = (this.yf - this.yi) / this.time;
