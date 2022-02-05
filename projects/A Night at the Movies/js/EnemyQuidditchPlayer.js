@@ -9,6 +9,8 @@ class EnemyQuidditchPlayer{
     this.maxSpeed = 2;
     this.size = 50;
     this.immobilized = false;
+    this.immobilizedTimer = 0;
+    this.immobilizedTimerLength = 100;
   }
 
   display(){
@@ -80,5 +82,17 @@ class EnemyQuidditchPlayer{
     this.ay = 0;
     this.vx = 0;
     this.vy = 0;
+  }
+
+  //if the player has been immobilized, start a timer and defreeze the player after a few seconds
+  wearOffImmobulus(){
+    if (this.immobilized){
+      this.immobilizedTimer += 1;
+
+      if (this.immobilizedTimer >= this.immobilizedTimerLength){
+        this.immobilized = false;
+        this.immobilizedTimer = 0;
+      }
+    }
   }
 }

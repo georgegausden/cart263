@@ -30,10 +30,12 @@ class Immobulus {
   }
 
   display(){
-    push();
-    fill(255,0,0);
-    circle(this.x,this.y,this.size);
-    pop();
+    if (!this.touchedEnemy){
+      push();
+      fill(255,0,0);
+      circle(this.x,this.y,this.size);
+      pop();
+    }
   }
 
   move(){

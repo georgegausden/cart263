@@ -93,6 +93,7 @@ function spellActions(){
       if (checkTouch(spell,enemy)){
         //immobilize the player for a certain amount of time
         enemy.immobulus();
+        spell.touchedEnemy = true;
       }
     }
   }
@@ -105,6 +106,7 @@ function enemyPlayersActions(){
     enemyPlayer.display();
     enemyPlayer.move();
     enemyPlayer.wrap();
+    enemyPlayer.wearOffImmobulus();
 
   }
 }
