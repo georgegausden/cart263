@@ -90,7 +90,7 @@ function spellActions(){
     for (let j = 0; j<enemyQuidditchPlayers.length; j++){
       let enemy = enemyQuidditchPlayers[j];
       //check if the spell touches one of the enemy players
-      if (checkTouch(spell,enemy)){
+      if (checkTouch(spell,enemy) && spell.provenance === 'user'){
         //immobilize the player for a certain amount of time
         enemy.immobulus();
         spell.touchedEnemy = true;
@@ -107,6 +107,13 @@ function enemyPlayersActions(){
     enemyPlayer.move();
     enemyPlayer.wrap();
     enemyPlayer.wearOffImmobulus();
+
+    let r = random(0,1);
+    if (r > 0.995){
+      //let the enemy player launch an immobilizing spell
+      let spell = new Immobulus(enemyPlayer.x,enemyPlayer.y,random(0,width),random(0,height),'enemy');
+      quidditchSpells.push(spell);
+    }
 
   }
 }

@@ -186,7 +186,7 @@ function mouse(){
 function mousePressed(){
   if (state === 'quidditch'){
     //create an immobulus spell
-    let immobulus = new Immobulus(quidditchUser.x,quidditchUser.y,mouseX,mouseY);
+    let immobulus = new Immobulus(quidditchUser.x,quidditchUser.y,mouseX,mouseY,'user');
     //push it into the spells array to keep tab of where it is
     quidditchSpells.push(immobulus);
   }
