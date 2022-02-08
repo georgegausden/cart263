@@ -19,6 +19,10 @@ https://learn.ml5js.org/#/reference/handpose
 let state = `loading`; // loading, running
 // User's webcam
 let video;
+
+//load music
+let bgMusic = undefined;
+let popSFX = undefined;
 // The name of our model
 let modelName = `Handpose`;
 // Handpose object (using the name of the model for clarity)
@@ -27,15 +31,15 @@ let handpose;
 let predictions = [];
 
 let pins = [];
-let numberPinsLeftSide = 10;
-let numberPinsRightSide = 10;
+let numberPinsLeftSide = 20;
+let numberPinsRightSide = 20;
 let pinLength = 100;
 
 let gameData = {
   highScore: 0
 }
 
-let bubblesPopped = 0;
+let bubblesSaved = 0;
 
 
 // The bubble we will be popping
@@ -53,6 +57,10 @@ let pin = {
   }
 };
 
+function preload(){
+  bgMusic = loadSound(`assets/sounds/bgMusic.mp3`);
+  popSFX = loadSound(`assets/sounds/popSFX.mov`);
+}
 
 /**
 Starts the webcam and the Handpose, creates a bubble object
@@ -62,7 +70,7 @@ function setup() {
 
   //create all the pins in the game
   for (let i = 0; i<numberPinsLeftSide; i++){
-    let x = width/8;
+    let x = width/9;
     let y = height/numberPinsLeftSide * (i+0.5);
     let tipx = x + pinLength;
     let tipy = y;
@@ -72,7 +80,7 @@ function setup() {
   }
 
   for (let i = 0; i<numberPinsRightSide; i++){
-    let x = 6*width/8;
+    let x = 7*width/9;
     let y = height/numberPinsRightSide * (i+0.5);
     let tipx = x + pinLength;
     let tipy = y;
@@ -143,6 +151,18 @@ function running() {
   // Use these lines to see the video feed
   // const flippedVideo = ml5.flipImage(video);
   // image(flippedVideo, 0, 0, width, height);
+  //check if the user has scored a point
+
+
+  if (bubblesSaved > gameData.highScore){
+    gameData.highScore = bubblesSaved;
+    localStorage.setItem('bubbles-popped-game-data', JSON.stringify(gameData));
+  }
+
+  //play music
+  if (!bgMusic.isPlaying()){
+    bgMusic.play();
+  }
 
   // Use this line to just see a black background. More theatrical!
   background(0);
@@ -151,7 +171,7 @@ function running() {
   push();
   fill(255);
   textSize(40);
-  text('Current Score: '+bubblesPopped,width/2,height/2);
+  text('Current Score: '+bubblesSaved,width/2,height/2);
   pop();
 
 
@@ -176,16 +196,10 @@ function running() {
     // Check if the tip of the "pin" is touching the bubble
     let d = dist(pin.tip.x, pin.tip.y, bubble.x, bubble.y);
     if (d < bubble.size / 2) {
-      // Pop!
-      resetBubble();
-      // add points to the bubble popper counter
-      bubblesPopped += 1;
-
-      if (bubblesPopped > gameData.highScore){
-        gameData.highScore = bubblesPopped;
-        localStorage.setItem('bubbles-popped-game-data', JSON.stringify(gameData));
-      }
+      // move the bubble in the opposite direction
+      bubble.pushed();
     }
+  }
 
 
 
@@ -198,7 +212,18 @@ function running() {
   bubble.display();
   bubble.move();
   bubble.wrap();
-}
+  //check if the bubble touches one of the pins
+  for (let i = 0; i<pins.length ;i++){
+    let pin = pins[i];
+    if (touching(pin,bubble)){
+      //the bubble should pop
+      if (!bubble.popped){
+        popSFX.play();
+      }
+      bubble.popped = true;
+    }
+  }
+
 
 /**
 Updates the position of the pin according to the latest prediction
@@ -236,17 +261,6 @@ function checkOutOfBounds() {
 }
 
 /**
-Displays the bubble as a circle
-*/
-function displayBubble() {
-  push();
-  noStroke();
-  fill(100, 100, 200, 150);
-  ellipse(bubble.x, bubble.y, bubble.size);
-  pop();
-}
-
-/**
 Displays the pin based on the tip and base coordinates. Draws
 a line between them and adds a red pinhead.
 */
@@ -254,16 +268,11 @@ function displayPin() {
   // Draw pin
   push();
   stroke(255);
-  strokeWeight(2);
+  strokeWeight(4);
   line(pin.tip.x, pin.tip.y, pin.head.x, pin.head.y);
   pop();
 
-  // Draw pinhead
-  push();
-  fill(255, 0, 0);
-  noStroke();
-  ellipse(pin.head.x, pin.head.y, pin.head.size);
-  pop();
+
 }
 
 function keyPressed(){
@@ -271,5 +280,12 @@ function keyPressed(){
     localStorage.removeItem('bubbles-popped-game-data');
 
     //localStorage.clear() removes all the data of everything
+  }
+}
+
+function touching(object1,object2){
+  let d = dist(object1.tipx, object1.tipy, object2.x, object2.y);
+  if (d < object2.size / 2) {
+    return true
   }
 }

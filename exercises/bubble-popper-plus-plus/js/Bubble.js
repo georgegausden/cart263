@@ -3,17 +3,21 @@ class Bubble{
     this.x = x;
     this.y = y;
     this.vx = 0;
-    this.vy = -0.5;
-    this.size = 20;
+    this.vy = -1;
+    this.size = 40;
     this.maxSpeed = 2;
+    this.popped = false;
   }
 
   display(){
-    push();
-    noStroke();
-    fill(150, 150, 250, 200);
-    ellipse(this.x, this.y, this.size);
-    pop();
+    if (!this.popped){
+      push();
+      noStroke();
+      fill(150, 150, 250, 200);
+      ellipse(this.x, this.y, this.size);
+      pop();
+    }
+
   }
 
   move(){
@@ -34,11 +38,22 @@ class Bubble{
 
   wrap(){
     if (this.y<0){
+      //score a point also
+      bubblesSaved += 1;
       this.y = height;
     }
   }
 
+  pushed(){
+    if (bubble.x > pin.tip.x){
+      this.vx = -this.vx + 10;
+    }
+    else if (bubble.x <= pin.tip.y){
+      this.vx =  -this.vx - 10;
+    }
 
+
+  }
 
 
 }
