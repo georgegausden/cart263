@@ -27,8 +27,8 @@ let handpose;
 let predictions = [];
 
 let pins = [];
-let numberPinsLeftSide = 5;
-let numberPinsRightSide = 5;
+let numberPinsLeftSide = 10;
+let numberPinsRightSide = 10;
 let pinLength = 100;
 
 let gameData = {
@@ -108,13 +108,7 @@ function setup() {
   });
 
   // Create our basic bubble
-  bubble = {
-    x: random(width),
-    y: height,
-    size: 100,
-    vx: 0,
-    vy: -2
-  }
+  bubble = new Bubble(width/2,height);
 }
 
 /**
@@ -201,9 +195,9 @@ function running() {
 
   // Handle the bubble's movement and display (independent of hand detection
   // so it doesn't need to be inside the predictions check)
-  moveBubble();
-  checkOutOfBounds();
-  displayBubble();
+  bubble.display();
+  bubble.move();
+  bubble.wrap();
 }
 
 /**
