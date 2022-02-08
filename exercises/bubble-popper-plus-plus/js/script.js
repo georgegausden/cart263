@@ -26,6 +26,11 @@ let handpose;
 // The current set of predictions made by Handpose once it's running
 let predictions = [];
 
+let pins = [];
+let numberPinsLeftSide = 5;
+let numberPinsRightSide = 5;
+let pinLength = 100;
+
 let gameData = {
   highScore: 0
 }
@@ -54,6 +59,28 @@ Starts the webcam and the Handpose, creates a bubble object
 */
 function setup() {
   createCanvas(640, 480);
+
+  //create all the pins in the game
+  for (let i = 0; i<numberPinsLeftSide; i++){
+    let x = width/8;
+    let y = height/numberPinsLeftSide * (i+0.5);
+    let tipx = x + pinLength;
+    let tipy = y;
+
+    let pin = new Pin(x,y,tipx,tipy);
+    pins.push(pin);
+  }
+
+  for (let i = 0; i<numberPinsRightSide; i++){
+    let x = 6*width/8;
+    let y = height/numberPinsRightSide * (i+0.5);
+    let tipx = x + pinLength;
+    let tipy = y;
+
+    let pin = new Pin(tipx,y,x,tipy);
+    pins.push(pin);
+  }
+
 
   // Start webcam and hide the resulting HTML element
   video = createCapture(VIDEO);
@@ -141,6 +168,12 @@ function running() {
   text('High Score: '+gameData.highScore,100,100);
   pop();
 
+  //display all the pins in the game
+  for (let i = 0; i<pins.length; i++){
+    let pin = pins[i];
+    pin.display();
+  }
+
   // Check if there currently predictions to display
   if (predictions.length > 0) {
     // If yes, then get the positions of the tip and base of the index finger
@@ -159,6 +192,9 @@ function running() {
         localStorage.setItem('bubbles-popped-game-data', JSON.stringify(gameData));
       }
     }
+
+
+
     // Display the current position of the pin
     displayPin();
   }
