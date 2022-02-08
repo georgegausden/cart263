@@ -1,7 +1,7 @@
 /**
 
 Bubble Popper
-Pippin Barr
+George Gausden
 
 Turns the index finger as seen through the webcam into a pin that can pop
 a bubble that floats from the bottom of the screen to the top.
@@ -25,6 +25,13 @@ let modelName = `Handpose`;
 let handpose;
 // The current set of predictions made by Handpose once it's running
 let predictions = [];
+
+let gameData = {
+  highScore: 0
+}
+
+let bubblesPopped = 0;
+
 
 // The bubble we will be popping
 let bubble;
@@ -51,6 +58,13 @@ function setup() {
   // Start webcam and hide the resulting HTML element
   video = createCapture(VIDEO);
   video.hide();
+
+  //setup the data to be displayed on the screen
+  let data = JSON.parse(localStorage.getItem('bubbles-popped-game-data'));
+
+  if (data != null){
+    gameData = data;
+  }
 
   // Start the Handpose model and switch to our running state when it loads
   handpose = ml5.handpose(video, {
@@ -112,6 +126,21 @@ function running() {
   // Use this line to just see a black background. More theatrical!
   background(0);
 
+  // show the current high score and the current score of the user
+  push();
+  fill(255);
+  textSize(40);
+  text('Current Score: '+bubblesPopped,width/2,height/2);
+  pop();
+
+
+  push();
+  textAlign(LEFT,TOP);
+  fill(255);
+  textSize(40);
+  text('High Score: '+gameData.highScore,100,100);
+  pop();
+
   // Check if there currently predictions to display
   if (predictions.length > 0) {
     // If yes, then get the positions of the tip and base of the index finger
@@ -122,6 +151,13 @@ function running() {
     if (d < bubble.size / 2) {
       // Pop!
       resetBubble();
+      // add points to the bubble popper counter
+      bubblesPopped += 1;
+
+      if (bubblesPopped > gameData.highScore){
+        gameData.highScore = bubblesPopped;
+        localStorage.setItem('bubbles-popped-game-data', JSON.stringify(gameData));
+      }
     }
     // Display the current position of the pin
     displayPin();
@@ -198,4 +234,12 @@ function displayPin() {
   noStroke();
   ellipse(pin.head.x, pin.head.y, pin.head.size);
   pop();
+}
+
+function keyPressed(){
+  if (key === 'c'){
+    localStorage.removeItem('bubbles-popped-game-data');
+
+    //localStorage.clear() removes all the data of everything
+  }
 }
