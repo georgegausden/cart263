@@ -30,7 +30,7 @@ let cheeringSFX;
 // load the fonts
 let classicFont;
 
-let state = 'quidditch';
+let state = 'start';
 let title = 'Harry Potter';
 let titleSize = 90;
 let instructionsSize = 40;

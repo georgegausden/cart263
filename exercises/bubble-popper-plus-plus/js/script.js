@@ -44,18 +44,8 @@ let bubblesSaved = 0;
 
 // The bubble we will be popping
 let bubble;
-// The pin
-let pin = {
-  tip: {
-    x: undefined,
-    y: undefined
-  },
-  head: {
-    x: undefined,
-    y: undefined,
-    size: 20
-  }
-};
+// The finger
+let fingerY;
 
 function preload(){
   bgMusic = loadSound(`assets/sounds/bgMusic.mp3`);
@@ -106,7 +96,7 @@ function setup() {
     flipHorizontal: true
   }, function() {
     // Switch to the running state
-    state = `running`;
+    state = `start`;
   });
 
   // Listen for prediction events from Handpose and store the results in our
@@ -125,6 +115,9 @@ Handles the two states of the program: loading, running
 function draw() {
   if (state === `loading`) {
     loading();
+  }
+  else if (state === 'start'){
+    start();
   }
   else if (state === `running`) {
     running();
@@ -191,20 +184,10 @@ function running() {
   // Check if there currently predictions to display
   if (predictions.length > 0) {
     // If yes, then get the positions of the tip and base of the index finger
-    updatePin(predictions[0]);
-
-    // Check if the tip of the "pin" is touching the bubble
-    let d = dist(pin.tip.x, pin.tip.y, bubble.x, bubble.y);
-    if (d < bubble.size / 2) {
-      // move the bubble in the opposite direction
-      bubble.pushed();
-    }
-  }
+    updateFinger(predictions[0]);
 
 
 
-    // Display the current position of the pin
-    displayPin();
   }
 
   // Handle the bubble's movement and display (independent of hand detection
@@ -223,16 +206,18 @@ function running() {
       bubble.popped = true;
     }
   }
+}
 
 
 /**
 Updates the position of the pin according to the latest prediction
 */
-function updatePin(prediction) {
-  pin.tip.x = prediction.annotations.indexFinger[3][0];
-  pin.tip.y = prediction.annotations.indexFinger[3][1];
-  pin.head.x = prediction.annotations.indexFinger[0][0];
-  pin.head.y = prediction.annotations.indexFinger[0][1];
+function updateFinger(prediction) {
+
+  fingerY = prediction.annotations.indexFinger[3][1];
+
+  fingerY = map(fingerY, 0,height,0,width);
+
 }
 
 /**
@@ -260,26 +245,17 @@ function checkOutOfBounds() {
   }
 }
 
-/**
-Displays the pin based on the tip and base coordinates. Draws
-a line between them and adds a red pinhead.
-*/
-function displayPin() {
-  // Draw pin
-  push();
-  stroke(255);
-  strokeWeight(4);
-  line(pin.tip.x, pin.tip.y, pin.head.x, pin.head.y);
-  pop();
 
-
-}
 
 function keyPressed(){
   if (key === 'c'){
     localStorage.removeItem('bubbles-popped-game-data');
+  }
+}
 
-    //localStorage.clear() removes all the data of everything
+function mousePressed(){
+  if (state === `start`){
+    state = `running`;
   }
 }
 
@@ -288,4 +264,25 @@ function touching(object1,object2){
   if (d < object2.size / 2) {
     return true
   }
+}
+
+function start(){
+  background(255);
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  text('Bubble Popper++', width/2,height/9);
+  pop();
+
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  text(`Move your index finger\n up and down to move\n the ball left and right`, width/2,1.5*height/4);
+  pop();
+
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  text(`Click to continue`, width/2,3*height/4);
+  pop();
 }

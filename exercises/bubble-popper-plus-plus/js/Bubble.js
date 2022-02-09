@@ -17,12 +17,11 @@ class Bubble{
       ellipse(this.x, this.y, this.size);
       pop();
     }
-
   }
 
   move(){
-    this.x += this.vx;
-    this.y += this.vy;
+    this.x = fingerY;
+    this.y += this.vy - bubblesSaved;
 
     //constrain speed
     this.vx = constrain(this.vx, -this.maxSpeed,this.maxSpeed);
