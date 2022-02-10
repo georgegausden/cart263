@@ -40,6 +40,11 @@ class Bubble{
       //score a point also
       bubblesSaved += 1;
       this.y = height;
+      //update the position of the pins
+      for (let i = 0; i<pins.length; i++){
+        let pin = pins[i];
+        pin.update();
+      }
     }
   }
 

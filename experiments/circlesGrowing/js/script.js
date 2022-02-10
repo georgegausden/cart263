@@ -1,42 +1,68 @@
 "use strict";
 
-let numCols = 10;
-let numRows = 10;
+let numCols = 40;
+let numRows = 40;
 let circles = [];
+let state = [true,false];
+let colour = [255,0];
+let speed = 0.1;
+let vx;
+let vy;
+
 
 function setup(){
-  createCanvas(500,500);
+  createCanvas(600,600);
 
   for (let i = 0; i<numCols; i++){
     let x = (width/numCols)*(i+0.5);
+    let column = i;
+    if (column%2 === 0){
+      vy = -speed;
+    }
+    else{
+      vy = speed;
+    }
     for (let j = 0; j<numRows; j++){
       let y = (height/numRows)*(j+0.5);
-      let r = random(0,1);
-      
-      if (r<0.5){
-        let increase = true;
-        let decrease = false;
+      let row = j;
+      if (row%2 === 0){
+        vx = -speed;
       }
-      else if (r >= 0.5){
-        let increase = false;
-        let decrease = true;
+      else{
+        vx = speed;
       }
-
-      let circle = new Shape(x,y,20,increase,decrease);
+      let circle = new Shape(x,y,10,false,true,10,255,vx,vy,row,column);
       circles.push(circle);
     };
   };
 }
 
 function draw(){
+  if (frameCount === 1){
+    capturer.start();
+  }
   background(0);
 
   for (let i = 0; i<circles.length; i++){
     let circle = circles[i];
-
+    circle.checkMouse();
+    circle.checkBooleans();
     circle.display();
-    circle.grow();
-    circle.shrink();
+    circle.move();
+    circle.bounce();
+
+    // circle.grow();
+    // circle.shrink();
 
   }
+
+  if (frameCount < 60*2){
+    capturer.capture(canvas);
+  }
+  else if (frameCount === 60){
+    capturer.save()
+    capturer.stop()
+  }
+
+
 }

@@ -1,6 +1,6 @@
 /**
 
-Bubble Popper
+Bubble Popper++
 George Gausden
 
 Turns the index finger as seen through the webcam into a pin that can pop
@@ -62,10 +62,11 @@ function setup() {
   for (let i = 0; i<numberPinsLeftSide; i++){
     let x = width/9;
     let y = height/numberPinsLeftSide * (i+0.5);
-    let tipx = x + pinLength;
+    let tipx = (x + pinLength);
     let tipy = y;
+    let side = 'left'
 
-    let pin = new Pin(x,y,tipx,tipy);
+    let pin = new Pin(x,y,tipx,tipy,side);
     pins.push(pin);
   }
 
@@ -74,8 +75,9 @@ function setup() {
     let y = height/numberPinsRightSide * (i+0.5);
     let tipx = x + pinLength;
     let tipy = y;
+    let side = 'right';
 
-    let pin = new Pin(tipx,y,x,tipy);
+    let pin = new Pin(tipx,y,x,tipy,side);
     pins.push(pin);
   }
 
@@ -122,6 +124,9 @@ function draw() {
   else if (state === `running`) {
     running();
   }
+  else if (state === `end`){
+    end();
+  }
 }
 
 /**
@@ -160,20 +165,6 @@ function running() {
   // Use this line to just see a black background. More theatrical!
   background(0);
 
-  // show the current high score and the current score of the user
-  push();
-  fill(255);
-  textSize(40);
-  text('Current Score: '+bubblesSaved,width/2,height/2);
-  pop();
-
-
-  push();
-  textAlign(LEFT,TOP);
-  fill(255);
-  textSize(40);
-  text('High Score: '+gameData.highScore,100,100);
-  pop();
 
   //display all the pins in the game
   for (let i = 0; i<pins.length; i++){
@@ -185,9 +176,6 @@ function running() {
   if (predictions.length > 0) {
     // If yes, then get the positions of the tip and base of the index finger
     updateFinger(predictions[0]);
-
-
-
   }
 
   // Handle the bubble's movement and display (independent of hand detection
@@ -204,8 +192,12 @@ function running() {
         popSFX.play();
       }
       bubble.popped = true;
+      state = 'end';
     }
   }
+
+
+
 }
 
 
@@ -274,6 +266,13 @@ function start(){
   text('Bubble Popper++', width/2,height/9);
   pop();
 
+
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  text(`Current high score: ${gameData.highScore}`, width/2,height/9+50);
+  pop();
+
   push();
   textAlign(CENTER);
   textSize(30);
@@ -285,4 +284,25 @@ function start(){
   textSize(30);
   text(`Click to continue`, width/2,3*height/4);
   pop();
+
+
+}
+
+function end(){
+  background(0);
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  fill(255);
+  text(`High Score: ${gameData.highScore}`, width/2,height/3);
+  pop();
+
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  fill(255);
+  text(`Score: ${bubblesSaved}`, width/2,2*height/3);
+  pop();
+
+
 }

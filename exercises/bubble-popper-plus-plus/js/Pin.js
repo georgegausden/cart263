@@ -1,10 +1,11 @@
 class Pin {
-  constructor(x,y,tipx,tipy){
+  constructor(x,y,tipx,tipy,side){
     this.x = x;
     this.y = y;
     this.tipx = tipx;
     this.tipy = tipy;
     this.headSize = 20;
+    this.side = side;
   }
 
 
@@ -23,5 +24,16 @@ class Pin {
     ellipse(this.x, this.y, this.headSize);
     pop();
 
+  }
+
+  update(){
+    if (this.side === 'left'){
+      this.tipx += bubblesSaved*10;
+      this.x += bubblesSaved*10;
+    }
+    else if (this.side === 'right'){
+      this.tipx -= bubblesSaved*10;
+      this.x -= bubblesSaved*10;
+    }
   }
 }
