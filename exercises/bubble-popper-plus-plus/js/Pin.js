@@ -9,6 +9,7 @@ class Pin {
   }
 
 
+  //displays the pin
   display(){
     // Draw pin
     push();
@@ -26,6 +27,7 @@ class Pin {
 
   }
 
+  //moves the pin when the level goes up
   update(){
     if (this.side === 'left'){
       this.tipx += bubblesSaved*10;

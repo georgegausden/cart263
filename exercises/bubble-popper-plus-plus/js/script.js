@@ -3,8 +3,8 @@
 Bubble Popper++
 George Gausden
 
-Turns the index finger as seen through the webcam into a pin that can pop
-a bubble that floats from the bottom of the screen to the top.
+A game where the user uses their index finger to move a bubble left and right. The user
+must avoid the bubble touching the pins on the side.
 
 Uses:
 
@@ -30,54 +30,58 @@ let handpose;
 // The current set of predictions made by Handpose once it's running
 let predictions = [];
 
+//all the variables that deal with the pins
 let pins = [];
 let numberPinsLeftSide = 20;
 let numberPinsRightSide = 20;
 let pinLength = 100;
 
+//a place to store the high score of the game
 let gameData = {
   highScore: 0
 }
 
+//variable to store the amount of bubbles that made it to the next level
 let bubblesSaved = 0;
 
 
 // The bubble we will be popping
 let bubble;
-// The finger
+// The index finger of the user
 let fingerY;
 
-function preload(){
+//preload the sounds used in the game
+function preload() {
   bgMusic = loadSound(`assets/sounds/bgMusic.mp3`);
   popSFX = loadSound(`assets/sounds/popSFX.mov`);
 }
 
 /**
-Starts the webcam and the Handpose, creates a bubble object
+Starts the webcam and the Handpose, creates a bubble object, creates the pins
 */
 function setup() {
   createCanvas(640, 480);
 
   //create all the pins in the game
-  for (let i = 0; i<numberPinsLeftSide; i++){
-    let x = width/9;
-    let y = height/numberPinsLeftSide * (i+0.5);
+  for (let i = 0; i < numberPinsLeftSide; i++) {
+    let x = width / 9;
+    let y = height / numberPinsLeftSide * (i + 0.5);
     let tipx = (x + pinLength);
     let tipy = y;
     let side = 'left'
 
-    let pin = new Pin(x,y,tipx,tipy,side);
+    let pin = new Pin(x, y, tipx, tipy, side);
     pins.push(pin);
   }
 
-  for (let i = 0; i<numberPinsRightSide; i++){
-    let x = 7*width/9;
-    let y = height/numberPinsRightSide * (i+0.5);
+  for (let i = 0; i < numberPinsRightSide; i++) {
+    let x = 7 * width / 9;
+    let y = height / numberPinsRightSide * (i + 0.5);
     let tipx = x + pinLength;
     let tipy = y;
     let side = 'right';
 
-    let pin = new Pin(tipx,y,x,tipy,side);
+    let pin = new Pin(tipx, y, x, tipy, side);
     pins.push(pin);
   }
 
@@ -89,7 +93,7 @@ function setup() {
   //setup the data to be displayed on the screen
   let data = JSON.parse(localStorage.getItem('bubbles-popped-game-data'));
 
-  if (data != null){
+  if (data != null) {
     gameData = data;
   }
 
@@ -108,23 +112,20 @@ function setup() {
   });
 
   // Create our basic bubble
-  bubble = new Bubble(width/2,height);
+  bubble = new Bubble(width / 2, height);
 }
 
 /**
-Handles the two states of the program: loading, running
+Handles the states of the program: loading, running, start and end
 */
 function draw() {
   if (state === `loading`) {
     loading();
-  }
-  else if (state === 'start'){
+  } else if (state === 'start') {
     start();
-  }
-  else if (state === `running`) {
+  } else if (state === `running`) {
     running();
-  }
-  else if (state === `end`){
+  } else if (state === `end`) {
     end();
   }
 }
@@ -151,14 +152,14 @@ function running() {
   // image(flippedVideo, 0, 0, width, height);
   //check if the user has scored a point
 
-
-  if (bubblesSaved > gameData.highScore){
+  //store the highest score if the score was broken
+  if (bubblesSaved > gameData.highScore) {
     gameData.highScore = bubblesSaved;
     localStorage.setItem('bubbles-popped-game-data', JSON.stringify(gameData));
   }
 
   //play music
-  if (!bgMusic.isPlaying()){
+  if (!bgMusic.isPlaying()) {
     bgMusic.play();
   }
 
@@ -167,14 +168,14 @@ function running() {
 
 
   //display all the pins in the game
-  for (let i = 0; i<pins.length; i++){
+  for (let i = 0; i < pins.length; i++) {
     let pin = pins[i];
     pin.display();
   }
 
   // Check if there currently predictions to display
   if (predictions.length > 0) {
-    // If yes, then get the positions of the tip and base of the index finger
+    // If yes, then get the positions of the tip of the index finger
     updateFinger(predictions[0]);
   }
 
@@ -183,126 +184,93 @@ function running() {
   bubble.display();
   bubble.move();
   bubble.wrap();
+
   //check if the bubble touches one of the pins
-  for (let i = 0; i<pins.length ;i++){
+  for (let i = 0; i < pins.length; i++) {
     let pin = pins[i];
-    if (touching(pin,bubble)){
+    if (touching(pin, bubble)) {
       //the bubble should pop
-      if (!bubble.popped){
+      if (!bubble.popped) {
         popSFX.play();
       }
       bubble.popped = true;
       state = 'end';
     }
   }
-
-
-
 }
 
-
 /**
-Updates the position of the pin according to the latest prediction
+Updates the position of the finger according to the latest prediction
 */
 function updateFinger(prediction) {
-
   fingerY = prediction.annotations.indexFinger[3][1];
-
-  fingerY = map(fingerY, 0,height,0,width);
-
+  fingerY = map(fingerY, 0, height, 0, width);
 }
 
-/**
-Resets the bubble to the bottom of the screen in a new x position
-*/
-function resetBubble() {
-  bubble.x = random(width);
-  bubble.y = height;
-}
-
-/**
-Moves the bubble according to its velocity
-*/
-function moveBubble() {
-  bubble.x += bubble.vx;
-  bubble.y += bubble.vy;
-}
-
-/**
-Resets the bubble if it moves off the top of the canvas
-*/
-function checkOutOfBounds() {
-  if (bubble < 0) {
-    resetBubble();
-  }
-}
-
-
-
-function keyPressed(){
-  if (key === 'c'){
+//resets the local storage when 'c' is pressed
+function keyPressed() {
+  if (key === 'c') {
     localStorage.removeItem('bubbles-popped-game-data');
   }
 }
 
-function mousePressed(){
-  if (state === `start`){
+//switches the state to running when the mouse is pressed
+function mousePressed() {
+  if (state === `start`) {
     state = `running`;
   }
 }
 
-function touching(object1,object2){
+//checks if two objects are touching
+function touching(object1, object2) {
   let d = dist(object1.tipx, object1.tipy, object2.x, object2.y);
   if (d < object2.size / 2) {
     return true
   }
 }
 
-function start(){
+//defines the look of the start state
+function start() {
   background(255);
   push();
   textAlign(CENTER);
   textSize(30);
-  text('Bubble Popper++', width/2,height/9);
-  pop();
-
-
-  push();
-  textAlign(CENTER);
-  textSize(30);
-  text(`Current high score: ${gameData.highScore}`, width/2,height/9+50);
+  text('Bubble Popper++', width / 2, height / 9);
   pop();
 
   push();
   textAlign(CENTER);
   textSize(30);
-  text(`Move your index finger\n up and down to move\n the ball left and right`, width/2,1.5*height/4);
+  text(`Current high score: ${gameData.highScore}`, width / 2, height / 9 + 50);
   pop();
 
   push();
   textAlign(CENTER);
   textSize(30);
-  text(`Click to continue`, width/2,3*height/4);
+  text(`Move your index finger\n up and down to move\n the ball left and right`, width / 2, 1.5 * height / 4);
   pop();
 
-
+  push();
+  textAlign(CENTER);
+  textSize(30);
+  text(`Click to continue`, width / 2, 3 * height / 4);
+  pop();
 }
 
-function end(){
+//determines the look of the end state
+function end() {
   background(0);
   push();
   textAlign(CENTER);
   textSize(30);
   fill(255);
-  text(`High Score: ${gameData.highScore}`, width/2,height/3);
+  text(`High Score: ${gameData.highScore}`, width / 2, height / 3);
   pop();
 
   push();
   textAlign(CENTER);
   textSize(30);
   fill(255);
-  text(`Score: ${bubblesSaved}`, width/2,2*height/3);
+  text(`Score: ${bubblesSaved}`, width / 2, 2 * height / 3);
   pop();
-
-
 }

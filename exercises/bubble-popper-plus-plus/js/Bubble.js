@@ -9,6 +9,7 @@ class Bubble{
     this.popped = false;
   }
 
+  // displays the bubble on the screen
   display(){
     if (!this.popped){
       push();
@@ -19,6 +20,7 @@ class Bubble{
     }
   }
 
+  // moves the bubble according to the finger position and it's velocity
   move(){
     this.x = fingerY;
     this.y += this.vy - bubblesSaved;
@@ -26,15 +28,9 @@ class Bubble{
     //constrain speed
     this.vx = constrain(this.vx, -this.maxSpeed,this.maxSpeed);
     this.vy = constrain(this.vy, -this.maxSpeed,this.maxSpeed);
-
-    //add some randomness to the movement to make it more difficult
-    let r = random(0,1);
-    if (r<0.2){
-      this.vx += random(-1,1);
-    }
-
   }
 
+  //keeps the circle within the bounds of the canvas
   wrap(){
     if (this.y<0){
       //score a point also
@@ -46,17 +42,6 @@ class Bubble{
         pin.update();
       }
     }
-  }
-
-  pushed(){
-    if (bubble.x > pin.tip.x){
-      this.vx = -this.vx + 10;
-    }
-    else if (bubble.x <= pin.tip.y){
-      this.vx =  -this.vx - 10;
-    }
-
-
   }
 
 
