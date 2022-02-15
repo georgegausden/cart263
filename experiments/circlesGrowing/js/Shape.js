@@ -4,7 +4,7 @@ class Shape {
     this.y = y;
     this.size = size;
     this.stepSize = stepSize;
-    this.minSize = 0.05;
+    this.minSize = 0.1;
     this.maxSize = 10;
     this.increase = increase;
     this.decrease = decrease;
