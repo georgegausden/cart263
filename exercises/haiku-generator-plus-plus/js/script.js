@@ -9,6 +9,7 @@ clicks on them with a fade in and out effect.
 
 "use strict";
 
+
 // Our pre-made haiku lines
 let haikuLines = {
   fiveSyllables: [
@@ -55,10 +56,52 @@ function addListeners() {
   line3.addEventListener(`click`, changeLine);
 }
 
+//let the user control the background color using their finger as a colour picker
+function pickBackgroundColor(){
+
+}
+
+//create a function to make the last lines letters fall slowly
+function lettersFall(element){
+
+}
+
+//create a function to move the letters more and more
+function increaseLetterSpacing(element, spacing){
+  // increase the spacing between letters in the line
+  spacing += 0.1;
+  element.style[`letter-spacing`] = spacing+`px`;
+
+  if (spacing < 10){
+    //keep adding more spacing until they leave the canvas
+    requestAnimationFrame(function(){
+      increaseLetterSpacing(element,spacing);
+    })
+  }
+  else{
+    decreaseLetterSpacing(element,spacing);
+  }
+}
+
+function decreaseLetterSpacing(element,spacing){
+  // decrease the spacing between the letters in the line
+  spacing -= 0.1;
+  element.style[`letter-spacing`] = spacing+`px`;
+
+  if (spacing > 1){
+    requestAnimationFrame(function() {
+      decreaseLetterSpacing(element, spacing);
+    });
+  }
+}
+
 /**
 Triggers a fade out when a line is clicked
 */
 function changeLine(event) {
+  //pick a function randomly
+
+  increaseLetterSpacing(event.target,1);
   fadeOut(event.target, 1);
 }
 
