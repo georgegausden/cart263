@@ -28,6 +28,14 @@ let haikuLines = {
   ]
 };
 
+let meowSFX = new Audio(`assets/sounds/meowSFX.mp3`);
+let treeSFX = new Audio(`assets/sounds/treeSFX.mov`);
+let bushesSFX = new Audio(`assets/sounds/bushesSFX.mov`);
+let windSFX = new Audio(`assets/sounds/windSFX.mov`);
+let shSFX = new Audio(`assets/sounds/shSFX.mp3`);
+
+
+
 // Our three elements on the page that contain each line of the poem
 let line1 = document.getElementById(`line-1`);
 let line2 = document.getElementById(`line-2`);
@@ -66,6 +74,32 @@ function lettersFall(element){
 
 }
 
+//create a function to trigger different sounds
+function wordSounds(element){
+  //check if specific keywords are inside of the sentence
+  //get the sentence
+  let sentence = element.innerText;
+  //an array to store all the words
+  let words = sentence.split(" ");
+
+  if (words.includes("cat")){
+    meowSFX.play();
+  }
+  else if (words.includes("forests")){
+    treeSFX.play();
+  }
+  else if (words.includes("tree")){
+    bushesSFX.play();
+  }
+  else if (words.includes("wind's")){
+    windSFX.play();
+  }
+  else if (words.includes("unsaid")){
+    shSFX.play();
+  }
+
+}
+
 //create a function to move the letters more and more
 function increaseLetterSpacing(element, spacing){
   // increase the spacing between letters in the line
@@ -101,8 +135,9 @@ Triggers a fade out when a line is clicked
 function changeLine(event) {
   //pick a function randomly
 
-  increaseLetterSpacing(event.target,1);
-  fadeOut(event.target, 1);
+  // increaseLetterSpacing(event.target,1);
+  // fadeOut(event.target, 1);
+  wordSounds(event.target);
 }
 
 /**
