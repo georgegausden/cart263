@@ -53,9 +53,6 @@ function quidditch(){
   spellActions();
   goldenSnitchActions();
   enemyPlayersActions();
-
-
-
 }
 
 // function that checks if the user has flown through one of the hoops

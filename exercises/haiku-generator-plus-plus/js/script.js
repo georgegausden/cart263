@@ -41,6 +41,9 @@ let line1 = document.getElementById(`line-1`);
 let line2 = document.getElementById(`line-2`);
 let line3 = document.getElementById(`line-3`);
 
+let currentCharacter = 0;
+
+
 // Set up the starting lines
 setupLines();
 // Listen for clicks on each element and respond by changing them
@@ -53,6 +56,8 @@ function setupLines() {
   line1.innerText = random(haikuLines.fiveSyllables);
   line2.innerText = random(haikuLines.sevenSyllables);
   line3.innerText = random(haikuLines.fiveSyllables);
+
+  typeWriter(line1);
 }
 
 /**
@@ -62,6 +67,30 @@ function addListeners() {
   line1.addEventListener(`click`, changeLine);
   line2.addEventListener(`click`, changeLine);
   line3.addEventListener(`click`, changeLine);
+}
+
+
+//create a typewriter effect when the page loads to type out the lines
+function typeWriter(element){
+  //go line by line
+  //separate the text into characters
+  let line = element.innerText;
+  let currentLine = line.substring(0,currentCharacter);
+
+  if (currentCharacter < 10){
+    requestAnimationFrame(function(){
+      currentCharacter += 1;
+    })
+  }
+
+  //type out the characters one by one
+
+  console.log(currentCharacter);
+
+}
+
+function addCharacter(){
+
 }
 
 //let the user control the background color using their finger as a colour picker
@@ -103,7 +132,7 @@ function wordSounds(element){
 //create a function to move the letters more and more
 function increaseLetterSpacing(element, spacing){
   // increase the spacing between letters in the line
-  spacing += 0.1;
+  spacing += 0.05;
   element.style[`letter-spacing`] = spacing+`px`;
 
   if (spacing < 10){
@@ -119,7 +148,7 @@ function increaseLetterSpacing(element, spacing){
 
 function decreaseLetterSpacing(element,spacing){
   // decrease the spacing between the letters in the line
-  spacing -= 0.1;
+  spacing -= 0.05;
   element.style[`letter-spacing`] = spacing+`px`;
 
   if (spacing > 1){
@@ -135,8 +164,8 @@ Triggers a fade out when a line is clicked
 function changeLine(event) {
   //pick a function randomly
 
-  // increaseLetterSpacing(event.target,1);
-  // fadeOut(event.target, 1);
+  increaseLetterSpacing(event.target,1);
+  fadeOut(event.target, 1);
   wordSounds(event.target);
 }
 
@@ -146,7 +175,7 @@ then changes its line and triggers a fade in
 */
 function fadeOut(element, opacity) {
   // Change the opacity of the line
-  opacity -= 0.01;
+  opacity -= 0.005;
   element.style[`opacity`] = opacity;
   // Check if the opacity is greater than 0...
   if (opacity > 0) {
@@ -172,7 +201,7 @@ Increases the opacity of the provided element until it reaches
 */
 function fadeIn(element, opacity) {
   // Increase the opacity
-  opacity += 0.01;
+  opacity += 0.005;
   element.style[`opacity`] = opacity;
   // Check if opacity is still less than 1
   if (opacity < 1) {

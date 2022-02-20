@@ -38,6 +38,7 @@ let instructionsSize = 40;
 //load the boolean triggers
 let lumosCalled = false;
 let loadedQuidditch = false;
+let loadedPotionsClass = false;
 
 //load the arrays
 let hoops = [];
@@ -48,6 +49,12 @@ let numberOfHoops = 3;
 let numberOfQuidditchEnemies = 3;
 let quidditchSpells = [];
 let goldenSnitch;
+
+
+//load the arrays and variables for our potions class
+let couldron;
+let potions = [];
+let numberOfPotions = 3;
 
 let myButton;
 
@@ -170,8 +177,9 @@ function start(){
 
 function keyPressed(){
   if (keyCode === 32){
-    state = 'quidditch';
+    state = 'potionsClass';
   }
+
 }
 
 function mouse(){

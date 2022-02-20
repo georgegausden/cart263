@@ -97,5 +97,5 @@ class EnemyQuidditchPlayer{
   }
 
   //let the enemy players immobilize the user with an immobilizing spell as well
-  
+
 }
