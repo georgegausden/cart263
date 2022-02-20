@@ -64,6 +64,7 @@ let goldenSnitch;
 let couldron;
 let potions = [];
 let numberOfPotions = 2;
+let numberOfPotionsInHand = 0;
 
 let myButton;
 

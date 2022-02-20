@@ -1,10 +1,14 @@
 class Potion{
-  constructor(x,y,typeOfPotion){
+  constructor(x,y,fillR,fillG,fillB,fillA,typeOfPotion){
     this.x = x;
     this.y = y;
     this.xi = x;
     this.yi = y;
     this.size = 100;
+    this.fillR = fillR;
+    this.fillG = fillG;
+    this.fillB = fillB;
+    this.fillA = fillA;
     this.wingardiumSFXPlayed = false;
     this.emptyPotionSFXPlayed = false;
     this.selected = false;
@@ -16,7 +20,7 @@ class Potion{
 
   display(){
     push();
-    fill(this.fill);
+    fill(this.fillR,this.fillG,this.fillB,this.fillA);
     circle(this.x,this.y,this.size);
     pop();
   }
@@ -26,12 +30,13 @@ class Potion{
     //first check to see if the mouse is within the bounds of the shape
     let d = dist(mouseX,mouseY,this.x,this.y);
 
-    if (d<this.size/2 && wingardiumCalled){
+    if (d<this.size/2 && wingardiumCalled && numberOfPotionsInHand === 0){
       if (!wingardiumSFX.isPlaying() && !this.wingardiumSFXPlayed){
         wingardiumSFX.play();
         this.wingardiumSFXPlayed = true;
       }
       this.selected = true;
+      numberOfPotionsInHand += 1;
     }
   }
 
@@ -65,10 +70,19 @@ class Potion{
         emptyPotionSFX.play();
         this.emptyPotionSFXPlayed = true;
       }
-      this.fill = 255;
+
       //empty the potion inside once
       if (!this.potionEmptied){
         couldron.potionsInside.push(this.typeOfPotion);
+
+        //add the colour of the potion inside
+        couldron.fillR += this.fillR;
+        couldron.fillG += this.fillG;
+        couldron.fillB += this.fillB;
+        couldron.fillA += this.fillA;
+
+        this.fillA = 0;
+
         this.potionEmptied = true;
       }
     }
@@ -80,6 +94,7 @@ class Potion{
     this.selected = false;
     this.wingardiumSFXPlayed = false;
     wingardiumCalled = false;
+    numberOfPotionsInHand = 0;
   }
 
 }
