@@ -26,6 +26,8 @@ let themeSong;
 let lumosSFX;
 let quidditchMusic;
 let cheeringSFX;
+let wingardiumSFX;
+let emptyPotionSFX;
 
 // load the fonts
 let classicFont;
@@ -37,6 +39,7 @@ let instructionsSize = 40;
 
 //load the boolean triggers
 let lumosCalled = false;
+let wingardiumCalled = false;
 let loadedQuidditch = false;
 let loadedPotionsClass = false;
 
@@ -54,7 +57,7 @@ let goldenSnitch;
 //load the arrays and variables for our potions class
 let couldron;
 let potions = [];
-let numberOfPotions = 3;
+let numberOfPotions = 1;
 
 let myButton;
 
@@ -74,6 +77,8 @@ function preload() {
   lumosSFX = loadSound(`assets/sounds/lumosSFX.mov`);
   quidditchMusic = loadSound(`assets/sounds/quidditchMusic.mp3`);
   cheeringSFX = loadSound(`assets/sounds/cheeringSFX.mov`);
+  wingardiumSFX = loadSound(`assets/sounds/wingardiumSFX.mov`);
+  emptyPotionSFX = loadSound(`assets/sounds/emptyPotionSFX.mp3`);
 
   classicFont = loadFont(`assets/fonts/harryPotter.TTF`);
 }
@@ -106,6 +111,7 @@ function setup() {
     annyang.addCommands(commands);
     annyang.start();
   }
+
 }
 
 

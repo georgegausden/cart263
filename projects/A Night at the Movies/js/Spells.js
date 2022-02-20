@@ -5,9 +5,9 @@ function lumos(){
 }
 
 function lumosMaxima(){
-  
+
 }
 
 function levitate(){
-  console.log('levitate');
+  wingardiumCalled = true;
 }

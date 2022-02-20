@@ -20,6 +20,7 @@ function potionsClass(){
     //load the couldron
     couldron = new Couldron(width/2,height/2);
 
+
     loadedPotionsClass = true;
   }
 
@@ -28,6 +29,7 @@ function potionsClass(){
   couldronActions();
 
   mouse();
+
 }
 
 //does all the potion related stuff
@@ -36,6 +38,8 @@ function potionActions(){
     let potion = potions[i];
 
     potion.display();
+    potion.move();
+    potion.emptyPotion();
   }
 }
 
