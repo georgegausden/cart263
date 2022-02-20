@@ -3,8 +3,6 @@
 //in this part of the game, the user will have to use different spells and place potions into
 //a couldron
 
-//we will need the Ml5 library and also the voice recognition library
-
 //a function to call all of the other functions that are part of this scene
 function potionsClass(){
   background(255);
@@ -12,7 +10,7 @@ function potionsClass(){
   //define the starting positions of our potions and our couldron
   if (!loadedPotionsClass){
     for (let i = 0; i<numberOfPotions; i++){
-      let potion = new Potion(width/4+i*100,4*height/5);
+      let potion = new Potion(width/4+i*100,4*height/5,'water');
 
       potions.push(potion);
     }
@@ -29,14 +27,12 @@ function potionsClass(){
   couldronActions();
 
   mouse();
-
 }
 
 //does all the potion related stuff
 function potionActions(){
   for (let i = 0; i<potions.length; i++){
     let potion = potions[i];
-
     potion.display();
     potion.move();
     potion.emptyPotion();
@@ -46,4 +42,5 @@ function potionActions(){
 //does all the couldron related stuff
 function couldronActions(){
   couldron.display();
+  couldron.checkContents();
 }

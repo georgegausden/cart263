@@ -28,6 +28,12 @@ let quidditchMusic;
 let cheeringSFX;
 let wingardiumSFX;
 let emptyPotionSFX;
+let immobulus1SFX;
+let immobulus2SFX;
+let immobulus3SFX;
+let immobulus4SFX;
+let immobulus5SFX;
+let immobulusSFX = [];
 
 // load the fonts
 let classicFont;
@@ -78,6 +84,11 @@ function preload() {
   quidditchMusic = loadSound(`assets/sounds/quidditchMusic.mp3`);
   cheeringSFX = loadSound(`assets/sounds/cheeringSFX.mov`);
   wingardiumSFX = loadSound(`assets/sounds/wingardiumSFX.mov`);
+  immobulus1SFX = loadSound(`assets/sounds/immobulus1SFX.mov`);
+  immobulus2SFX = loadSound(`assets/sounds/immobulus2SFX.mov`);
+  immobulus3SFX = loadSound(`assets/sounds/immobulus3SFX.mov`);
+  immobulus4SFX = loadSound(`assets/sounds/immobulus4SFX.mov`);
+  immobulus5SFX = loadSound(`assets/sounds/immobulus5SFX.mov`);
   emptyPotionSFX = loadSound(`assets/sounds/emptyPotionSFX.mp3`);
 
   classicFont = loadFont(`assets/fonts/harryPotter.TTF`);
@@ -111,6 +122,9 @@ function setup() {
     annyang.addCommands(commands);
     annyang.start();
   }
+
+  immobulusSFX = [immobulus1SFX,immobulus2SFX,immobulus3SFX,immobulus4SFX,immobulus5SFX];
+
 
 }
 

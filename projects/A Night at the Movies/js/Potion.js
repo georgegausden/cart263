@@ -1,5 +1,5 @@
 class Potion{
-  constructor(x,y){
+  constructor(x,y,typeOfPotion){
     this.x = x;
     this.y = y;
     this.xi = x;
@@ -10,6 +10,8 @@ class Potion{
     this.selected = false;
     this.inCouldron = false;
     this.fill = 0;
+    this.typeOfPotion = typeOfPotion;
+    this.potionEmptied = false;
   }
 
   display(){
@@ -64,6 +66,11 @@ class Potion{
         this.emptyPotionSFXPlayed = true;
       }
       this.fill = 255;
+      //empty the potion inside once
+      if (!this.potionEmptied){
+        couldron.potionsInside.push(this.typeOfPotion);
+        this.potionEmptied = true;
+      }
     }
   }
 

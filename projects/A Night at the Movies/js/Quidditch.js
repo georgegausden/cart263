@@ -89,6 +89,10 @@ function spellActions(){
       //check if the spell touches one of the enemy players
       if (checkTouch(spell,enemy) && spell.provenance === 'user'){
         //immobilize the player for a certain amount of time
+        let spellSFX = random(immobulusSFX);
+        if (!spellSFX.isPlaying()){
+          spellSFX.play();
+        }
         enemy.immobulus();
         spell.touchedEnemy = true;
       }
