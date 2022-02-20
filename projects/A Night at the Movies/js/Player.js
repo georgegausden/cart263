@@ -9,30 +9,36 @@ class Player{
     this.maxSpeed = 7;
     this.size = 50;
     this.hasGoldenSnitch = false;
+    this.immobilized = false;
+    this.immobilizedTimer = 0;
+    this.immobilizedTimerLength = 100;
   }
 
   move(){
-    //make the user's character follow the mouse
-    if (this.x < mouseX){
-      this.vx += this.ax;
-    }
-    else if (this.x >= mouseX){
-      this.vx -= this.ax;
+    if (!this.immobilized){
+      //make the user's character follow the mouse
+      if (this.x < mouseX){
+        this.vx += this.ax;
+      }
+      else if (this.x >= mouseX){
+        this.vx -= this.ax;
+      }
+
+      if (this.y < mouseY){
+        this.vy += this.ay;
+      }
+      else if (this.y >= mouseY){
+        this.vy -= this.ay;
+      }
+
+      //constrain the speeds
+      this.vx = constrain(this.vx, -this.maxSpeed, this.maxSpeed);
+      this.vy = constrain(this.vy, -this.maxSpeed, this.maxSpeed);
+
+      this.x += this.vx;
+      this.y += this.vy;
     }
 
-    if (this.y < mouseY){
-      this.vy += this.ay;
-    }
-    else if (this.y >= mouseY){
-      this.vy -= this.ay;
-    }
-
-    //constrain the speeds
-    this.vx = constrain(this.vx, -this.maxSpeed, this.maxSpeed);
-    this.vy = constrain(this.vy, -this.maxSpeed, this.maxSpeed);
-
-    this.x += this.vx;
-    this.y += this.vy;
   }
 
   display(){
@@ -66,6 +72,24 @@ class Player{
           enemyPlayer.y = random(height/8,7*height/8);
           enemyPlayer.immobilized = false;
         }
+      }
+    }
+  }
+
+  immobulus(){
+    //immobilize the user since they've been hit
+    this.immobilized = true;
+  }
+
+
+  //if the player has been immobilized, start a timer and defreeze the player after a few seconds
+  wearOffImmobulus(){
+    if (this.immobilized){
+      this.immobilizedTimer += 1;
+
+      if (this.immobilizedTimer >= this.immobilizedTimerLength){
+        this.immobilized = false;
+        this.immobilizedTimer = 0;
       }
     }
   }

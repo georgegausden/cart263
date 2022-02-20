@@ -77,6 +77,7 @@ function userActions(){
   quidditchUser.display();
   quidditchUser.move();
   quidditchUser.checkWonPoint();
+  quidditchUser.wearOffImmobulus();
 }
 
 function spellActions(){
@@ -94,6 +95,15 @@ function spellActions(){
           spellSFX.play();
         }
         enemy.immobulus();
+        spell.touchedEnemy = true;
+      }
+      else if (checkTouch(spell,quidditchUser) && spell.provenance === 'enemy'){
+        //immobilize the player for a certain amount of time
+        let spellSFX = random(immobulusSFX);
+        if (!spellSFX.isPlaying()){
+          spellSFX.play();
+        }
+        quidditchUser.immobulus();
         spell.touchedEnemy = true;
       }
     }
