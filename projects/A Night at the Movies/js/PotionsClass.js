@@ -12,7 +12,7 @@ function potionsClass(){
   //define the starting positions of our potions and our couldron
   if (!loadedPotionsClass){
     for (let i = 0; i<numberOfPotions; i++){
-      let potion = new Potion(width/4+i*10,4*height/5);
+      let potion = new Potion(width/4+i*100,4*height/5);
 
       potions.push(potion);
     }

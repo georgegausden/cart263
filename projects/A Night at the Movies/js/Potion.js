@@ -2,6 +2,8 @@ class Potion{
   constructor(x,y){
     this.x = x;
     this.y = y;
+    this.xi = x;
+    this.yi = y;
     this.size = 100;
     this.wingardiumSFXPlayed = false;
     this.emptyPotionSFXPlayed = false;
@@ -25,9 +27,9 @@ class Potion{
     if (d<this.size/2 && wingardiumCalled){
       if (!wingardiumSFX.isPlaying() && !this.wingardiumSFXPlayed){
         wingardiumSFX.play();
-        this.selected = true;
         this.wingardiumSFXPlayed = true;
       }
+      this.selected = true;
     }
   }
 
@@ -63,6 +65,14 @@ class Potion{
       }
       this.fill = 255;
     }
+  }
+
+  emptiedAndPlacedBack(){
+    this.x = this.xi;
+    this.y = this.yi;
+    this.selected = false;
+    this.wingardiumSFXPlayed = false;
+    wingardiumCalled = false;
   }
 
 }

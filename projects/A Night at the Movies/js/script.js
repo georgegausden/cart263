@@ -57,7 +57,7 @@ let goldenSnitch;
 //load the arrays and variables for our potions class
 let couldron;
 let potions = [];
-let numberOfPotions = 1;
+let numberOfPotions = 2;
 
 let myButton;
 
@@ -203,5 +203,16 @@ function mousePressed(){
     let immobulus = new Immobulus(quidditchUser.x,quidditchUser.y,mouseX,mouseY,'user');
     //push it into the spells array to keep tab of where it is
     quidditchSpells.push(immobulus);
+  }
+  else if (state === `potionsClass`){
+    //lets go of the potion currently in the user's hand
+    for (let i = 0; i<potions.length; i++){
+      let potion = potions[i];
+
+      if (potion.selected){
+        //release the potion
+        potion.emptiedAndPlacedBack();
+      }
+    }
   }
 }
