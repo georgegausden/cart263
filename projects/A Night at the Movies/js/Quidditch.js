@@ -134,8 +134,11 @@ function enemyPlayersActions(){
       let spell = new Immobulus(enemyPlayer.x,enemyPlayer.y,random(0,width),random(0,height),'enemy');
       quidditchSpells.push(spell);
     }
-
   }
+
+  //add a point to the enemy score after a certain amount of time
+  setTimeout(addEnemyPoint, timeToLoseQuidditchMatch);
+
 }
 
 function goldenSnitchActions(){
@@ -211,4 +214,8 @@ function quidditchUserWinning(){
 
 function quidditchEnemyWinning(){
 
+}
+
+function addEnemyPoint(){
+  quidditchEnemyScore += 1;
 }

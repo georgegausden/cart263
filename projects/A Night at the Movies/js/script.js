@@ -43,7 +43,6 @@ let state = 'start';
 let title = 'Harry Potter';
 let titleSize = 90;
 let instructionsSize = 40;
-let userName;
 
 //load the boolean triggers
 let lumosCalled = false;
@@ -60,10 +59,11 @@ let numberOfHoops = 3;
 let numberOfQuidditchEnemies = 3;
 let quidditchSpells = [];
 let goldenSnitch;
-let quidditchUserScore = 5;
+let quidditchUserScore = 0;
 let quidditchEnemyScore = 0;
 let quidditchUserWon = false;
 let quidditchEnemyWon = false;
+let timeToLoseQuidditchMatch = 10000;
 
 
 //load the arrays and variables for our potions class
@@ -134,8 +134,6 @@ function setup() {
 
   immobulusSFX = [immobulus1SFX,immobulus2SFX,immobulus3SFX,immobulus4SFX,immobulus5SFX];
 
-  //ask the user for their wizard name
-  
 
 }
 

@@ -56,7 +56,7 @@ class Player{
       if (passesThrough(quidditchUser,hoop) && this.hasGoldenSnitch){
         //play a sound to indicate they won a point
         cheeringSFX.play();
-        quidditchScore += 1;
+        quidditchUserScore += 1;
 
         //place the snitch at a random location
         goldenSnitch.x = random(0,width);
