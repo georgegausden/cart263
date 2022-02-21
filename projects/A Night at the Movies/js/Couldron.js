@@ -3,13 +3,15 @@ class Couldron{
     this.x = x;
     this.y = y;
     this.size = 100;
-    this.potionsInside = ['water','egg'];
+    this.potionsInside = [];
     this.currentRecipe = ['water','egg'];
     this.correctPotions = 0;
     this.fillR = 0;
     this.fillG = 0;
     this.fillB = 0;
     this.fillA = 0;
+    this.potionSentence = '';
+
   }
 
   display(){
@@ -20,23 +22,41 @@ class Couldron{
   }
 
   checkContents(){
-    //check if the potions inside match the recipe required
+    let potion = this.potionsInside[0];
+
     for (let i = 0; i<this.potionsInside.length; i++){
       let potion = this.potionsInside[i];
-      for (let j = 0; j<this.currentRecipe.length; j++){
-        let matchingPotion = this.currentRecipe[j];
 
-        if (potion === matchingPotion){
-          this.correctPotions += 1
-          continue
 
-        }
+      if (this.currentRecipe.includes(potion)){
+        this.correctPotions += 1;
+        //remove the potion inside
+        this.potionsInside.splice(0,);
+        console.log(this.potionsInside);
+        console.log(this.correctPotions);
       }
+
     }
 
-    if (this.correctPotions === this.currentRecipe.length){
-      console.log('bravo');
-    }
+    //
+    // //check if the potions inside match the recipe required
+    // for (let i = 0; i<this.potionsInside.length; i++){
+    //   let potion = this.potionsInside[i];
+    //   console.log(potion);
+    //   for (let j = 0; j<this.currentRecipe.length; j++){
+    //     let matchingPotion = this.currentRecipe[j];
+    //
+    //     if (potion === matchingPotion && this.correctPotions < this.currentRecipe.length && !potion.potionCheckedInCouldron){
+    //       this.correctPotions += 1;
+    //
+    //
+    //     }
+    //   }
+    // }
+    //
+    // if (this.correctPotions === this.currentRecipe.length){
+    //
+    // }
   }
 
   mix(){

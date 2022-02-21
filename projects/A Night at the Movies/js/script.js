@@ -65,6 +65,7 @@ let couldron;
 let potions = [];
 let numberOfPotions = 5;
 let numberOfPotionsInHand = 0;
+let potionTypes = ['water','egg','mouse'];
 
 let myButton;
 

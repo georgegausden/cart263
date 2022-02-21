@@ -16,11 +16,14 @@ class Potion{
     this.fill = 0;
     this.typeOfPotion = typeOfPotion;
     this.potionEmptied = false;
+    this.potionCheckedInCouldron = false;
   }
 
   display(){
     push();
     fill(this.fillR,this.fillG,this.fillB,this.fillA);
+    textAlign(CENTER);
+    text(this.typeOfPotion,this.x,this.y);
     circle(this.x,this.y,this.size);
     pop();
   }
@@ -71,7 +74,7 @@ class Potion{
         emptyPotionSFX.play();
         this.emptyPotionSFXPlayed = true;
       }
-
+      
       //empty the potion inside once
       if (!this.potionEmptied){
         couldron.potionsInside.push(this.typeOfPotion);
