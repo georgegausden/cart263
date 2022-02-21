@@ -10,13 +10,6 @@ function quidditch(){
     quidditchMusic.play();
   }
 
-  push();
-  imageMode(CENTER);
-  image(quidditchBackground,width/2,height/2,width,height);
-  pop();
-
-  mouse();
-
   //load all the parameters in the game
   if (!loadedQuidditch){
     //load the parameters in the game
@@ -43,16 +36,32 @@ function quidditch(){
     loadedQuidditch = true;
   }
 
+  push();
+  imageMode(CENTER);
+  image(quidditchBackground,width/2,height/2,width,height);
+  pop();
 
-  // display the score
-  displayScore();
+  mouse();
 
-  //load all the actions that happen in the game
-  hoopActions();
-  userActions();
-  spellActions();
-  goldenSnitchActions();
-  enemyPlayersActions();
+  if (quidditchUserWon){
+    quidditchUserWinning();
+  }
+  else if (quidditchEnemyWon){
+    quidditchEnemyWinning();
+  }
+  else {
+    // display the score
+    displayScore();
+    checkWinner();
+
+    //load all the actions that happen in the game
+    hoopActions();
+    userActions();
+    spellActions();
+    goldenSnitchActions();
+    enemyPlayersActions();
+  }
+
 }
 
 // function that checks if the user has flown through one of the hoops
@@ -168,4 +177,38 @@ function checkTouch(spell,enemy){
   if (d < (spell.size/2 + enemy.size/2)){
     return true
   }
+}
+
+//a function to check if the user or the enemy won the game
+function checkWinner(){
+  if (quidditchUserScore === 5){
+    quidditchUserWon = true;
+  }
+  else if (quidditchEnemyScore === 5){
+    quidditchEnemyWon = true;
+  }
+}
+
+//function to show when the user wins the quidditch match
+function quidditchUserWinning(){
+  if (!cheeringSFX.isPlaying()){
+    cheeringSFX.play();
+  }
+  //display the text that the user won a new nimbus 2000!
+  push();
+  textAlign(CENTER);
+  textFont(classicFont);
+  fill(200,200,100);
+  textSize(80);
+  text(`Congratulations young wizard, you've just\n won yourself a brand new Nimbus 2000`,width/2,height/5);
+  pop();
+
+  push();
+  imageMode(CENTER);
+  image(nimbus2000Image,width/2,1.2*height/2,800,400);
+  pop();
+}
+
+function quidditchEnemyWinning(){
+
 }

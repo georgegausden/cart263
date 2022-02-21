@@ -20,6 +20,7 @@ let wandImage;
 let logo;
 let clouds;
 let goldenSnitchImage;
+let nimbus2000Image;
 
 // load the sounds used
 let themeSong;
@@ -42,6 +43,7 @@ let state = 'start';
 let title = 'Harry Potter';
 let titleSize = 90;
 let instructionsSize = 40;
+let userName;
 
 //load the boolean triggers
 let lumosCalled = false;
@@ -49,7 +51,7 @@ let wingardiumCalled = false;
 let loadedQuidditch = false;
 let loadedPotionsClass = false;
 
-//load the arrays
+//load the arrays and variables for the quidditch game
 let hoops = [];
 let enemyQuidditchPlayers = [];
 let quidditchUser;
@@ -58,6 +60,10 @@ let numberOfHoops = 3;
 let numberOfQuidditchEnemies = 3;
 let quidditchSpells = [];
 let goldenSnitch;
+let quidditchUserScore = 5;
+let quidditchEnemyScore = 0;
+let quidditchUserWon = false;
+let quidditchEnemyWon = false;
 
 
 //load the arrays and variables for our potions class
@@ -76,6 +82,7 @@ Description of preload
 function preload() {
   wandImage = loadImage(`assets/images/wand.png`);
   logo = loadImage(`assets/images/logo.png`);
+  nimbus2000Image = loadImage(`assets/images/nimbus2000.png`);
   clouds = loadImage(`assets/images/clouds.png`);
   quidditchBackground = loadImage(`assets/images/quidditchBackground.jpg`);
   goldenSnitchImage = loadImage(`assets/images/goldenSnitchImage.gif`);
@@ -127,6 +134,8 @@ function setup() {
 
   immobulusSFX = [immobulus1SFX,immobulus2SFX,immobulus3SFX,immobulus4SFX,immobulus5SFX];
 
+  //ask the user for their wizard name
+  
 
 }
 
@@ -203,6 +212,9 @@ function keyPressed(){
   }
   else if (keyCode === 78){
     levitate();
+  }
+  else if (keyCode === 65){
+    lumos();
   }
 
 }
