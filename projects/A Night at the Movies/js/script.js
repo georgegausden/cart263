@@ -64,6 +64,7 @@ let quidditchEnemyScore = 0;
 let quidditchUserWon = false;
 let quidditchEnemyWon = false;
 let timeToLoseQuidditchMatch = 10000;
+let quidditchBackgroundMovement = 10;
 
 
 //load the arrays and variables for our potions class

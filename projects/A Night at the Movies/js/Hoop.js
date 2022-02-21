@@ -11,12 +11,13 @@ class Hoop {
     push();
     noFill();
     strokeWeight(4);
-    stroke(0);
+    stroke(240,212,83);
     circle(this.x,this.y,this.size);
     pop();
 
     push();
     strokeWeight(4);
+    stroke(240,212,83)
     line(this.x,this.y+this.size/2,this.x,this.y+height);
     pop();
   }

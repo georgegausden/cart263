@@ -203,7 +203,7 @@ function quidditchUserWinning(){
   textFont(classicFont);
   fill(200,200,100);
   textSize(80);
-  text(`Congratulations young wizard, you've just\n won yourself a brand new Nimbus 2000`,width/2,height/5);
+  text(`Congratulations young wizard, you've just\n won yourself a brand new Nimbus 2000!`,width/2,height/5);
   pop();
 
   push();
@@ -213,7 +213,19 @@ function quidditchUserWinning(){
 }
 
 function quidditchEnemyWinning(){
+  //display the text that the user won a new nimbus 2000!
+  push();
+  textAlign(CENTER);
+  textFont(classicFont);
+  fill(200,200,100);
+  textSize(80);
+  text(`Unfortunately, you have lost the quidditch match!\n Better luck next time young wizard.`,width/2,height/5);
+  pop();
 
+  push();
+  imageMode(CENTER);
+  image(nimbus2000Image,width/2,1.2*height/2,800,400);
+  pop();
 }
 
 function addEnemyPoint(){
