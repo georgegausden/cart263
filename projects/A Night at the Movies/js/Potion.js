@@ -48,8 +48,9 @@ class Potion{
     if (this.selected){
       //make the position of the potion depend on the wand of the user
 
-      this.x = mouseX;
-      this.y = mouseY;
+      this.x = mouseX + 40*sin(1/16*frameCount);
+      //make the potion bounce up and down slowly
+      this.y = mouseY - 40*sin(1/12*frameCount);
     }
   }
 

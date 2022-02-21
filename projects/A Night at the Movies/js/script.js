@@ -63,7 +63,7 @@ let goldenSnitch;
 //load the arrays and variables for our potions class
 let couldron;
 let potions = [];
-let numberOfPotions = 2;
+let numberOfPotions = 5;
 let numberOfPotionsInHand = 0;
 
 let myButton;
@@ -199,6 +199,9 @@ function start(){
 function keyPressed(){
   if (keyCode === 32){
     state = 'potionsClass';
+  }
+  else if (keyCode === 78){
+    levitate();
   }
 
 }
