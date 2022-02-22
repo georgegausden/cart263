@@ -53,6 +53,7 @@ let loadedPotionsClass = false;
 //load the arrays and variables for the quidditch game
 let hoops = [];
 let enemyQuidditchPlayers = [];
+let friendlyQuidditchPlayers = [];
 let quidditchUser;
 let quidditchScore = 0;
 let numberOfHoops = 3;
@@ -63,8 +64,9 @@ let quidditchUserScore = 0;
 let quidditchEnemyScore = 0;
 let quidditchUserWon = false;
 let quidditchEnemyWon = false;
-let timeToLoseQuidditchMatch = 10000;
 let quidditchBackgroundMovement = 10;
+let fadeOutQuidditch = 0;
+let enemyPointTimer = 9000;
 
 
 //load the arrays and variables for our potions class

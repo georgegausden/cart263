@@ -26,6 +26,12 @@ function quidditch(){
       enemyQuidditchPlayers.push(enemyPlayer);
     }
 
+    //load the friendly players in the game
+    for (let i = 0; i<numberOfQuidditchEnemies; i++){
+      let friendlyPlayer = new FriendlyQuidditchPlayer(random(width/2,width),random(height/8,7*height/8));
+      friendlyQuidditchPlayers.push(friendlyPlayer);
+    }
+
     //load the user as a player
     quidditchUser = new Player();
 
@@ -34,6 +40,11 @@ function quidditch(){
 
     //close the loading function
     loadedQuidditch = true;
+
+    quidditchEnemyWonTitlePosition = height/5 + fadeOutQuidditch;
+
+    //add a point to the enemy score after a certain amount of time
+    setTimeout(addEnemyPoint, 1000);
   }
 
   push();
@@ -60,6 +71,7 @@ function quidditch(){
     spellActions();
     goldenSnitchActions();
     enemyPlayersActions();
+    friendlyPlayersActions();
   }
 
 }
@@ -97,7 +109,7 @@ function spellActions(){
     for (let j = 0; j<enemyQuidditchPlayers.length; j++){
       let enemy = enemyQuidditchPlayers[j];
       //check if the spell touches one of the enemy players
-      if (checkTouch(spell,enemy) && spell.provenance === 'user'){
+      if (checkTouch(spell,enemy) && (spell.provenance === 'user' || spell.provenance === 'friendly')){
         //immobilize the player for a certain amount of time
         let spellSFX = random(immobulusSFX);
         if (!spellSFX.isPlaying()){
@@ -118,9 +130,32 @@ function spellActions(){
     }
   }
 
+
+
+
 }
 
 function enemyPlayersActions(){
+  for (let i = 0; i<friendlyQuidditchPlayers.length; i++){
+    let friendlyPlayer = friendlyQuidditchPlayers[i];
+    friendlyPlayer.display();
+    friendlyPlayer.move();
+    friendlyPlayer.wrap();
+    friendlyPlayer.wearOffImmobulus();
+
+    let r = random(0,1);
+    if (r > 0.995){
+      //let the enemy player launch an immobilizing spell
+      let spell = new Immobulus(friendlyPlayer.x,friendlyPlayer.y,random(0,width),random(0,height),'friendly');
+      quidditchSpells.push(spell);
+    }
+  }
+
+
+
+}
+
+function friendlyPlayersActions(){
   for (let i = 0; i<enemyQuidditchPlayers.length; i++){
     let enemyPlayer = enemyQuidditchPlayers[i];
     enemyPlayer.display();
@@ -136,8 +171,7 @@ function enemyPlayersActions(){
     }
   }
 
-  //add a point to the enemy score after a certain amount of time
-  setTimeout(addEnemyPoint, timeToLoseQuidditchMatch);
+
 
 }
 
@@ -168,8 +202,10 @@ function snitchCaught(user,snitch){
 function displayScore(){
   push();
   textSize(40);
-  fill(0);
-  text(quidditchScore, width/2, height/4);
+  textFont(classicFont);
+  textAlign(CENTER);
+  fill(255);
+  text(`Your team's score: ${quidditchUserScore}/5  Enemy team score: ${quidditchEnemyScore}/5`, width/2, height/8);
   pop();
 }
 
@@ -208,26 +244,28 @@ function quidditchUserWinning(){
 
   push();
   imageMode(CENTER);
-  image(nimbus2000Image,width/2,1.2*height/2,800,400);
+  image(nimbus2000Image,width/2,1.2*height/2+3*sin(1/15*frameCount),800,400);
   pop();
 }
 
 function quidditchEnemyWinning(){
-  //display the text that the user won a new nimbus 2000!
+  //display the text that the user lost the match
+  //fade the background to black
+  background(0,0,0,0+fadeOutQuidditch);
   push();
   textAlign(CENTER);
   textFont(classicFont);
   fill(200,200,100);
   textSize(80);
-  text(`Unfortunately, you have lost the quidditch match!\n Better luck next time young wizard.`,width/2,height/5);
+  text(`Unfortunately, you have lost the quidditch match!\n Better luck next time young wizard.`,width/2,height/5 + fadeOutQuidditch);
   pop();
 
-  push();
-  imageMode(CENTER);
-  image(nimbus2000Image,width/2,1.2*height/2,800,400);
-  pop();
+  //make the background fade to black and the title move downwards
+  fadeOutQuidditch += 1;
+
 }
 
 function addEnemyPoint(){
   quidditchEnemyScore += 1;
+  setTimeout(addEnemyPoint,enemyPointTimer);
 }

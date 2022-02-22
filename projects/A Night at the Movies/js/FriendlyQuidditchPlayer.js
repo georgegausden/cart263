@@ -1,4 +1,4 @@
-class EnemyQuidditchPlayer{
+class FriendlyQuidditchPlayer{
   constructor(x,y){
     this.x = x;
     this.y = y;
@@ -15,27 +15,27 @@ class EnemyQuidditchPlayer{
 
   display(){
     push();
-    fill(255);
+    fill(0,255,0);
     circle(this.x,this.y,this.size);
     pop();
   }
 
   move(){
     if (!this.immobilized){
-      //make the enemy's character follow the user
-      if (this.x < quidditchUser.x){
-        this.vx += this.ax;
-      }
-      else if (this.x >= quidditchUser.x){
-        this.vx -= this.ax;
-      }
-
-      if (this.y < quidditchUser.y){
-        this.vy += this.ay;
-      }
-      else if (this.y >= quidditchUser.y){
-        this.vy -= this.ay;
-      }
+      // //make the enemy's character follow the user
+      // if (this.x < quidditchUser.x){
+      //   this.vx += this.ax;
+      // }
+      // else if (this.x >= quidditchUser.x){
+      //   this.vx -= this.ax;
+      // }
+      //
+      // if (this.y < quidditchUser.y){
+      //   this.vy += this.ay;
+      // }
+      // else if (this.y >= quidditchUser.y){
+      //   this.vy -= this.ay;
+      // }
 
       //add some randomness to the enemies movements
       let r = random(0,1);
