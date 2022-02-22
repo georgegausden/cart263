@@ -11,6 +11,7 @@ class Couldron{
     this.fillB = 0;
     this.fillA = 0;
     this.potionSentence = '';
+    this.couldronCompleted = false;
 
   }
 
@@ -22,44 +23,32 @@ class Couldron{
   }
 
   checkContents(){
-    let potion = this.potionsInside[0];
 
     for (let i = 0; i<this.potionsInside.length; i++){
       let potion = this.potionsInside[i];
 
+      for (let j = 0; j<this.currentRecipe.length; j++){
+        let correctPotionType = this.currentRecipe[j];
 
-      if (this.currentRecipe.includes(potion)){
-        this.correctPotions += 1;
-        //remove the potion inside
-        this.potionsInside.splice(0,);
-        console.log(this.potionsInside);
-        console.log(this.correctPotions);
+        if (potion.typeOfPotion === correctPotionType && !potion.potionCheckedInCouldron){
+          this.correctPotions += 1;
+          potion.potionCheckedInCouldron = true;
+        }
       }
-
     }
 
-    //
-    // //check if the potions inside match the recipe required
-    // for (let i = 0; i<this.potionsInside.length; i++){
-    //   let potion = this.potionsInside[i];
-    //   console.log(potion);
-    //   for (let j = 0; j<this.currentRecipe.length; j++){
-    //     let matchingPotion = this.currentRecipe[j];
-    //
-    //     if (potion === matchingPotion && this.correctPotions < this.currentRecipe.length && !potion.potionCheckedInCouldron){
-    //       this.correctPotions += 1;
-    //
-    //
-    //     }
-    //   }
-    // }
-    //
-    // if (this.correctPotions === this.currentRecipe.length){
-    //
-    // }
+    if (this.correctPotions === this.currentRecipe.length){
+      this.couldronCompleted = true;
+    }
   }
 
-  mix(){
-
+  completed(){
+    if (this.couldronCompleted){
+      //make the colours alternate in a rainbow way
+      this.fillR = random(0,255);
+      this.fillG = random(0,255);
+      this.fillB = random(0,255);
+      this.fillA = random(0,255);
+    }
   }
 }

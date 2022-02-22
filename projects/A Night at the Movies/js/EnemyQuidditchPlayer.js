@@ -11,13 +11,21 @@ class EnemyQuidditchPlayer{
     this.immobilized = false;
     this.immobilizedTimer = 0;
     this.immobilizedTimerLength = 100;
+    this.image = enemyQuidditchPlayerImage;
   }
 
   display(){
     push();
     fill(255);
-    circle(this.x,this.y,this.size);
+    image(this.image,this.x,this.y,this.size+20,this.size+20);
     pop();
+
+    if (this.vx > 0){
+      this.image = enemyQuidditchPlayerImageRight;
+    }
+    else if (this.vx <= 0){
+      this.image = enemyQuidditchPlayerImage;
+    }
   }
 
   move(){
@@ -43,7 +51,7 @@ class EnemyQuidditchPlayer{
         this.vx += 0.2;
         this.vy -= 0.1;
       }
-      else if (r>0.85){
+      else if (r>0.5){
         this.vx -= 0.2;
         this.vy += 0.2;
       }

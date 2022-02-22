@@ -21,6 +21,10 @@ let logo;
 let clouds;
 let goldenSnitchImage;
 let nimbus2000Image;
+let quidditchPlayerImage;
+let quidditchPlayerImageRight;
+let enemyQuidditchPlayerImage;
+let enemyQuidditchPlayerImageRight;
 
 // load the sounds used
 let themeSong;
@@ -57,7 +61,7 @@ let friendlyQuidditchPlayers = [];
 let quidditchUser;
 let quidditchScore = 0;
 let numberOfHoops = 3;
-let numberOfQuidditchEnemies = 3;
+let numberOfQuidditchEnemies = 4;
 let quidditchSpells = [];
 let goldenSnitch;
 let quidditchUserScore = 0;
@@ -86,6 +90,10 @@ function preload() {
   wandImage = loadImage(`assets/images/wand.png`);
   logo = loadImage(`assets/images/logo.png`);
   nimbus2000Image = loadImage(`assets/images/nimbus2000.png`);
+  quidditchPlayerImage = loadImage(`assets/images/quidditchPlayer.png`);
+  enemyQuidditchPlayerImage = loadImage(`assets/images/enemyQuidditchPlayer.png`);
+  quidditchPlayerImageRight = loadImage(`assets/images/quidditchPlayerRight.png`);
+  enemyQuidditchPlayerImageRight = loadImage(`assets/images/enemyQuidditchPlayerRight.png`);
   clouds = loadImage(`assets/images/clouds.png`);
   quidditchBackground = loadImage(`assets/images/quidditchBackground.jpg`);
   goldenSnitchImage = loadImage(`assets/images/goldenSnitchImage.gif`);

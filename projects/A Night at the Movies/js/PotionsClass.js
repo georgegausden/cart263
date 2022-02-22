@@ -44,6 +44,7 @@ function potionActions(){
 function couldronActions(){
   couldron.display();
   couldron.checkContents();
+  couldron.completed();
 }
 
 //shows the user what to do to mix potions in the couldron

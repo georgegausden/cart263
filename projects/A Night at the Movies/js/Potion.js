@@ -74,10 +74,10 @@ class Potion{
         emptyPotionSFX.play();
         this.emptyPotionSFXPlayed = true;
       }
-      
+
       //empty the potion inside once
       if (!this.potionEmptied){
-        couldron.potionsInside.push(this.typeOfPotion);
+        couldron.potionsInside.push(this);
 
         //add the colour of the potion inside
         couldron.fillR += this.fillR;

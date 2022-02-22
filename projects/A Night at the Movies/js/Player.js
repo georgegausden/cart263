@@ -12,6 +12,7 @@ class Player{
     this.immobilized = false;
     this.immobilizedTimer = 0;
     this.immobilizedTimerLength = 100;
+    this.image = quidditchPlayerImage;
   }
 
   move(){
@@ -39,13 +40,22 @@ class Player{
       this.y += this.vy;
     }
 
+
+
   }
 
   display(){
     push();
     fill(0);
-    circle(this.x,this.y,this.size);
+    image(this.image,this.x,this.y,this.size+20,this.size+20);
     pop();
+
+    if (this.vx > 0){
+      this.image = quidditchPlayerImageRight;
+    }
+    else if (this.vx <= 0){
+      this.image = quidditchPlayerImage;
+    }
   }
 
   checkWonPoint(){
