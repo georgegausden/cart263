@@ -26,6 +26,9 @@ let quidditchPlayerImageRight;
 let enemyQuidditchPlayerImage;
 let enemyQuidditchPlayerImageRight;
 
+//load the json files used
+let potionsData = undefined;
+
 // load the sounds used
 let themeSong;
 let lumosSFX;
@@ -79,6 +82,9 @@ let potions = [];
 let numberOfPotions = 5;
 let numberOfPotionsInHand = 0;
 let potionTypes = ['water','egg','mouse'];
+let potionToMakeName;
+let potionToMake;
+let potionToMakeDescription;
 
 let myButton;
 
@@ -121,6 +127,9 @@ Description of setup
 function setup() {
 
   createCanvas(windowWidth,windowHeight);
+
+  //load the potions data into our potions data variable
+  loadJSON('assets/data/potions.json', loadPotion);
 
   wand = new Wand(mouseX,mouseY);
 

@@ -5,7 +5,7 @@
 
 //a function to call all of the other functions that are part of this scene
 function potionsClass(){
-  background(255);
+  background(0,0,200);
 
   //define the starting positions of our potions and our couldron
   if (!loadedPotionsClass){
@@ -26,6 +26,7 @@ function potionsClass(){
   potionActions();
   couldronActions();
   potionsClassInstructions();
+  displayPotionToMake();
 
   mouse();
 }
@@ -55,5 +56,28 @@ function potionsClassInstructions(){
   fill(200,200,100);
   textSize(80);
   text(`Place your wand on a potion\n and say 'Wingardium Leviosa' to levitate a potion`,width/2,height/5);
+  pop();
+}
+
+//a function to load the potion needed from our json file
+function loadPotion(data){
+  potionsData = data;
+
+
+  potionToMake = random(potionsData);
+  potionToMakeName = potionToMake.name;
+  potionToMakeDescription = potionToMake.description;
+
+  console.log(potionToMakeDescription);
+}
+
+function displayPotionToMake(){
+  push();
+  textAlign(CENTER,RIGHT);
+  textFont(classicFont);
+  fill(200,200,100);
+  textSize(30);
+  text(`Potion to make: ${potionToMakeName}
+    What it does: ${potionToMakeDescription}`,3*width/4,height/2);
   pop();
 }
