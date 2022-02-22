@@ -137,12 +137,11 @@ function setup() {
 
   immobulusSFX = [immobulus1SFX,immobulus2SFX,immobulus3SFX,immobulus4SFX,immobulus5SFX];
 
-
 }
 
 
 /**
-Description of draw()
+deals with the different states of the program
 */
 function draw() {
 
@@ -161,6 +160,7 @@ function draw() {
   }
 }
 
+//the starting screen to the game, shows the black screen where the user needs to say lumos
 function start(){
 
   if (!themeSong.isPlaying()){
@@ -220,6 +220,7 @@ function keyPressed(){
 
 }
 
+//changes the mouse look to a wand
 function mouse(){
   noCursor();
 
@@ -229,6 +230,7 @@ function mouse(){
   pop();
 }
 
+//deals with what mousePressed does when the game is in different states
 function mousePressed(){
   if (state === 'quidditch'){
     //create an immobulus spell

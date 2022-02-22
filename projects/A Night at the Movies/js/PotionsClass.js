@@ -25,6 +25,7 @@ function potionsClass(){
   //functions to load all the actions of the different elements in the game
   potionActions();
   couldronActions();
+  potionsClassInstructions();
 
   mouse();
 }
@@ -43,4 +44,15 @@ function potionActions(){
 function couldronActions(){
   couldron.display();
   couldron.checkContents();
+}
+
+//shows the user what to do to mix potions in the couldron
+function potionsClassInstructions(){
+  push();
+  textAlign(CENTER);
+  textFont(classicFont);
+  fill(200,200,100);
+  textSize(80);
+  text(`Place your wand on a potion\n and say 'Wingardium Leviosa' to levitate a potion`,width/2,height/5);
+  pop();
 }
