@@ -23,6 +23,8 @@ class Potion{
     push();
     fill(this.fillR,this.fillG,this.fillB,this.fillA);
     textAlign(CENTER);
+    stroke(255);
+    strokeWeight(3);
     text(this.typeOfPotion,this.x,this.y);
     circle(this.x,this.y,this.size);
     pop();

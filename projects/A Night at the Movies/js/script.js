@@ -25,6 +25,7 @@ let quidditchPlayerImage;
 let quidditchPlayerImageRight;
 let enemyQuidditchPlayerImage;
 let enemyQuidditchPlayerImageRight;
+let potionClassroomImage;
 
 //load the json files used
 let potionsData = undefined;
@@ -85,6 +86,8 @@ let potionTypes = ['water','egg','mouse'];
 let potionToMakeName;
 let potionToMake;
 let potionToMakeDescription;
+let explosionSize = 0;
+let numberExplosions = 10;
 
 let myButton;
 
@@ -102,6 +105,7 @@ function preload() {
   enemyQuidditchPlayerImageRight = loadImage(`assets/images/enemyQuidditchPlayerRight.png`);
   clouds = loadImage(`assets/images/clouds.png`);
   quidditchBackground = loadImage(`assets/images/quidditchBackground.jpg`);
+  potionClassroomImage= loadImage(`assets/images/potionClassroomImage.jpg`);
   goldenSnitchImage = loadImage(`assets/images/goldenSnitchImage.gif`);
 
 

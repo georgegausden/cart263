@@ -2,22 +2,26 @@ class Couldron{
   constructor(x,y){
     this.x = x;
     this.y = y;
-    this.size = 100;
+    this.size = 200;
     this.potionsInside = [];
     this.currentRecipe = ['water','egg'];
     this.correctPotions = 0;
+    this.wrongPotions = 0;
+    this.potionsToExplode = 2;
     this.fillR = 0;
     this.fillG = 0;
     this.fillB = 0;
-    this.fillA = 0;
+    this.fillA = 255;
     this.potionSentence = '';
     this.couldronCompleted = false;
+    this.explodes = false;
 
   }
 
   display(){
     push();
     fill(this.fillR,this.fillG,this.fillB,this.fillA);
+    strokeWeight(4);
     circle(this.x,this.y,this.size);
     pop();
   }
@@ -34,11 +38,18 @@ class Couldron{
           this.correctPotions += 1;
           potion.potionCheckedInCouldron = true;
         }
+        else if (potion.typeOfPotion != correctPotionType && !potion.potionCheckedInCouldron){
+          this.wrongPotions += 1;
+          potion.potionCheckedInCouldron = true;
+        }
       }
     }
 
     if (this.correctPotions === this.currentRecipe.length){
       this.couldronCompleted = true;
+    }
+    else if (this.wrongPotions === this.potionsToExplode){
+      this.explodes = true;
     }
   }
 
@@ -51,4 +62,6 @@ class Couldron{
       this.fillA = random(0,255);
     }
   }
+
+
 }

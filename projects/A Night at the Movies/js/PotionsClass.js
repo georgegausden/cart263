@@ -7,16 +7,29 @@
 function potionsClass(){
   background(0,0,200);
 
+  //set the background image for the classroom
+  push();
+  imageMode(CENTER);
+  image(potionClassroomImage,width/2,height/2,width,height);
+  pop();
+
+  //set up the table for the potions and the couldron to sit
+  push();
+  rectMode(CENTER);
+  noStroke();
+  fill(170,135,107);
+  rect(width/2,1.9*height/2,width,300);
+  pop();
   //define the starting positions of our potions and our couldron
   if (!loadedPotionsClass){
     for (let i = 0; i<numberOfPotions; i++){
-      let potion = new Potion(width/4+i*100,4*height/5,random(100,255),random(0,255),random(0,100),random(0,200),random(potionTypes));
+      let potion = new Potion(width/4+i*100,4*height/5,random(100,255),random(0,255),random(0,100),100,random(potionTypes));
 
       potions.push(potion);
     }
 
     //load the couldron
-    couldron = new Couldron(width/2,height/2);
+    couldron = new Couldron(1.7*width/2,1.5*height/2);
 
 
     loadedPotionsClass = true;
@@ -28,6 +41,12 @@ function potionsClass(){
   potionsClassInstructions();
   displayPotionToMake();
 
+  if (couldron.explodes){
+    explosion();
+  }
+  else if (couldron.couldronCompleted){
+    victory();
+  }
   mouse();
 }
 
@@ -46,6 +65,7 @@ function couldronActions(){
   couldron.display();
   couldron.checkContents();
   couldron.completed();
+
 }
 
 //shows the user what to do to mix potions in the couldron
@@ -79,5 +99,28 @@ function displayPotionToMake(){
   textSize(30);
   text(`Potion to make: ${potionToMakeName}
     What it does: ${potionToMakeDescription}`,3*width/4,height/2);
+  pop();
+}
+
+//when the user has the wrong combination of potions, the couldron explodes violently
+function explosion(){
+  //start a circle that expands from the couldron
+  for (let i = 0; i<numberExplosions; i++){
+    push();
+    fill(255,random(0,255),0);
+    circle(couldron.x,couldron.y,1/(i+1)*explosionSize);
+    pop();
+  }
+
+  explosionSize += 100;
+}
+
+//a function to display text when the user has the right potion
+function victory(){
+  push();
+  textAlign(CENTER);
+  textFont(classicFont);
+  textSize(40);
+  text(`Congratulations on your potion young wizard!`,width/2,8.5*height/9);
   pop();
 }
