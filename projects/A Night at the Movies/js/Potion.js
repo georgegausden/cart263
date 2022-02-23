@@ -25,7 +25,7 @@ class Potion{
     textAlign(CENTER);
     stroke(255);
     strokeWeight(3);
-    text(this.typeOfPotion,this.x,this.y);
+    // text(this.typeOfPotion,this.x,this.y);
     circle(this.x,this.y,this.size);
     pop();
   }

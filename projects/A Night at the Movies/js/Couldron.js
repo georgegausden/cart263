@@ -18,6 +18,7 @@ class Couldron{
 
   }
 
+  //displays the couldron on the screen
   display(){
     push();
     fill(this.fillR,this.fillG,this.fillB,this.fillA);
@@ -26,8 +27,8 @@ class Couldron{
     pop();
   }
 
+  //checks what's been put inside the couldron
   checkContents(){
-
     for (let i = 0; i<this.potionsInside.length; i++){
       let potion = this.potionsInside[i];
 
@@ -45,7 +46,7 @@ class Couldron{
       }
     }
 
-    if (this.correctPotions === this.currentRecipe.length){
+    if (this.correctPotions === this.currentRecipe.length-1){
       this.couldronCompleted = true;
     }
     else if (this.wrongPotions === this.potionsToExplode){
@@ -53,6 +54,7 @@ class Couldron{
     }
   }
 
+  //an effect so that the potion animates when the potion is completed
   completed(){
     if (this.couldronCompleted){
       //make the colours alternate in a rainbow way

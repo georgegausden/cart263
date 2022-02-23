@@ -20,10 +20,11 @@ function potionsClass(){
   fill(170,135,107);
   rect(width/2,1.9*height/2,width,300);
   pop();
+
   //define the starting positions of our potions and our couldron
   if (!loadedPotionsClass){
     for (let i = 0; i<numberOfPotions; i++){
-      let potion = new Potion(width/4+i*100,4*height/5,random(100,255),random(0,255),random(0,100),100,random(potionTypes));
+      let potion = new Potion(width/4+i*100,4*height/5,random(100,255),random(0,255),random(0,100),255,random(potionTypes));
 
       potions.push(potion);
     }
@@ -39,8 +40,11 @@ function potionsClass(){
   potionActions();
   couldronActions();
   potionsClassInstructions();
-  displayPotionToMake();
 
+  if (!couldron.couldronCompleted){
+    displayPotionToMake();
+  }
+  
   if (couldron.explodes){
     explosion();
   }
@@ -82,15 +86,12 @@ function potionsClassInstructions(){
 //a function to load the potion needed from our json file
 function loadPotion(data){
   potionsData = data;
-
-
   potionToMake = random(potionsData);
   potionToMakeName = potionToMake.name;
   potionToMakeDescription = potionToMake.description;
-
-  console.log(potionToMakeDescription);
 }
 
+//displays which potion to make on the bottom of the screen
 function displayPotionToMake(){
   push();
   textAlign(CENTER,RIGHT);
@@ -98,7 +99,7 @@ function displayPotionToMake(){
   fill(200,200,100);
   textSize(30);
   text(`Potion to make: ${potionToMakeName}
-    What it does: ${potionToMakeDescription}`,3*width/4,height/2);
+    What it does: ${potionToMakeDescription}`,width/2,1.85*height/2);
   pop();
 }
 
