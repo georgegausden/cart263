@@ -37,6 +37,7 @@ let potionsData = undefined;
 let themeSong;
 let lumosSFX;
 let quidditchMusic;
+let potionsMusic;
 let cheeringSFX;
 let wingardiumSFX;
 let emptyPotionSFX;
@@ -118,6 +119,7 @@ function preload() {
 
 
   themeSong = loadSound(`assets/sounds/themeSong.mp3`);
+  potionsMusic = loadSound(`assets/sounds/potionsMusic.mp3`);
   lumosSFX = loadSound(`assets/sounds/lumosSFX.mov`);
   quidditchMusic = loadSound(`assets/sounds/quidditchMusic.mp3`);
   cheeringSFX = loadSound(`assets/sounds/cheeringSFX.mov`);
@@ -224,6 +226,15 @@ function start(){
     text(title,width/2,height/2);
     pop();
 
+    //display what to press to play each game
+    push();
+    textAlign(CENTER);
+    textFont(classicFont);
+    textSize(titleSize/2);
+    text(`To play Quidditch, press 'q'
+    To go to Potions Class, press 'p'`,width/2,1.5*height/2);
+    pop();
+
     //display the buttons
     myButton.draw();
   };
@@ -246,6 +257,12 @@ function keyPressed(){
   }
   else if (keyCode === 65){
     lumos();
+  }
+  else if (keyCode === 81){
+    state = 'quidditch'
+  }
+  else if (keyCode === 80){
+    state = 'potionsClass';
   }
 
 }

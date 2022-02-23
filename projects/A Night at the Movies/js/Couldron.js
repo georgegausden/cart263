@@ -61,7 +61,7 @@ class Couldron{
       this.fillR = random(0,255);
       this.fillG = random(0,255);
       this.fillB = random(0,255);
-      this.fillA = random(0,255);
+      this.fillA = 255;
     }
   }
 

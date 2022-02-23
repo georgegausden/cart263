@@ -5,6 +5,12 @@
 
 //a function to call all of the other functions that are part of this scene
 function potionsClass(){
+  if (themeSong.isPlaying()) {
+    themeSong.stop();
+  }
+  if (!potionsMusic.isPlaying()) {
+    potionsMusic.play();
+  }
   background(0,0,200);
 
   //set the background image for the classroom

@@ -31,7 +31,7 @@ class Wand{
 
     //expand the light size slowly
     this.size += 1;
-    this.size = constrain(this.size,100,200);
+    this.size = constrain(this.size,100,width/3);
   }
 
   lumosMaxima(){
