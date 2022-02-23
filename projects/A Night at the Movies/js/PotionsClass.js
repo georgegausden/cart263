@@ -44,8 +44,11 @@ function potionsClass(){
   if (!couldron.couldronCompleted){
     displayPotionToMake();
   }
-  
+
   if (couldron.explodes){
+    if (!potionExplosionSFX.isPlaying()){
+      potionExplosionSFX.play();
+    }
     explosion();
   }
   else if (couldron.couldronCompleted){

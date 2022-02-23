@@ -17,6 +17,7 @@ class Immobulus {
     this.touchedEnemy = false;
     this.calculatedVelocities = false;
     this.maxSpeed = 20;
+    this.image = random(spellImages);
 
   }
 
@@ -34,7 +35,7 @@ class Immobulus {
     if (!this.touchedEnemy){
       push();
       fill(255,0,0);
-      circle(this.x,this.y,this.size);
+      image(this.image,this.x,this.y,this.size,this.size);
       pop();
     }
   }

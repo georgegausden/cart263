@@ -26,6 +26,9 @@ let quidditchPlayerImageRight;
 let enemyQuidditchPlayerImage;
 let enemyQuidditchPlayerImageRight;
 let potionClassroomImage;
+let spell1Image;
+let spell2Image;
+let spell3Image;
 
 //load the json files used
 let potionsData = undefined;
@@ -43,6 +46,7 @@ let immobulus3SFX;
 let immobulus4SFX;
 let immobulus5SFX;
 let immobulusSFX = [];
+let potionExplosionSFX;
 
 // load the fonts
 let classicFont;
@@ -60,6 +64,7 @@ let loadedPotionsClass = false;
 
 //load the arrays and variables for the quidditch game
 let hoops = [];
+let spellImages = [];
 let enemyQuidditchPlayers = [];
 let friendlyQuidditchPlayers = [];
 let quidditchUser;
@@ -102,6 +107,9 @@ function preload() {
   quidditchPlayerImage = loadImage(`assets/images/quidditchPlayer.png`);
   enemyQuidditchPlayerImage = loadImage(`assets/images/enemyQuidditchPlayer.png`);
   quidditchPlayerImageRight = loadImage(`assets/images/quidditchPlayerRight.png`);
+  spell1Image = loadImage(`assets/images/spell1.png`);
+  spell2Image = loadImage(`assets/images/spell2.png`);
+  spell3Image = loadImage(`assets/images/spell3.png`);
   enemyQuidditchPlayerImageRight = loadImage(`assets/images/enemyQuidditchPlayerRight.png`);
   clouds = loadImage(`assets/images/clouds.png`);
   quidditchBackground = loadImage(`assets/images/quidditchBackground.jpg`);
@@ -120,6 +128,7 @@ function preload() {
   immobulus4SFX = loadSound(`assets/sounds/immobulus4SFX.mov`);
   immobulus5SFX = loadSound(`assets/sounds/immobulus5SFX.mov`);
   emptyPotionSFX = loadSound(`assets/sounds/emptyPotionSFX.mp3`);
+  potionExplosionSFX = loadSound(`assets/sounds/potionExplosionSFX.mp3`);
 
   classicFont = loadFont(`assets/fonts/harryPotter.TTF`);
 }
@@ -157,7 +166,7 @@ function setup() {
   }
 
   immobulusSFX = [immobulus1SFX,immobulus2SFX,immobulus3SFX,immobulus4SFX,immobulus5SFX];
-
+  spellImages = [spell1Image,spell2Image,spell3Image];
 }
 
 
