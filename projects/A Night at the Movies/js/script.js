@@ -49,6 +49,7 @@ let immobulus5SFX;
 let immobulusSFX = [];
 let potionExplosionSFX;
 let quidditchEndMusic;
+let correctPotionSFX;
 
 // load the fonts
 let classicFont;
@@ -82,6 +83,8 @@ let quidditchEnemyWon = false;
 let quidditchBackgroundMovement = 10;
 let fadeOutQuidditch = 0;
 let enemyPointTimer = 9000;
+let movingClouds = [];
+let numClouds = 4;
 
 
 //load the arrays and variables for our potions class
@@ -133,6 +136,7 @@ function preload() {
   immobulus5SFX = loadSound(`assets/sounds/immobulus5SFX.mov`);
   emptyPotionSFX = loadSound(`assets/sounds/emptyPotionSFX.mp3`);
   potionExplosionSFX = loadSound(`assets/sounds/potionExplosionSFX.mp3`);
+  correctPotionSFX = loadSound(`assets/sounds/correctPotionSFX.mp3`);
 
   classicFont = loadFont(`assets/fonts/harryPotter.TTF`);
 }

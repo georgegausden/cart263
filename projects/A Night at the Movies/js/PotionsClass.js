@@ -58,6 +58,9 @@ function potionsClass(){
     explosion();
   }
   else if (couldron.couldronCompleted){
+    if (!correctPotionSFX.isPlaying()){
+      correctPotionSFX.play();
+    }
     victory();
   }
   mouse();

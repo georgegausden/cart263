@@ -43,14 +43,28 @@ function quidditch() {
 
     quidditchEnemyWonTitlePosition = height / 5 + fadeOutQuidditch;
 
+    //load the clouds in the game
+    for (let i = 0; i<numClouds; i++){
+      let cloud = new Cloud(random(0,width),random(height/2,height));
+      movingClouds.push(cloud);
+    }
+
     //add a point to the enemy score after a certain amount of time
     setTimeout(addEnemyPoint, 1000);
   }
 
-  push();
-  imageMode(CENTER);
-  image(quidditchBackground, width / 2, height / 2, width, height);
-  pop();
+  // push();
+  // imageMode(CENTER);
+  // image(quidditchBackground, width / 2, height / 2, width, height);
+  // pop();
+
+  //make the colour of the background change over time slowly
+  let c1 = color(88+frameCount/25, 178, 235);
+  let c2 = color(255);
+  setGradient(c1, c2);
+
+  //load the moving clouds
+  cloudActions();
 
   mouse();
 
@@ -182,6 +196,15 @@ function goldenSnitchActions() {
   }
 }
 
+//loads the clouds and their movement
+function cloudActions(){
+  for(let i = 0; i<movingClouds.length;i++){
+    let cloud = movingClouds[i];
+    cloud.moveX();
+    cloud.display();
+  }
+}
+
 //tells us whether the snitch has been caught by the user or not
 function snitchCaught(user, snitch) {
   let d = dist(user.x, user.y, snitch.x, snitch.y);
@@ -243,7 +266,7 @@ function quidditchUserWinning() {
 //function to show when the enemy wins the quidditch match
 function quidditchEnemyWinning() {
   quidditchMusic.stop();
-  
+
   if (!quidditchEndMusic.isPlaying()){
     quidditchEndMusic.play();
   }
@@ -268,4 +291,17 @@ function quidditchEnemyWinning() {
 function addEnemyPoint() {
   quidditchEnemyScore += 1;
   setTimeout(addEnemyPoint, enemyPointTimer);
+}
+
+// creates a gradient in the background of our quidditch match
+//this function was imported from https://editor.p5js.org/REAS/sketches/S1TNUPzim and was created by REAS.
+function setGradient(c1, c2) {
+  // noprotect
+  noFill();
+  for (var y = 0; y < height; y++) {
+    var inter = map(y, 0, height, 0, 1);
+    var c = lerpColor(c1, c2, inter);
+    stroke(c);
+    line(0, y, width, y);
+  }
 }
