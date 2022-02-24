@@ -1,5 +1,5 @@
-class Potion{
-  constructor(x,y,fillR,fillG,fillB,fillA,typeOfPotion){
+class Potion {
+  constructor(x, y, fillR, fillG, fillB, fillA, typeOfPotion) {
     this.x = x;
     this.y = y;
     this.xi = x;
@@ -19,24 +19,25 @@ class Potion{
     this.potionCheckedInCouldron = false;
   }
 
-  display(){
+  //displays the potion
+  display() {
     push();
-    fill(this.fillR,this.fillG,this.fillB,this.fillA);
+    fill(this.fillR, this.fillG, this.fillB, this.fillA);
     textAlign(CENTER);
     stroke(255);
     strokeWeight(3);
     // text(this.typeOfPotion,this.x,this.y);
-    circle(this.x,this.y,this.size);
+    circle(this.x, this.y, this.size);
     pop();
   }
 
   //checks to see if the potion was selected by the user using the mouse and a spell said
-  checkSelection(){
+  checkSelection() {
     //first check to see if the mouse is within the bounds of the shape
-    let d = dist(mouseX,mouseY,this.x,this.y);
+    let d = dist(mouseX, mouseY, this.x, this.y);
 
-    if (d<this.size/2 && wingardiumCalled && numberOfPotionsInHand === 0){
-      if (!wingardiumSFX.isPlaying() && !this.wingardiumSFXPlayed){
+    if (d < this.size / 2 && wingardiumCalled && numberOfPotionsInHand === 0) {
+      if (!wingardiumSFX.isPlaying() && !this.wingardiumSFXPlayed) {
         wingardiumSFX.play();
         this.wingardiumSFXPlayed = true;
       }
@@ -46,39 +47,40 @@ class Potion{
   }
 
   //moves the potion in space
-  move(){
+  move() {
 
     this.checkSelection();
 
-    if (this.selected){
+    if (this.selected) {
       //make the position of the potion depend on the wand of the user
 
-      this.x = mouseX + 40*sin(1/16*frameCount);
+      this.x = mouseX + 40 * sin(1 / 16 * frameCount);
       //make the potion bounce up and down slowly
-      this.y = mouseY - 40*sin(1/12*frameCount);
+      this.y = mouseY - 40 * sin(1 / 12 * frameCount);
     }
   }
 
   //check to see if the potion has entered the couldron
-  checkTouch(){
-    let d = dist(this.x,this.y,couldron.x,couldron.y);
+  checkTouch() {
+    let d = dist(this.x, this.y, couldron.x, couldron.y);
 
-    if (d < (this.size/2 + couldron.size/2)){
+    if (d < (this.size / 2 + couldron.size / 2)) {
       this.inCouldron = true;
     }
   }
 
-  emptyPotion(){
+  //empties the potion into the couldron
+  emptyPotion() {
     this.checkTouch();
 
-    if (this.inCouldron){
-      if (!emptyPotionSFX.isPlaying() && !this.emptyPotionSFXPlayed){
+    if (this.inCouldron) {
+      if (!emptyPotionSFX.isPlaying() && !this.emptyPotionSFXPlayed) {
         emptyPotionSFX.play();
         this.emptyPotionSFXPlayed = true;
       }
 
       //empty the potion inside once
-      if (!this.potionEmptied){
+      if (!this.potionEmptied) {
         couldron.potionsInside.push(this);
 
         //add the colour of the potion inside
@@ -94,7 +96,8 @@ class Potion{
     }
   }
 
-  emptiedAndPlacedBack(){
+  //place the potion back if the user clicks with the mouse
+  emptiedAndPlacedBack() {
     this.x = this.xi;
     this.y = this.yi;
     this.selected = false;

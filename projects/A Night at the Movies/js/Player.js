@@ -1,7 +1,7 @@
-class Player{
-  constructor(){
-    this.x = width/6;
-    this.y = height/2;
+class Player {
+  constructor() {
+    this.x = width / 6;
+    this.y = height / 2;
     this.vy = 0;
     this.vx = 0;
     this.ax = 0.5;
@@ -15,20 +15,19 @@ class Player{
     this.image = quidditchPlayerImage;
   }
 
-  move(){
-    if (!this.immobilized){
+  //moves the player according to the position of the mouse
+  move() {
+    if (!this.immobilized) {
       //make the user's character follow the mouse
-      if (this.x < mouseX){
+      if (this.x < mouseX) {
         this.vx += this.ax;
-      }
-      else if (this.x >= mouseX){
+      } else if (this.x >= mouseX) {
         this.vx -= this.ax;
       }
 
-      if (this.y < mouseY){
+      if (this.y < mouseY) {
         this.vy += this.ay;
-      }
-      else if (this.y >= mouseY){
+      } else if (this.y >= mouseY) {
         this.vy -= this.ay;
       }
 
@@ -39,65 +38,63 @@ class Player{
       this.x += this.vx;
       this.y += this.vy;
     }
-
-
-
   }
 
-  display(){
+  //displays the user
+  display() {
     push();
     fill(0);
-    image(this.image,this.x,this.y,this.size+20,this.size+20);
+    image(this.image, this.x, this.y, this.size + 20, this.size + 20);
     pop();
 
-    if (this.vx > 0){
+    if (this.vx > 0) {
       this.image = quidditchPlayerImageRight;
-    }
-    else if (this.vx <= 0){
+    } else if (this.vx <= 0) {
       this.image = quidditchPlayerImage;
     }
   }
 
-  checkWonPoint(){
+  //checks if the user has scored a point
+  checkWonPoint() {
     //check if the user passes through one of the hoops
-    for (let i = 0; i<hoops.length; i++){
+    for (let i = 0; i < hoops.length; i++) {
       let hoop = hoops[i];
       //if user passes through, collect a point
-      if (passesThrough(quidditchUser,hoop) && this.hasGoldenSnitch){
+      if (passesThrough(quidditchUser, hoop) && this.hasGoldenSnitch) {
         //play a sound to indicate they won a point
         cheeringSFX.play();
         quidditchUserScore += 1;
 
         //place the snitch at a random location
-        goldenSnitch.x = random(0,width);
-        goldenSnitch.y = random(0,height);
+        goldenSnitch.x = random(0, width);
+        goldenSnitch.y = random(0, height);
 
         //reset the position of the user
-        this.x = 5*width/6;
-        this.y = height/2;
+        this.x = 5 * width / 6;
+        this.y = height / 2;
         //reset the position of the enemies
-        for (let i = 0; i<enemyQuidditchPlayers.length; i++){
+        for (let i = 0; i < enemyQuidditchPlayers.length; i++) {
           let enemyPlayer = enemyQuidditchPlayers[i];
-          enemyPlayer.x = random(0,width/2);
-          enemyPlayer.y = random(height/8,7*height/8);
+          enemyPlayer.x = random(0, width / 2);
+          enemyPlayer.y = random(height / 8, 7 * height / 8);
           enemyPlayer.immobilized = false;
         }
       }
     }
   }
 
-  immobulus(){
+  immobulus() {
     //immobilize the user since they've been hit
     this.immobilized = true;
   }
 
 
   //if the player has been immobilized, start a timer and defreeze the player after a few seconds
-  wearOffImmobulus(){
-    if (this.immobilized){
+  wearOffImmobulus() {
+    if (this.immobilized) {
       this.immobilizedTimer += 1;
 
-      if (this.immobilizedTimer >= this.immobilizedTimerLength){
+      if (this.immobilizedTimer >= this.immobilizedTimerLength) {
         this.immobilized = false;
         this.immobilizedTimer = 0;
       }

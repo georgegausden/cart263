@@ -31,6 +31,7 @@ class Immobulus {
 
   }
 
+  //display the spell
   display(){
     if (!this.touchedEnemy){
       push();
@@ -40,12 +41,14 @@ class Immobulus {
     }
   }
 
+  //move the spell
   move(){
     //update the position of the particle
     this.x += this.vx;
     this.y += this.vy;
   }
 
+  //calculate the vx and vy vectors and then normalize them so the speed looks the same
   calculateVelocities(){
     //calculate the distance of the target from the user
     let d = dist(this.x,this.y,this.xf,this.yf);

@@ -1,5 +1,5 @@
-class FriendlyQuidditchPlayer{
-  constructor(x,y){
+class FriendlyQuidditchPlayer {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
     this.vx = 0;
@@ -14,30 +14,30 @@ class FriendlyQuidditchPlayer{
     this.image = quidditchPlayerImage;
   }
 
-  display(){
+  //displays the friendly player on the canvas
+  display() {
     push();
-    fill(0,255,0);
-    image(this.image, this.x,this.y,this.size+20,this.size+20);
+    fill(0, 255, 0);
+    image(this.image, this.x, this.y, this.size + 20, this.size + 20);
     pop();
 
-    if (this.vx > 0){
+    if (this.vx > 0) {
       this.image = quidditchPlayerImageRight;
-    }
-    else if (this.vx <= 0){
+    } else if (this.vx <= 0) {
       this.image = quidditchPlayerImage;
     }
   }
 
-  move(){
-    if (!this.immobilized){
+  //moves the player
+  move() {
+    if (!this.immobilized) {
 
       //add some randomness to the friendly player movements
-      let r = random(0,1);
-      if (r<0.5){
+      let r = random(0, 1);
+      if (r < 0.5) {
         this.vx += 0.2;
         this.vy -= 0.1;
-      }
-      else if (r>0.5){
+      } else if (r > 0.5) {
         this.vx -= 0.2;
         this.vy += 0.2;
       }
@@ -53,24 +53,23 @@ class FriendlyQuidditchPlayer{
 
   }
 
-  wrap(){
-    if (this.x >= width){
+  //keeps the player inside the canvas
+  wrap() {
+    if (this.x >= width) {
       this.x = 0;
-    }
-    else if (this.x < 0){
+    } else if (this.x < 0) {
       this.x = width;
     }
 
-    if (this.y >= height){
+    if (this.y >= height) {
       this.y = 0;
-    }
-    else if (this.y <0){
+    } else if (this.y < 0) {
       this.y = height;
     }
   }
 
   //the player has been touched by the spell, freeze for a few seconds
-  immobulus(){
+  immobulus() {
     this.immobilized = true;
     this.ax = 0;
     this.ay = 0;
@@ -79,17 +78,16 @@ class FriendlyQuidditchPlayer{
   }
 
   //if the player has been immobilized, start a timer and defreeze the player after a few seconds
-  wearOffImmobulus(){
-    if (this.immobilized){
+  wearOffImmobulus() {
+    if (this.immobilized) {
       this.immobilizedTimer += 1;
 
-      if (this.immobilizedTimer >= this.immobilizedTimerLength){
+      if (this.immobilizedTimer >= this.immobilizedTimerLength) {
         this.immobilized = false;
         this.immobilizedTimer = 0;
       }
     }
   }
 
-  //let the enemy players immobilize the user with an immobilizing spell as well
 
 }

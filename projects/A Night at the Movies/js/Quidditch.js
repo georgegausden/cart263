@@ -44,8 +44,8 @@ function quidditch() {
     quidditchEnemyWonTitlePosition = height / 5 + fadeOutQuidditch;
 
     //load the clouds in the game
-    for (let i = 0; i<numClouds; i++){
-      let cloud = new Cloud(random(0,width),random(height/2,height));
+    for (let i = 0; i < numClouds; i++) {
+      let cloud = new Cloud(random(0, width), random(height / 2, height));
       movingClouds.push(cloud);
     }
 
@@ -54,7 +54,7 @@ function quidditch() {
   }
 
   //make the colour of the background change over time slowly
-  let c1 = color(88+frameCount/25, 178, 235);
+  let c1 = color(88 + frameCount / 25, 178, 235);
   let c2 = color(255);
   setGradient(c1, c2);
 
@@ -127,7 +127,7 @@ function spellActions() {
         }
         enemy.immobulus();
         spell.touchedEnemy = true;
-        } else if (checkTouch(spell, quidditchUser) && spell.provenance === 'enemy') {
+      } else if (checkTouch(spell, quidditchUser) && spell.provenance === 'enemy') {
         //immobilize the player for a certain amount of time
         let spellSFX = random(immobulusSFX);
         if (!spellSFX.isPlaying()) {
@@ -192,8 +192,8 @@ function goldenSnitchActions() {
 }
 
 //loads the clouds and their movement
-function cloudActions(){
-  for(let i = 0; i<movingClouds.length;i++){
+function cloudActions() {
+  for (let i = 0; i < movingClouds.length; i++) {
     let cloud = movingClouds[i];
     cloud.moveX();
     cloud.display();
@@ -262,7 +262,7 @@ function quidditchUserWinning() {
 function quidditchEnemyWinning() {
   quidditchMusic.stop();
 
-  if (!quidditchEndMusic.isPlaying()){
+  if (!quidditchEndMusic.isPlaying()) {
     quidditchEndMusic.play();
   }
   //display the text that the user lost the match

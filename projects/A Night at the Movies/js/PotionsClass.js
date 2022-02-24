@@ -4,39 +4,39 @@
 //a couldron
 
 //a function to call all of the other functions that are part of this scene
-function potionsClass(){
+function potionsClass() {
   if (themeSong.isPlaying()) {
     themeSong.stop();
   }
   if (!potionsMusic.isPlaying()) {
     potionsMusic.play();
   }
-  background(0,0,200);
+  background(0, 0, 200);
 
   //set the background image for the classroom
   push();
   imageMode(CENTER);
-  image(potionClassroomImage,width/2,height/2,width,height);
+  image(potionClassroomImage, width / 2, height / 2, width, height);
   pop();
 
   //set up the table for the potions and the couldron to sit
   push();
   rectMode(CENTER);
   noStroke();
-  fill(170,135,107);
-  rect(width/2,1.9*height/2,width,300);
+  fill(170, 135, 107);
+  rect(width / 2, 1.9 * height / 2, width, 300);
   pop();
 
   //define the starting positions of our potions and our couldron
-  if (!loadedPotionsClass){
-    for (let i = 0; i<numberOfPotions; i++){
-      let potion = new Potion(width/4+i*100,4*height/5,random(100,255),random(0,255),random(0,100),255,random(potionTypes));
+  if (!loadedPotionsClass) {
+    for (let i = 0; i < numberOfPotions; i++) {
+      let potion = new Potion(width / 4 + i * 100, 4 * height / 5, random(100, 255), random(0, 255), random(0, 100), 255, random(potionTypes));
 
       potions.push(potion);
     }
 
     //load the couldron
-    couldron = new Couldron(1.7*width/2,1.5*height/2);
+    couldron = new Couldron(1.7 * width / 2, 1.5 * height / 2);
 
 
     loadedPotionsClass = true;
@@ -47,18 +47,17 @@ function potionsClass(){
   couldronActions();
   potionsClassInstructions();
 
-  if (!couldron.couldronCompleted){
+  if (!couldron.couldronCompleted) {
     displayPotionToMake();
   }
 
-  if (couldron.explodes){
-    if (!potionExplosionSFX.isPlaying()){
+  if (couldron.explodes) {
+    if (!potionExplosionSFX.isPlaying()) {
       potionExplosionSFX.play();
     }
     explosion();
-  }
-  else if (couldron.couldronCompleted){
-    if (!correctPotionSFX.isPlaying()){
+  } else if (couldron.couldronCompleted) {
+    if (!correctPotionSFX.isPlaying()) {
       correctPotionSFX.play();
     }
     victory();
@@ -67,8 +66,8 @@ function potionsClass(){
 }
 
 //does all the potion related stuff
-function potionActions(){
-  for (let i = 0; i<potions.length; i++){
+function potionActions() {
+  for (let i = 0; i < potions.length; i++) {
     let potion = potions[i];
     potion.display();
     potion.move();
@@ -77,7 +76,7 @@ function potionActions(){
 }
 
 //does all the couldron related stuff
-function couldronActions(){
+function couldronActions() {
   couldron.display();
   couldron.checkContents();
   couldron.completed();
@@ -85,18 +84,18 @@ function couldronActions(){
 }
 
 //shows the user what to do to mix potions in the couldron
-function potionsClassInstructions(){
+function potionsClassInstructions() {
   push();
   textAlign(CENTER);
   textFont(classicFont);
-  fill(200,200,100);
+  fill(200, 200, 100);
   textSize(80);
-  text(`Place your wand on a potion\n and say 'Wingardium Leviosa' to levitate a potion`,width/2,height/5);
+  text(`Place your wand on a potion\n and say 'Wingardium Leviosa' to levitate a potion`, width / 2, height / 5);
   pop();
 }
 
 //a function to load the potion needed from our json file
-function loadPotion(data){
+function loadPotion(data) {
   potionsData = data;
   potionToMake = random(potionsData);
   potionToMakeName = potionToMake.name;
@@ -104,24 +103,24 @@ function loadPotion(data){
 }
 
 //displays which potion to make on the bottom of the screen
-function displayPotionToMake(){
+function displayPotionToMake() {
   push();
-  textAlign(CENTER,RIGHT);
+  textAlign(CENTER, RIGHT);
   textFont(classicFont);
-  fill(200,200,100);
+  fill(200, 200, 100);
   textSize(30);
   text(`Potion to make: ${potionToMakeName}
-    What it does: ${potionToMakeDescription}`,width/2,1.85*height/2);
+    What it does: ${potionToMakeDescription}`, width / 2, 1.85 * height / 2);
   pop();
 }
 
 //when the user has the wrong combination of potions, the couldron explodes violently
-function explosion(){
+function explosion() {
   //start a circle that expands from the couldron
-  for (let i = 0; i<numberExplosions; i++){
+  for (let i = 0; i < numberExplosions; i++) {
     push();
-    fill(255,random(0,255),0);
-    circle(couldron.x,couldron.y,1/(i+1)*explosionSize);
+    fill(255, random(0, 255), 0);
+    circle(couldron.x, couldron.y, 1 / (i + 1) * explosionSize);
     pop();
   }
 
@@ -129,11 +128,11 @@ function explosion(){
 }
 
 //a function to display text when the user has the right potion
-function victory(){
+function victory() {
   push();
   textAlign(CENTER);
   textFont(classicFont);
   textSize(40);
-  text(`Congratulations on your potion young wizard!`,width/2,8.5*height/9);
+  text(`Congratulations on your potion young wizard!`, width / 2, 8.5 * height / 9);
   pop();
 }

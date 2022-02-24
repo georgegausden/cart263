@@ -18,7 +18,7 @@ class Cloud {
   // which is a bit more generic a name, and used more
   // often in these types of cases. You can name things what
   // you want, but it's good to be clear and consistent
-  //this function displays the clouds 
+  //this function displays the clouds
   display() {
     noStroke()
     fill(this.colour);
@@ -30,8 +30,8 @@ class Cloud {
 
     //Offset each ellipse a bit here, so the whole cloud moves as a body
     ellipse(this.x, this.y, 100, 50);
-    ellipse(this.x+50, this.y+20, 100, 50);
-    ellipse(this.x-40, this.y+15, 100, 50);
+    ellipse(this.x + 50, this.y + 20, 100, 50);
+    ellipse(this.x - 40, this.y + 15, 100, 50);
 
   }
 

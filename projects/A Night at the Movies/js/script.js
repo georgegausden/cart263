@@ -2,7 +2,7 @@
 A Night at the Movies
 George Gausden
 
-Harry Potter!
+Harry Potter! A program consisting of two games: quidditch and potions class.
 */
 
 "use strict";
@@ -92,7 +92,7 @@ let couldron;
 let potions = [];
 let numberOfPotions = 5;
 let numberOfPotionsInHand = 0;
-let potionTypes = ['water','egg','mouse'];
+let potionTypes = ['water', 'egg', 'mouse'];
 let potionToMakeName;
 let potionToMake;
 let potionToMakeDescription;
@@ -102,7 +102,7 @@ let numberExplosions = 10;
 
 
 /**
-Description of preload
+Load up all the images and sounds and the font used in the program
 */
 function preload() {
   wandImage = loadImage(`assets/images/wand.png`);
@@ -117,7 +117,7 @@ function preload() {
   enemyQuidditchPlayerImageRight = loadImage(`assets/images/enemyQuidditchPlayerRight.png`);
   clouds = loadImage(`assets/images/clouds.png`);
   quidditchBackground = loadImage(`assets/images/quidditchBackground.jpg`);
-  potionClassroomImage= loadImage(`assets/images/potionClassroomImage.jpg`);
+  potionClassroomImage = loadImage(`assets/images/potionClassroomImage.jpg`);
   goldenSnitchImage = loadImage(`assets/images/goldenSnitchImage.gif`);
 
 
@@ -142,18 +142,18 @@ function preload() {
 
 
 /**
-Description of setup
+Create the canvas, set up annyang and load the JSON file used in the potions class
 */
 function setup() {
 
-  createCanvas(windowWidth,windowHeight);
+  createCanvas(windowWidth, windowHeight);
 
   //load the potions data into our potions data variable
   loadJSON('assets/data/potions.json', loadPotion);
 
-  wand = new Wand(mouseX,mouseY);
+  wand = new Wand(mouseX, mouseY);
 
-  if (annyang){
+  if (annyang) {
     let commands = {
       'wingardium leviosa': levitate,
       'lumos': lumos,
@@ -163,8 +163,8 @@ function setup() {
     annyang.start();
   }
 
-  immobulusSFX = [immobulus1SFX,immobulus2SFX,immobulus3SFX,immobulus4SFX,immobulus5SFX];
-  spellImages = [spell1Image,spell2Image,spell3Image];
+  immobulusSFX = [immobulus1SFX, immobulus2SFX, immobulus3SFX, immobulus4SFX, immobulus5SFX];
+  spellImages = [spell1Image, spell2Image, spell3Image];
 }
 
 
@@ -173,25 +173,22 @@ deals with the different states of the program
 */
 function draw() {
 
-
   wand.update();
   mouse();
 
-  if (state === 'start'){
+  if (state === 'start') {
     start();
-  }
-  else if (state === 'quidditch'){
+  } else if (state === 'quidditch') {
     quidditch();
-  }
-  else if (state === 'potionsClass'){
+  } else if (state === 'potionsClass') {
     potionsClass();
   }
 }
 
 //the starting screen to the game, shows the black screen where the user needs to say lumos
-function start(){
+function start() {
 
-  if (!themeSong.isPlaying()){
+  if (!themeSong.isPlaying()) {
     themeSong.play();
   }
 
@@ -199,19 +196,19 @@ function start(){
 
   mouse();
 
-  if (!lumosCalled){
+  if (!lumosCalled) {
     push();
     textAlign(CENTER);
     textFont(classicFont);
     fill(255);
     textSize(instructionsSize);
-    text(`Wave your wand and say 'lumos' for some light`,width/2,height/2);
+    text(`Wave your wand and say 'lumos' for some light`, width / 2, height / 2);
     pop();
   };
 
 
   //let the user call lumos to see the start page
-  if (lumosCalled){
+  if (lumosCalled) {
 
     wand.lumos();
 
@@ -219,72 +216,60 @@ function start(){
     textAlign(CENTER);
     textFont(classicFont);
     textSize(titleSize);
-    text(title,width/2,height/2);
+    text(title, width / 2, height / 2);
     pop();
 
     //display what to press to play each game
     push();
     textAlign(CENTER);
     textFont(classicFont);
-    textSize(titleSize/2);
+    textSize(titleSize / 2);
     text(`To play Quidditch, press 'q'
-    To go to Potions Class, press 'p'`,width/2,1.5*height/2);
+    To go to Potions Class, press 'p'`, width / 2, 1.5 * height / 2);
     pop();
 
   };
 
-
   // expand the title slowly then constrain
-  titleSize+=0.1;
-  titleSize = constrain(titleSize,90,200);
-  instructionsSize +=0.1;
-  instructionsSize = constrain(instructionsSize,40,70);
+  titleSize += 0.1;
+  titleSize = constrain(titleSize, 90, 200);
+  instructionsSize += 0.1;
+  instructionsSize = constrain(instructionsSize, 40, 70);
 
 }
 
-function keyPressed(){
-  if (keyCode === 32){
-    state = 'potionsClass';
-  }
-  else if (keyCode === 78){
-    levitate();
-  }
-  else if (keyCode === 65){
-    lumos();
-  }
-  else if (keyCode === 81){
+//let the user go to specific games by pressing the q or p keys
+function keyPressed() {
+  if (keyCode === 81) {
     state = 'quidditch'
-  }
-  else if (keyCode === 80){
+  } else if (keyCode === 80) {
     state = 'potionsClass';
   }
-
 }
 
 //changes the mouse look to a wand
-function mouse(){
+function mouse() {
   noCursor();
 
   push();
   imageMode(CENTER);
-  image(wandImage,mouseX,mouseY,75,75);
+  image(wandImage, mouseX, mouseY, 75, 75);
   pop();
 }
 
 //deals with what mousePressed does when the game is in different states
-function mousePressed(){
-  if (state === 'quidditch'){
+function mousePressed() {
+  if (state === 'quidditch') {
     //create an immobulus spell
-    let immobulus = new Immobulus(quidditchUser.x,quidditchUser.y,mouseX,mouseY,'user');
+    let immobulus = new Immobulus(quidditchUser.x, quidditchUser.y, mouseX, mouseY, 'user');
     //push it into the spells array to keep tab of where it is
     quidditchSpells.push(immobulus);
-  }
-  else if (state === `potionsClass`){
+  } else if (state === `potionsClass`) {
     //lets go of the potion currently in the user's hand
-    for (let i = 0; i<potions.length; i++){
+    for (let i = 0; i < potions.length; i++) {
       let potion = potions[i];
 
-      if (potion.selected){
+      if (potion.selected) {
         //release the potion
         potion.emptiedAndPlacedBack();
       }
