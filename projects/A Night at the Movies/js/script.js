@@ -48,6 +48,7 @@ let immobulus4SFX;
 let immobulus5SFX;
 let immobulusSFX = [];
 let potionExplosionSFX;
+let quidditchEndMusic;
 
 // load the fonts
 let classicFont;
@@ -120,6 +121,7 @@ function preload() {
 
   themeSong = loadSound(`assets/sounds/themeSong.mp3`);
   potionsMusic = loadSound(`assets/sounds/potionsMusic.mp3`);
+  quidditchEndMusic = loadSound(`assets/sounds/quidditchEndMusic.mp3`);
   lumosSFX = loadSound(`assets/sounds/lumosSFX.mov`);
   quidditchMusic = loadSound(`assets/sounds/quidditchMusic.mp3`);
   cheeringSFX = loadSound(`assets/sounds/cheeringSFX.mov`);

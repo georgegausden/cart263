@@ -242,7 +242,13 @@ function quidditchUserWinning() {
 
 //function to show when the enemy wins the quidditch match
 function quidditchEnemyWinning() {
+  quidditchMusic.stop();
+  
+  if (!quidditchEndMusic.isPlaying()){
+    quidditchEndMusic.play();
+  }
   //display the text that the user lost the match
+
   //fade the background to black
   background(0, 0, 0, 0 + fadeOutQuidditch);
   push();
