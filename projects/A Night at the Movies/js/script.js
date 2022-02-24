@@ -99,7 +99,6 @@ let potionToMakeDescription;
 let explosionSize = 0;
 let numberExplosions = 10;
 
-let myButton;
 
 
 /**
@@ -154,19 +153,10 @@ function setup() {
 
   wand = new Wand(mouseX,mouseY);
 
-  //load the buttons we want to use in the game
-  myButton = new Clickable();
-  myButton.locate(100, 200);
-
-  myButton.onRelease = function(){
-  state = 'quidditch';
-  }
-
   if (annyang){
     let commands = {
       'wingardium leviosa': levitate,
       'lumos': lumos,
-      'lumos maxima': lumosMaxima,
     };
 
     annyang.addCommands(commands);
@@ -241,8 +231,6 @@ function start(){
     To go to Potions Class, press 'p'`,width/2,1.5*height/2);
     pop();
 
-    //display the buttons
-    myButton.draw();
   };
 
 

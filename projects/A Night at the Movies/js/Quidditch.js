@@ -53,11 +53,6 @@ function quidditch() {
     setTimeout(addEnemyPoint, 1000);
   }
 
-  // push();
-  // imageMode(CENTER);
-  // image(quidditchBackground, width / 2, height / 2, width, height);
-  // pop();
-
   //make the colour of the background change over time slowly
   let c1 = color(88+frameCount/25, 178, 235);
   let c2 = color(255);
