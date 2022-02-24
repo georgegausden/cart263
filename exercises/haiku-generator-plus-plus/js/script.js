@@ -4,7 +4,7 @@ George Gausden
 
 A program that generates a random haiku based on pre-existing arrays
 of lines of the correct syllable length. Also swaps out lines if the user
-clicks on them with a fade in and out effect.
+clicks on them with different effects produced.
 */
 
 "use strict";
@@ -28,6 +28,7 @@ let haikuLines = {
   ]
 };
 
+//load some audio effects to use
 let meowSFX = new Audio(`assets/sounds/meowSFX.mp3`);
 let treeSFX = new Audio(`assets/sounds/treeSFX.mov`);
 let bushesSFX = new Audio(`assets/sounds/bushesSFX.mov`);
@@ -40,6 +41,11 @@ let shSFX = new Audio(`assets/sounds/shSFX.mp3`);
 let line1 = document.getElementById(`line-1`);
 let line2 = document.getElementById(`line-2`);
 let line3 = document.getElementById(`line-3`);
+
+// our haiku section element
+let haiku = document.getElementById(`haiku`);
+
+
 
 let currentCharacter = 0;
 
@@ -57,7 +63,6 @@ function setupLines() {
   line2.innerText = random(haikuLines.sevenSyllables);
   line3.innerText = random(haikuLines.fiveSyllables);
 
-  typeWriter(line1);
 }
 
 /**
@@ -67,41 +72,11 @@ function addListeners() {
   line1.addEventListener(`click`, changeLine);
   line2.addEventListener(`click`, changeLine);
   line3.addEventListener(`click`, changeLine);
-}
 
-
-//create a typewriter effect when the page loads to type out the lines
-function typeWriter(element){
-  //go line by line
-  //separate the text into characters
-  let line = element.innerText;
-  let currentLine = line.substring(0,currentCharacter);
-
-  if (currentCharacter < 10){
-    requestAnimationFrame(function(){
-      currentCharacter += 1;
-    })
-  }
-
-  //type out the characters one by one
-
-  console.log(currentCharacter);
+  haiku.addEventListener(`mousedown`,changeBackground);
 
 }
 
-function addCharacter(){
-
-}
-
-//let the user control the background color using their finger as a colour picker
-function pickBackgroundColor(){
-
-}
-
-//create a function to make the last lines letters fall slowly
-function lettersFall(element){
-
-}
 
 //create a function to trigger different sounds
 function wordSounds(element){
@@ -129,11 +104,23 @@ function wordSounds(element){
 
 }
 
+//change the background colour of the haiku section
+function changeBackgroundColour(element){
+  element.style[`background-color`] = getRandomColor();
+}
+
+//change the font colour of each line when pressed
+function changeFontColour(element){
+  element.style[`color`] = getRandomColor();
+}
+
+
 //create a function to move the letters more and more
 function increaseLetterSpacing(element, spacing){
   // increase the spacing between letters in the line
   spacing += 0.05;
   element.style[`letter-spacing`] = spacing+`px`;
+
 
   if (spacing < 10){
     //keep adding more spacing until they leave the canvas
@@ -162,11 +149,16 @@ function decreaseLetterSpacing(element,spacing){
 Triggers a fade out when a line is clicked
 */
 function changeLine(event) {
-  //pick a function randomly
 
   increaseLetterSpacing(event.target,1);
   fadeOut(event.target, 1);
   wordSounds(event.target);
+  changeFontColour(event.target);
+
+}
+
+function changeBackground(event){
+  changeBackgroundColour(event.target);
 }
 
 /**
@@ -236,4 +228,13 @@ A helper function that returns a random element from the provided array
 */
 function random(array) {
   return array[Math.floor(Math.random() * array.length)];
+}
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }
