@@ -137,7 +137,7 @@ function preload() {
   potionExplosionSFX = loadSound(`assets/sounds/potionExplosionSFX.mp3`);
   correctPotionSFX = loadSound(`assets/sounds/correctPotionSFX.mp3`);
 
-  classicFont = loadFont(`assets/fonts/harryPotter.TTF`);
+  classicFont = 'Helvetica';
 }
 
 
