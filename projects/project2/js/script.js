@@ -8,6 +8,10 @@ author, and this description to match your project!
 
 "use strict";
 let angle = 0;
+let planets = [];
+let suns = [];
+let numSuns = 1;
+let numPlanets = 1;
 
 /**
 Description of preload
@@ -26,8 +30,16 @@ function setup() {
 
   //create our planets in the solar system
   for (let i = 0; i<numPlanets; i++){
-    
+    let planet = new Planet(100);
+    planets.push(planet);
   }
+
+  //create the suns in the solar system
+  for (let i = 0; i<numSuns; i++){
+    let sun = new Planet(100);
+    suns.push(sun);
+  }
+  
 }
 
 
@@ -38,7 +50,11 @@ function draw() {
   background(0);
   lights();
   noStroke();
-  rotateY(angle);
-  sphere(100);
-  angle+=0.1;
+
+  //display our planets
+  for (let i = 0; i<planets.length; i++){
+    let planet = planets[i];
+
+    planet.display();
+  }
 }
