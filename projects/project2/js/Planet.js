@@ -24,7 +24,16 @@ class Planet{
     this.y = this.vy;
     this.vx = this.distanceFromStar*sin(1/this.rotationalPeriod*frameCount);
     this.vy = this.distanceFromStar*cos(1/this.rotationalPeriod*frameCount);
+  }
 
+  drawPath(){
+    //draw the path of the planet with an ellipse
+    push();
+    noFill();
+    stroke(255,0,255);
+    ellipseMode(CENTER);
+    ellipse(0,0,2*this.distanceFromStar,2*this.distanceFromStar,50);
+    pop();
   }
 
 

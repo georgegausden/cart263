@@ -7,7 +7,7 @@ author, and this description to match your project!
 */
 
 "use strict";
-let state = 'inTransit';
+let state = 'arrived';
 let angle = 0;
 let planets = [];
 let stars = [];
@@ -17,7 +17,7 @@ let backgroundFadeSpeed = 3;
 let speed;
 let suns = [];
 let numSuns = 1;
-let numPlanets = 3;
+let numPlanets = 5;
 let landscapes = [];
 let numLandscapeAssets = 5;
 let cameraProperties = {
@@ -48,13 +48,13 @@ function setup() {
 
   //create our planets in the solar system
   for (let i = 0; i<numPlanets; i++){
-    let planet = new Planet(100,random(landscapes),random(1000,2000),random(100,200));
+    let planet = new Planet(random(50,100),random(landscapes),random(1000,2000),random(100,200));
     planets.push(planet);
   }
 
   //create the suns in the solar system
   for (let i = 0; i<numSuns; i++){
-    let sun = new Planet(100,random(landscapes));
+    let sun = new Sun(100);
     suns.push(sun);
   }
 
@@ -104,9 +104,6 @@ function draw() {
 //   camera(cameraProperties.x,cameraProperties.y,(height/2)/(tan(PI/6)),0,0,0,0,1,0);
 // }
 
-function solarSystem(){
-
-}
 
 //display what the user sees when they are in transit to their new solar system
 function inTransit(){
@@ -136,6 +133,9 @@ function arrived(){
   }
   // setupCamera();
 
+  //add lighting to the scene
+  pointLight(255,255,200,0,0,0);
+
   noStroke();
 
   //display our planets
@@ -143,6 +143,15 @@ function arrived(){
     let planet = planets[i];
 
     planet.display();
+    planet.drawPath();
     planet.move();
+  }
+
+  //display our suns
+  for (let i = 0; i<suns.length; i++){
+    let sun = suns[i];
+
+    sun.display();
+    sun.shine();
   }
 }
