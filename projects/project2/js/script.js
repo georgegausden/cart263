@@ -7,12 +7,19 @@ author, and this description to match your project!
 */
 
 "use strict";
+let state = 'inTransit';
 let angle = 0;
 let planets = [];
+let stars = [];
+let numStars = 2000;
+let inTransitBackground = 0;
+let backgroundFadeSpeed = 3;
+let speed;
 let suns = [];
 let numSuns = 1;
 let numPlanets = 1;
-let landscape;
+let landscapes = [];
+let numLandscapeAssets = 5;
 let cameraProperties = {
   x:0,
   y:0,
@@ -24,7 +31,11 @@ let cameraProperties = {
 Description of preload
 */
 function preload() {
-  landscape = loadImage(`assets/images/landscape1.jpeg`);
+  for (let i = 0; i<numLandscapeAssets; i++){
+    let landscape = loadImage(`assets/images/landscape${i}.jpeg`);
+    landscapes.push(landscape);
+  }
+
 }
 
 
@@ -37,14 +48,23 @@ function setup() {
 
   //create our planets in the solar system
   for (let i = 0; i<numPlanets; i++){
-    let planet = new Planet(100,landscape);
+    let planet = new Planet(100,random(landscapes));
     planets.push(planet);
   }
 
   //create the suns in the solar system
   for (let i = 0; i<numSuns; i++){
-    let sun = new Planet(100,landscape);
+    let sun = new Planet(100,random(landscapes));
     suns.push(sun);
+  }
+
+  // Create an array of 1600 star objects
+  for (var i = 0; i < numStars; i++) {
+        stars[i] = new Star();
+
+      // This also works to populate the array
+        // star = new Star();
+    // append(stars, star);
   }
 
 }
@@ -54,18 +74,15 @@ function setup() {
 Description of draw()
 */
 function draw() {
-  background(0);
 
-  // setupCamera();
-  lights();
-  noStroke();
-
-  //display our planets
-  for (let i = 0; i<planets.length; i++){
-    let planet = planets[i];
-
-    planet.display();
+  if (state === 'inTransit'){
+    inTransit();
   }
+  else if (state === 'arrived'){
+    arrived();
+  }
+
+
 }
 
 // function setupCamera(){
@@ -86,3 +103,45 @@ function draw() {
 //
 //   camera(cameraProperties.x,cameraProperties.y,(height/2)/(tan(PI/6)),0,0,0,0,1,0);
 // }
+
+function solarSystem(){
+
+}
+
+//display what the user sees when they are in transit to their new solar system
+function inTransit(){
+  speed = map(mouseX, 0, width, 5, 100);
+
+  //make the background colour climb after a certain time when the user has kept their mouse past a certain amount of the canvas
+  if (frameCount > 100 && mouseX > 5*width/6){
+    inTransitBackground += backgroundFadeSpeed;
+  }
+
+  if (inTransitBackground > 255){
+    state = 'arrived';
+  }
+
+  background(inTransitBackground);
+
+  for (let i = 0; i < stars.length; i++) {
+    stars[i].update();
+    stars[i].show();
+  }
+}
+
+function arrived(){
+  background(inTransitBackground);
+  if (inTransitBackground > 0){
+    inTransitBackground -= backgroundFadeSpeed;
+  }
+  // setupCamera();
+  lights();
+  noStroke();
+
+  //display our planets
+  for (let i = 0; i<planets.length; i++){
+    let planet = planets[i];
+
+    planet.display();
+  }
+}
