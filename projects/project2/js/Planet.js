@@ -1,13 +1,14 @@
 class Planet{
-  constructor(size){
+  constructor(size,landscape){
 
     this.size = size;
+    this.landscape = landscape;
 
   }
 
   display(){
     push();
-    ambientMaterial(200,200,100);
+    texture(this.landscape);
     sphere(this.size,20,20);
     pop();
   }
