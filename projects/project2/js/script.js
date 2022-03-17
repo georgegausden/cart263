@@ -17,7 +17,7 @@ let backgroundFadeSpeed = 3;
 let speed;
 let suns = [];
 let numSuns = 1;
-let numPlanets = 1;
+let numPlanets = 3;
 let landscapes = [];
 let numLandscapeAssets = 5;
 let cameraProperties = {
@@ -48,7 +48,7 @@ function setup() {
 
   //create our planets in the solar system
   for (let i = 0; i<numPlanets; i++){
-    let planet = new Planet(100,random(landscapes));
+    let planet = new Planet(100,random(landscapes),random(1000,2000),random(100,200));
     planets.push(planet);
   }
 
@@ -135,7 +135,7 @@ function arrived(){
     inTransitBackground -= backgroundFadeSpeed;
   }
   // setupCamera();
-  lights();
+
   noStroke();
 
   //display our planets
@@ -143,5 +143,6 @@ function arrived(){
     let planet = planets[i];
 
     planet.display();
+    planet.move();
   }
 }
