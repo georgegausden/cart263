@@ -1,5 +1,5 @@
 class Planet{
-  constructor(size,landscape,distanceFromStar,rotationalPeriod,selfRotationPeriod){
+  constructor(size,landscape,distanceFromStar,rotationalPeriod,selfRotationPeriod,numMoons,initialPhase){
     this.size = size;
     this.landscape = landscape;
     this.x = 0;
@@ -9,6 +9,9 @@ class Planet{
     this.distanceFromStar = distanceFromStar;
     this.rotationalPeriod = rotationalPeriod;
     this.selfRotationPeriod = selfRotationPeriod;
+    this.numMoons = numMoons;
+    this.moons = [];
+    this.phase = initialPhase;
   }
 
   display(){
@@ -24,8 +27,8 @@ class Planet{
     //get the planets to move in a circular orbit relative to the center of the solar system
     this.x = this.vx;
     this.y = this.vy;
-    this.vx = this.distanceFromStar*sin(1/this.rotationalPeriod*frameCount);
-    this.vy = this.distanceFromStar*cos(1/this.rotationalPeriod*frameCount);
+    this.vx = this.distanceFromStar*sin(1/this.rotationalPeriod*frameCount+this.phase);
+    this.vy = this.distanceFromStar*cos(1/this.rotationalPeriod*frameCount+this.phase);
   }
 
   drawPath(){

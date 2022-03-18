@@ -60,8 +60,18 @@ function setup() {
 
   //create our planets in the solar system
   for (let i = 0; i<numPlanets; i++){
-    let planet = new Planet(random(20,50),random(landscapes),random(1000,4000),random(100,600),random(100,120));
+    let planet = new Planet(random(20,50),random(landscapes),random(1000,4000),random(100,600),random(100,120),random(0,5),random(-100,100));
     planets.push(planet);
+  }
+
+  //create the moons in our solar system
+  for (let i = 0; i<planets.length; i++){
+    let planet = planets[i];
+    for (let j = 0; j<planet.numMoons; j++){
+      //(size,landscape,distanceFromCenter,rotationalPeriod,selfRotationPeriod)
+      let moon = new Moon(random(2,5),random(landscapes),random(100,200),random(100,600),random(0,100),random(-100,100));
+      planet.moons.push(moon);
+    }
   }
 
   //create the suns in the solar system
@@ -174,10 +184,16 @@ function arrived(){
   //display our planets
   for (let i = 0; i<planets.length; i++){
     let planet = planets[i];
-
     planet.display();
     planet.drawPath();
     planet.move();
+
+    for (let j = 0; j<planet.moons.length; j++){
+      let moon = planet.moons[j];
+      moon.display();
+      moon.drawPath(planet.x,planet.y);
+      moon.move(planet.x,planet.y);
+    }
   }
 
   //display our suns
