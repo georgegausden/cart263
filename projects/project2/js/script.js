@@ -7,7 +7,8 @@ author, and this description to match your project!
 */
 
 "use strict";
-let state = 'inTransit';
+let state = 'arrived';
+let transitText;
 let angle = 0;
 let planets = [];
 let stars = [];
@@ -16,8 +17,9 @@ let inTransitBackground = 0;
 let backgroundFadeSpeed = 3;
 let speed;
 let suns = [];
+let distanceBetweenStars = 1000;
 let numSuns = 1;
-let numPlanets = 50;
+let numPlanets = 10;
 let landscapes = [];
 let numLandscapeAssets = 5;
 let cameraProperties = {
@@ -46,15 +48,44 @@ function setup() {
   createCanvas(windowWidth,windowHeight,WEBGL);
   createEasyCam();
 
+  let transitTextSize = width/10000;
+  let transitTextRes = 80;
+  let transitTextDepth = 20;
+  let transitTextBevelled = false;
+  let transitTextFont = `Helvetica`;
+  let transitTextStyle = `Bold`;
+  transitText = createWord3D(`Move the cursor to the right of the screen`,transitTextDepth,transitTextSize,transitTextRes,transitTextBevelled,transitTextFont,transitTextStyle);
+
+
+
   //create our planets in the solar system
   for (let i = 0; i<numPlanets; i++){
-    let planet = new Planet(random(20,100),random(landscapes),random(1000,4000),random(100,600),random(100,120));
+    let planet = new Planet(random(20,50),random(landscapes),random(1000,4000),random(100,600),random(100,120));
     planets.push(planet);
   }
 
   //create the suns in the solar system
   for (let i = 0; i<numSuns; i++){
-    let sun = new Sun(100);
+    let size = random(100,200);
+    let fill = {
+      r: random(200,255),
+      g: 200,
+      b: 0,
+    };
+
+    let distanceFromCenter = 0;
+
+    if (numSuns === 1){
+      distanceFromCenter = 0;
+    }
+    else{
+      distanceFromCenter = 500;
+    }
+
+    let rotationalPeriod = random(100,1000);
+    let selfRotationPeriod = random(100,1000);
+
+    let sun = new Sun(size,fill.r,fill.g,fill.b,distanceFromCenter,rotationalPeriod,selfRotationPeriod);
     suns.push(sun);
   }
 
@@ -124,6 +155,8 @@ function inTransit(){
     stars[i].update();
     stars[i].show();
   }
+
+  displayInTransitIntructions();
 }
 
 function arrived(){
@@ -152,6 +185,29 @@ function arrived(){
     let sun = suns[i];
 
     sun.display();
+    sun.move();
     sun.shine();
   }
+}
+
+function displayInTransitIntructions(){
+  let translationX = mouseX;
+  translationX = map(translationX, 0, width, 0, 1000);
+
+  translate(0,0,translationX);
+  transitText.show();
+
+
+  //
+  // push();
+  // texture(transitText);
+  // angleMode(DEGREES);
+  // // rotateY(instructionRotationZ);
+  // translate(0,0,translationX);
+  // plane(width,height);
+  // // textFont('Helvetica');
+  // // textSize(40);
+  // // fill(255);
+  // // text(`Move the cursor to the right of the screen`);
+  // pop();
 }

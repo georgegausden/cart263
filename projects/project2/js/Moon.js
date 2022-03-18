@@ -1,4 +1,4 @@
-class Planet{
+class Moon{
   constructor(size,landscape,distanceFromStar,rotationalPeriod,selfRotationPeriod){
     this.size = size;
     this.landscape = landscape;
@@ -21,7 +21,7 @@ class Planet{
   }
 
   move(){
-    //get the planets to move in a circular orbit relative to the center of the solar system
+    //get the planets to move in a circular orbit relative to the center of the planet
     this.x = this.vx;
     this.y = this.vy;
     this.vx = this.distanceFromStar*sin(1/this.rotationalPeriod*frameCount);
@@ -37,6 +37,5 @@ class Planet{
     ellipse(0,0,2*this.distanceFromStar,2*this.distanceFromStar,50);
     pop();
   }
-
 
 }
