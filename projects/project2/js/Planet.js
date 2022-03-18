@@ -1,5 +1,5 @@
 class Planet{
-  constructor(size,landscape,distanceFromStar,rotationalPeriod){
+  constructor(size,landscape,distanceFromStar,rotationalPeriod,selfRotationPeriod){
     this.size = size;
     this.landscape = landscape;
     this.x = 0;
@@ -8,12 +8,14 @@ class Planet{
     this.vy = undefined;
     this.distanceFromStar = distanceFromStar;
     this.rotationalPeriod = rotationalPeriod;
+    this.selfRotationPeriod = selfRotationPeriod;
   }
 
   display(){
     push();
     texture(this.landscape);
     translate(this.x,this.y);
+    rotateZ(1/this.selfRotationPeriod*frameCount);
     sphere(this.size,40,40);
     pop();
   }
@@ -30,7 +32,7 @@ class Planet{
     //draw the path of the planet with an ellipse
     push();
     noFill();
-    stroke(255,0,255);
+    stroke(255);
     ellipseMode(CENTER);
     ellipse(0,0,2*this.distanceFromStar,2*this.distanceFromStar,50);
     pop();

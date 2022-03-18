@@ -7,7 +7,7 @@ author, and this description to match your project!
 */
 
 "use strict";
-let state = 'arrived';
+let state = 'inTransit';
 let angle = 0;
 let planets = [];
 let stars = [];
@@ -17,7 +17,7 @@ let backgroundFadeSpeed = 3;
 let speed;
 let suns = [];
 let numSuns = 1;
-let numPlanets = 5;
+let numPlanets = 50;
 let landscapes = [];
 let numLandscapeAssets = 5;
 let cameraProperties = {
@@ -48,7 +48,7 @@ function setup() {
 
   //create our planets in the solar system
   for (let i = 0; i<numPlanets; i++){
-    let planet = new Planet(random(50,100),random(landscapes),random(1000,2000),random(100,200));
+    let planet = new Planet(random(20,100),random(landscapes),random(1000,4000),random(100,600),random(100,120));
     planets.push(planet);
   }
 
@@ -134,7 +134,7 @@ function arrived(){
   // setupCamera();
 
   //add lighting to the scene
-  pointLight(255,255,200,0,0,0);
+  // pointLight(255,255,200,0,0,0);
 
   noStroke();
 

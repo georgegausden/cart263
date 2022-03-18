@@ -5,7 +5,7 @@ class Sun{
 
   display(){
     push();
-    emissiveMaterial(130, 230, 0);
+    fill(255,255,0);
     sphere(this.size,40,40);
     pop();
   }
