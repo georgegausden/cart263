@@ -9,10 +9,15 @@ author, and this description to match your project!
 "use strict";
 let state = 'arrived';
 let transitText;
+let nightSky;
+let nightSkyRotation = 0;
+let nightSkyRotationSpeed = 0;
+let numNightSkyStars = 1000;
 let angle = 0;
 let planets = [];
 let stars = [];
-let numStars = 2000;
+let numStars = 5000;
+let nightSkyImg = undefined;
 let inTransitBackground = 0;
 let backgroundFadeSpeed = 3;
 let speed;
@@ -37,6 +42,7 @@ function preload() {
     let landscape = loadImage(`assets/images/landscape${i}.jpeg`);
     landscapes.push(landscape);
   }
+  nightSkyImg = loadImage(`assets/images/nightSky.jpeg`);
 
 }
 
@@ -47,6 +53,15 @@ Description of setup
 function setup() {
   createCanvas(windowWidth,windowHeight,WEBGL);
   createEasyCam();
+
+  nightSky = createGraphics(3000,3000);
+  nightSky.background(0);
+  nightSky.fill(255);
+  nightSky.stars = [];
+  for (let i = 0; i<numNightSkyStars; i++){
+    nightSky.circle(random(0,3000),random(0,3000),random(0,5));
+  }
+
 
   let transitTextSize = width/10000;
   let transitTextRes = 80;
@@ -174,12 +189,30 @@ function arrived(){
   if (inTransitBackground > 0){
     inTransitBackground -= backgroundFadeSpeed;
   }
+
+  //make the background stars flicker
+  for (let i = 0; i<nightSky.stars.length; i++){
+    let star = nightSky.stars[i];
+    star.display()
+  }
+
+  //set up the night sky
+  nightSkyRotationSpeed = mouseX;
+  nightSkyRotationSpeed = map(nightSkyRotationSpeed,0,width,-0.01,0.01);
+  nightSkyRotation += nightSkyRotationSpeed;
+
+  push();
+  texture(nightSky);
+  rotateY(nightSkyRotation);
+  sphere(5000,50,50);
+  pop();
   // setupCamera();
 
   //add lighting to the scene
   // pointLight(255,255,200,0,0,0);
 
   noStroke();
+
 
   //display our planets
   for (let i = 0; i<planets.length; i++){
