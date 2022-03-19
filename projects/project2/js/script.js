@@ -15,6 +15,7 @@ let nightSkyRotationSpeed = 0;
 let numNightSkyStars = 1000;
 let angle = 0;
 let planets = [];
+let maxMoonsPerPlanet = 6;
 let stars = [];
 let numStars = 5000;
 let nightSkyImg = undefined;
@@ -24,7 +25,7 @@ let speed;
 let suns = [];
 let distanceBetweenStars = 1000;
 let numSuns = 1;
-let numPlanets = 10;
+let numPlanets = 20;
 let landscapes = [];
 let numLandscapeAssets = 5;
 let cameraProperties = {
@@ -33,6 +34,9 @@ let cameraProperties = {
   z:0,
   speed: 10,
 }
+let camera;
+let cameraStates = [];
+let counter = 0;
 
 /**
 Description of preload
@@ -52,7 +56,14 @@ Description of setup
 */
 function setup() {
   createCanvas(windowWidth,windowHeight,WEBGL);
-  createEasyCam();
+  camera = createEasyCam();
+  camera.setDistanceMin(500);
+  camera.setDistanceMax(5000);
+
+  // camera.setCenter([0,0,4000],10000);
+
+
+
 
   nightSky = createGraphics(3000,3000);
   nightSky.background(0);
@@ -75,9 +86,11 @@ function setup() {
 
   //create our planets in the solar system
   for (let i = 0; i<numPlanets; i++){
-    let planet = new Planet(random(20,50),random(landscapes),random(1000,4000),random(100,600),random(100,120),random(0,5),random(-100,100));
+    let planet = new Planet(random(20,50),random(landscapes),random(1000,4000),random(100,600),random(100,120),random(0,maxMoonsPerPlanet),random(-100,100));
     planets.push(planet);
   }
+
+
 
   //create the moons in our solar system
   for (let i = 0; i<planets.length; i++){
@@ -198,14 +211,27 @@ function arrived(){
 
   //set up the night sky
   nightSkyRotationSpeed = mouseX;
-  nightSkyRotationSpeed = map(nightSkyRotationSpeed,0,width,-0.01,0.01);
+  nightSkyRotationSpeed = map(nightSkyRotationSpeed,0,width,-0.001,0.001);
   nightSkyRotation += nightSkyRotationSpeed;
+
+
+  //create the different camera states for our solar system
+  for (let i = 0; i<planets.length; i++){
+    let planet = planets[i];
+
+    let cameraState = {
+      center: [planet.x,planet.y,planet.z],
+    }
+    cameraStates.push(cameraState);
+  }
 
   push();
   texture(nightSky);
   rotateY(nightSkyRotation);
   sphere(5000,50,50);
   pop();
+
+
   // setupCamera();
 
   //add lighting to the scene
@@ -224,7 +250,7 @@ function arrived(){
     for (let j = 0; j<planet.moons.length; j++){
       let moon = planet.moons[j];
       moon.display();
-      moon.drawPath(planet.x,planet.y);
+      // moon.drawPath(planet.x,planet.y);
       moon.move(planet.x,planet.y);
     }
   }
@@ -237,6 +263,8 @@ function arrived(){
     sun.move();
     sun.shine();
   }
+
+
 }
 
 function displayInTransitIntructions(){
@@ -259,4 +287,24 @@ function displayInTransitIntructions(){
   // // fill(255);
   // // text(`Move the cursor to the right of the screen`);
   // pop();
+}
+
+function keyPressed(){
+  counter += 1;
+
+  let planet = planets[counter];
+
+  //briefly stop the planet from moving
+  planet.beingViewed = true;
+
+  let x = planet.x;
+  let y = planet.y;
+  let z = planet.z;
+
+  let center = [x,y,z];
+
+
+
+
+  camera.setCenter(center,1000);
 }

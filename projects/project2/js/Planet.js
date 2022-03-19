@@ -4,6 +4,7 @@ class Planet{
     this.landscape = landscape;
     this.x = 0;
     this.y = 0;
+    this.z = 0;
     this.vx = undefined;
     this.vy = undefined;
     this.distanceFromStar = distanceFromStar;
@@ -12,6 +13,8 @@ class Planet{
     this.numMoons = numMoons;
     this.moons = [];
     this.phase = initialPhase;
+    this.beingViewed = false;
+    this.currentFrame = undefined;
   }
 
   display(){
@@ -27,8 +30,20 @@ class Planet{
     //get the planets to move in a circular orbit relative to the center of the solar system
     this.x = this.vx;
     this.y = this.vy;
-    this.vx = this.distanceFromStar*sin(1/this.rotationalPeriod*frameCount+this.phase);
-    this.vy = this.distanceFromStar*cos(1/this.rotationalPeriod*frameCount+this.phase);
+
+    if (!this.beingViewed){
+      this.currentFrame = frameCount;
+    }
+
+    if (this.beingViewed){
+      this.vx = this.distanceFromStar*sin(1/this.rotationalPeriod*this.currentFrame+this.phase);
+      this.vy = this.distanceFromStar*cos(1/this.rotationalPeriod*this.currentFrame+this.phase);
+    }
+    else{
+      this.vx = this.distanceFromStar*sin(1/this.rotationalPeriod*frameCount+this.phase);
+      this.vy = this.distanceFromStar*cos(1/this.rotationalPeriod*frameCount+this.phase);
+    }
+
   }
 
   drawPath(){
