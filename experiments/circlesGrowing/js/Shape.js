@@ -27,7 +27,7 @@ class Shape {
     push();
     noStroke();
     fill(this.fill);
-    circle(this.x,this.y,this.size);
+    circle(this.x,this.y,15);
     pop();
   }
 

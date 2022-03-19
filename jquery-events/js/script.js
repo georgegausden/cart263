@@ -14,7 +14,7 @@
 //   $(this).remove();
 // })
 
-// $(`.header`).on(`click`, function(event){
-//   $(this).css(`color`,`red`);
-//   $(`.header`).off(`click`);
-// })
+$(`.header`).on(`click`, function(event){
+  $(this).css(`color`,`red`);
+  $(`.header`).off(`click`);
+})

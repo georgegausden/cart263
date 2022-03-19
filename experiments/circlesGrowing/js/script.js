@@ -1,21 +1,23 @@
 "use strict";
 
-let numCols = 40;
-let numRows = 40;
+let numCols = 100;
+let numRows = 60;
 let circles = [];
 let state = [true,false];
 let colour = [255,0];
 let speed = [0.5,-0.5,1,-1];
 let vx;
 let vy;
+let maxSpeed = 3;
 
 let gifLength = 1300;
 let canvas;
+let p5Canvas;
 
 
 function setup(){
-  var p5Canvas = createCanvas(600,600);
-  canvas = p5Canvas.canvas;
+  p5Canvas = createCanvas(1920,1080);
+  frameRate(30);
 
 
 
@@ -32,21 +34,26 @@ function setup(){
       let y = (height/numRows)*(j+0.5);
       let row = j;
       if (row%2 === 0){
-        vx = -random(-1,1)/5;
+        vx = -random(-maxSpeed,maxSpeed)/5;
       }
       else{
-        vx = random(-1,1)/5;
+        vx = random(-maxSpeed,maxSpeed)/5;
       }
-      let circle = new Shape(x,y,10,false,true,10,0,vx,0,row,column);
+      let circle = new Shape(x,y,10,false,true,10,random(colour),vx,0,row,column);
       circles.push(circle);
     };
   };
-  background(255);
+
 
 }
 
 function draw(){
-  capturer.start();
+  if (frameCount === 1){
+    capturer.start();
+  }
+
+  background(255);
+  // capturer.start();
 
 
   for (let i = 0; i<circles.length; i++){
@@ -61,13 +68,11 @@ function draw(){
     // circle.shrink();
 
   }
-  //
-  if (frameCount < gifLength){
-    capturer.capture(canvas);
-  }
-  else if (frameCount === gifLength){
-    capturer.stop();
-    capturer.save();
+
+  capturer.capture(p5Canvas.canvas);
+  if (frameCount === 600){
+    capturer.save()
+    capturer.stop()
   }
 
 
