@@ -8,6 +8,7 @@ author, and this description to match your project!
 
 "use strict";
 let state = 'arrived';
+let bgMusic = undefined;
 let transitText;
 let nightSky;
 let nightSkyRotation = 0;
@@ -37,6 +38,8 @@ let cameraProperties = {
 let camera;
 let cameraStates = [];
 let counter = 0;
+let programFont;
+let sunTextFill = 255;
 
 /**
 Description of preload
@@ -47,6 +50,9 @@ function preload() {
     landscapes.push(landscape);
   }
   nightSkyImg = loadImage(`assets/images/nightSky.jpeg`);
+  bgMusic = loadSound(`assets/sounds/bgMusic.mp3`);
+  programFont = loadFont(`assets/fonts/ubuntu.ttf`);
+
 
 }
 
@@ -82,11 +88,12 @@ function setup() {
   let transitTextStyle = `Bold`;
   transitText = createWord3D(`Move the cursor to the right of the screen`,transitTextDepth,transitTextSize,transitTextRes,transitTextBevelled,transitTextFont,transitTextStyle);
 
-
+  textFont(programFont);
+  textAlign(CENTER);
 
   //create our planets in the solar system
   for (let i = 0; i<numPlanets; i++){
-    let planet = new Planet(random(20,50),random(landscapes),random(1000,4000),random(100,600),random(100,120),random(0,maxMoonsPerPlanet),random(-100,100));
+    let planet = new Planet(random(20,50),random(landscapes),random(1000,4000),random(100,600),random(100,120),random(0,maxMoonsPerPlanet),random(-100,100),i);
     planets.push(planet);
   }
 
@@ -198,10 +205,24 @@ function inTransit(){
 }
 
 function arrived(){
+  //setup the music in the background
+  if (!bgMusic.isPlaying){
+    bgMusic.play();
+  }
   background(inTransitBackground);
   if (inTransitBackground > 0){
     inTransitBackground -= backgroundFadeSpeed;
   }
+
+  
+  push();
+  textSize(40);
+  fill(sunTextFill);
+  stroke(sunTextFill);
+  text(`Press any key to view a planet`,0,1.2*height/6);
+  pop();
+
+  sunTextFill -= 1;
 
   //make the background stars flicker
   for (let i = 0; i<nightSky.stars.length; i++){
@@ -246,6 +267,7 @@ function arrived(){
     planet.display();
     planet.drawPath();
     planet.move();
+    // planet.updateViewing();
 
     for (let j = 0; j<planet.moons.length; j++){
       let moon = planet.moons[j];
@@ -290,7 +312,8 @@ function displayInTransitIntructions(){
 }
 
 function keyPressed(){
-  counter += 1;
+
+  console.log(counter);
 
   let planet = planets[counter];
 
@@ -303,8 +326,12 @@ function keyPressed(){
 
   let center = [x,y,z];
 
+  camera.setCenter(center,2000);
 
+  counter += 1;
 
+  if (counter === planets.length){
+    counter = 0;
+  }
 
-  camera.setCenter(center,1000);
 }

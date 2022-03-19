@@ -1,5 +1,5 @@
 class Planet{
-  constructor(size,landscape,distanceFromStar,rotationalPeriod,selfRotationPeriod,numMoons,initialPhase){
+  constructor(size,landscape,distanceFromStar,rotationalPeriod,selfRotationPeriod,numMoons,initialPhase,index){
     this.size = size;
     this.landscape = landscape;
     this.x = 0;
@@ -15,6 +15,7 @@ class Planet{
     this.phase = initialPhase;
     this.beingViewed = false;
     this.currentFrame = undefined;
+    this.index = index;
   }
 
   display(){
@@ -54,6 +55,12 @@ class Planet{
     ellipseMode(CENTER);
     ellipse(0,0,2*this.distanceFromStar,2*this.distanceFromStar,50);
     pop();
+  }
+
+  updateViewing(){
+    if (counter-1 != this.index){
+      this.beingViewed = false;
+    }
   }
 
 
