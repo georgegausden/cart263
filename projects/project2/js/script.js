@@ -64,7 +64,7 @@ function setup() {
   createCanvas(windowWidth,windowHeight,WEBGL);
   camera = createEasyCam();
   camera.setDistanceMin(500);
-  camera.setDistanceMax(5000);
+  // camera.setDistanceMax(5000);
 
   // camera.setCenter([0,0,4000],10000);
 
@@ -214,7 +214,7 @@ function arrived(){
     inTransitBackground -= backgroundFadeSpeed;
   }
 
-  
+
   push();
   textSize(40);
   fill(sunTextFill);

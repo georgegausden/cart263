@@ -51,7 +51,7 @@ class Planet{
     //draw the path of the planet with an ellipse
     push();
     noFill();
-    stroke(255,255,255,100);
+    stroke(255,255,255);
     ellipseMode(CENTER);
     ellipse(0,0,2*this.distanceFromStar,2*this.distanceFromStar,50);
     pop();
