@@ -7,7 +7,7 @@ author, and this description to match your project!
 */
 
 "use strict";
-let state = 'arrived';
+let state = 'inTransit';
 let bgMusic = undefined;
 let transitText;
 let nightSky;
