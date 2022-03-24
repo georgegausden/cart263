@@ -54,6 +54,7 @@ class Shape{
       if (i!=this.index){
         let circle = circles[i];
 
+        
         let d = dist(circle.x,circle.y,this.x,this.y);
 
         if (d<=this.size/2+circle.size/2){

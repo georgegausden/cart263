@@ -29,9 +29,9 @@ function setup(){
 }
 
 function draw(){
-  if (frameCount === 1){
-    capturer.start();
-  }
+  // if (frameCount === 1){
+  //   capturer.start();
+  // }
 
   background(255,0,0);
 
@@ -43,11 +43,11 @@ function draw(){
   }
 
 
-  capturer.capture(p5Canvas.canvas);
-  if (frameCount === 1500){
-    capturer.save()
-    capturer.stop()
-  }
+  // capturer.capture(p5Canvas.canvas);
+  // if (frameCount === 1500){
+  //   capturer.save()
+  //   capturer.stop()
+  // }
 }
 
 function createNewCircle(){
