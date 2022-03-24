@@ -10,6 +10,7 @@ author, and this description to match your project!
 
 let numRect = 10;
 let rects = [];
+let black;
 
 let p5Canvas;
 
@@ -38,9 +39,9 @@ function setup() {
 Description of draw()
 */
 function draw() {
-  if (frameCount === 1){
-    capturer.start();
-  }
+  // if (frameCount === 1){
+  //   capturer.start();
+  // }
 
   background(255);
 
@@ -55,12 +56,12 @@ function draw() {
   }
 
 
-
-  capturer.capture(p5Canvas.canvas);
-  if (frameCount === 1500){
-    capturer.save()
-    capturer.stop()
-  }
+  //
+  // capturer.capture(p5Canvas.canvas);
+  // if (frameCount === 1500){
+  //   capturer.save()
+  //   capturer.stop()
+  // }
 
 
 }
