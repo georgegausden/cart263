@@ -7,7 +7,7 @@ author, and this description to match your project!
 */
 
 "use strict";
-let state = 'inTransit';
+let state = 'arrived';
 let bgMusic = undefined;
 let transitText;
 let nightSky;
@@ -214,6 +214,8 @@ function arrived(){
     inTransitBackground -= backgroundFadeSpeed;
   }
 
+  // pointLight(255,255,255,0,0,0);
+
 
   push();
   textSize(40);
@@ -264,8 +266,9 @@ function arrived(){
   //display our planets
   for (let i = 0; i<planets.length; i++){
     let planet = planets[i];
-    planet.display();
     planet.drawPath();
+    planet.display();
+
     planet.move();
     // planet.updateViewing();
 
@@ -327,6 +330,8 @@ function keyPressed(){
   let center = [x,y,z];
 
   camera.setCenter(center,2000);
+  camera.setDistanceMin(planet.size*6);
+
 
   counter += 1;
 

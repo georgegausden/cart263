@@ -16,6 +16,7 @@ class Sun{
   display(){
     push();
     fill(this.fill.r,this.fill.g,this.fill.b);
+    // ambientMaterial(255);
     translate(this.x,this.y);
     rotateZ(1/this.selfRotationPeriod*frameCount);
     sphere(this.size,40,40);
