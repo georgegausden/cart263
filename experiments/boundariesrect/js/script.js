@@ -1,6 +1,6 @@
 "use strict";
 
-let numRects = 4;
+let numRects = 10;
 let rects = [];
 
 let minR = 100
@@ -34,9 +34,9 @@ function setup(){
 }
 
 function draw(){
-  if (frameCount === 1){
-    capturer.start();
-  }
+  // if (frameCount === 1){
+  //   capturer.start();
+  // }
 
   background(255);
 
@@ -47,14 +47,14 @@ function draw(){
     rectangle.update();
   }
 
-  borderStrokes();
+  // borderStrokes();
 
 
   capturer.capture(p5Canvas.canvas);
-  if (frameCount === 1500){
-    capturer.save()
-    capturer.stop()
-  }
+  // if (frameCount === 1500){
+  //   capturer.save()
+  //   capturer.stop()
+  // }
 }
 
 function createNewRect(){

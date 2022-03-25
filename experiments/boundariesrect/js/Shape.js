@@ -18,10 +18,11 @@ class Shape{
 
   display(){
     push();
-    fill(this.palette[0],this.palette[1],this.palette[2]);
+    // fill(this.palette[0],this.palette[1],this.palette[2]);
+    fill(0);
     if (this.width > 1){
       stroke(0);
-      strokeWeight(8);
+      strokeWeight(0);
     }
     else{
       noStroke();

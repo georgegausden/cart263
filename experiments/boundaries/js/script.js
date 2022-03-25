@@ -1,6 +1,6 @@
 "use strict";
 
-let numCircles = 4;
+let numCircles = 1;
 let circles = [];
 
 let minR = 100
