@@ -93,7 +93,8 @@ function setup() {
 
   //create our planets in the solar system
   for (let i = 0; i<numPlanets; i++){
-    let planet = new Planet(random(20,50),random(landscapes),random(1000,4000),random(100,600),random(100,120),random(0,maxMoonsPerPlanet),random(-100,100),i);
+    let planet = new Planet(random(20,50),random(landscapes),random(1000,4000),random(100,600),random(100,120),random(0,maxMoonsPerPlanet),random(-100,100),i,2);
+
     planets.push(planet);
   }
 
@@ -266,6 +267,8 @@ function arrived(){
   //display our planets
   for (let i = 0; i<planets.length; i++){
     let planet = planets[i];
+    planet.createClouds();
+    planet.createRings();
     planet.drawPath();
     planet.display();
 
@@ -330,6 +333,7 @@ function keyPressed(){
   let center = [x,y,z];
 
   camera.setCenter(center,2000);
+  camera.setDistance(planet.size*10,1000);
   camera.setDistanceMin(planet.size*6);
 
 
