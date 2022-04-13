@@ -2,33 +2,47 @@
 The Planets
 George Gausden
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+An interactive solar system model
 */
 
 "use strict";
-let state = 'arrived';
+
+//set the initial state of the game
+let state = 'inTransit';
+
+//set the background music
 let bgMusic = undefined;
-let transitText;
+
+//planet related variables
+let planets = [];
+let maxMoonsPerPlanet = 6;
+let numPlanets = 5;
+let landscapes = [];
+let numLandscapeAssets = 5;
+
+//background of solar system variables
 let nightSky;
 let nightSkyRotation = 0;
 let nightSkyRotationSpeed = 0;
 let numNightSkyStars = 1000;
-let angle = 0;
-let planets = [];
-let maxMoonsPerPlanet = 6;
+
+//star related variables
+let suns = [];
+let numSuns = 1;
+
+//inTransit state related variables
 let stars = [];
-let numStars = 5000;
-let nightSkyImg = undefined;
+let numStars = 3000;
 let inTransitBackground = 0;
 let backgroundFadeSpeed = 3;
 let speed;
-let suns = [];
-let distanceBetweenStars = 1000;
-let numSuns = 1;
-let numPlanets = 20;
-let landscapes = [];
-let numLandscapeAssets = 5;
+
+//text related variables
+let transitText;
+let sunTextFill = 255;
+let programFont;
+
+//camera related properties
 let cameraProperties = {
   x:0,
   y:0,
@@ -36,41 +50,37 @@ let cameraProperties = {
   speed: 10,
 }
 let camera;
+let cameraAngle;
 let cameraStates = [];
-let counter = 0;
-let programFont;
-let sunTextFill = 255;
+let cameraStateCounter = 0;
+
 
 /**
-Description of preload
+Preload all the images used for the planets as well as music, fonts, sound effects...
 */
 function preload() {
   for (let i = 0; i<numLandscapeAssets; i++){
     let landscape = loadImage(`assets/images/landscape${i}.jpeg`);
     landscapes.push(landscape);
   }
-  nightSkyImg = loadImage(`assets/images/nightSky.jpeg`);
   bgMusic = loadSound(`assets/sounds/bgMusic.mp3`);
   programFont = loadFont(`assets/fonts/ubuntu.ttf`);
-
 
 }
 
 
 /**
-Description of setup
+Setup the camera system, load all the objects (planets,moons,suns)
 */
 function setup() {
   createCanvas(windowWidth,windowHeight,WEBGL);
+
+  //create the camera and set the minimum/maximum distance
   camera = createEasyCam();
   camera.setDistanceMin(500);
-  // camera.setDistanceMax(5000);
+  camera.setDistanceMax(5000);
 
-  // camera.setCenter([0,0,4000],10000);
-
-
-
-
+  //create the background night sky
   nightSky = createGraphics(3000,3000);
   nightSky.background(0);
   nightSky.fill(255);
@@ -79,7 +89,7 @@ function setup() {
     nightSky.circle(random(0,3000),random(0,3000),random(0,5));
   }
 
-
+  //create the text object that is displayed in the inTransit state
   let transitTextSize = width/10000;
   let transitTextRes = 80;
   let transitTextDepth = 20;
@@ -87,18 +97,14 @@ function setup() {
   let transitTextFont = `Helvetica`;
   let transitTextStyle = `Bold`;
   transitText = createWord3D(`Move the cursor to the right of the screen`,transitTextDepth,transitTextSize,transitTextRes,transitTextBevelled,transitTextFont,transitTextStyle);
-
   textFont(programFont);
   textAlign(CENTER);
 
   //create our planets in the solar system
   for (let i = 0; i<numPlanets; i++){
     let planet = new Planet(random(20,50),random(landscapes),random(1000,4000),random(100,600),random(100,120),random(0,maxMoonsPerPlanet),random(-100,100),i,2);
-
     planets.push(planet);
   }
-
-
 
   //create the moons in our solar system
   for (let i = 0; i<planets.length; i++){
@@ -135,20 +141,16 @@ function setup() {
     suns.push(sun);
   }
 
-  // Create an array of 1600 star objects
+  // Create an array of 1600 star objects for the inTransit state
   for (var i = 0; i < numStars; i++) {
         stars[i] = new Star();
-
-      // This also works to populate the array
-        // star = new Star();
-    // append(stars, star);
   }
 
 }
 
 
 /**
-Description of draw()
+Plays the possible states in the game
 */
 function draw() {
 
@@ -159,33 +161,14 @@ function draw() {
     arrived();
   }
 
-
 }
-
-// function setupCamera(){
-//
-//   //check if the user is moving the camera in the scene
-//   if (keyCode === 87){
-//     cameraProperties.y += cameraProperties.speed;
-//   }
-//   else if (keyCode === 83){
-//     cameraProperties.y -= cameraProperties.speed;
-//   }
-//   else if (keyCode === 68){
-//     cameraProperties.x += cameraProperties.speed;
-//   }
-//   else if (keyCode === 65){
-//     cameraProperties.x -= cameraProperties.speed;
-//   }
-//
-//   camera(cameraProperties.x,cameraProperties.y,(height/2)/(tan(PI/6)),0,0,0,0,1,0);
-// }
-
 
 //display what the user sees when they are in transit to their new solar system
 function inTransit(){
   speed = map(mouseX, 0, width, 5, 100);
-
+  cameraAngle = mouseX;
+  cameraAngle = map(cameraAngle,0,width,0,0.1);
+  camera.rotateZ(cameraAngle)
   //make the background colour climb after a certain time when the user has kept their mouse past a certain amount of the canvas
   if (frameCount > 100 && mouseX > 5*width/6){
     inTransitBackground += backgroundFadeSpeed;
@@ -198,7 +181,7 @@ function inTransit(){
   background(inTransitBackground);
 
   for (let i = 0; i < stars.length; i++) {
-    stars[i].update();
+    stars[i].update(speed);
     stars[i].show();
   }
 
@@ -206,6 +189,8 @@ function inTransit(){
 }
 
 function arrived(){
+  //make sure the camera is back to a normal angle
+  
   //setup the music in the background
   if (!bgMusic.isPlaying){
     bgMusic.play();
@@ -267,8 +252,8 @@ function arrived(){
   //display our planets
   for (let i = 0; i<planets.length; i++){
     let planet = planets[i];
-    planet.createClouds();
-    planet.createRings();
+    // planet.createClouds();
+    // planet.createRings();
     planet.drawPath();
     planet.display();
 
@@ -291,8 +276,6 @@ function arrived(){
     sun.move();
     sun.shine();
   }
-
-
 }
 
 function displayInTransitIntructions(){
@@ -300,28 +283,15 @@ function displayInTransitIntructions(){
   translationX = map(translationX, 0, width, 0, 1000);
 
   translate(0,0,translationX);
+
   transitText.show();
-
-
-  //
-  // push();
-  // texture(transitText);
-  // angleMode(DEGREES);
-  // // rotateY(instructionRotationZ);
-  // translate(0,0,translationX);
-  // plane(width,height);
-  // // textFont('Helvetica');
-  // // textSize(40);
-  // // fill(255);
-  // // text(`Move the cursor to the right of the screen`);
-  // pop();
 }
 
 function keyPressed(){
 
-  console.log(counter);
+  console.log(cameraStateCounter);
 
-  let planet = planets[counter];
+  let planet = planets[cameraStateCounter];
 
   //briefly stop the planet from moving
   planet.beingViewed = true;
@@ -337,10 +307,10 @@ function keyPressed(){
   camera.setDistanceMin(planet.size*6);
 
 
-  counter += 1;
+  cameraStateCounter += 1;
 
-  if (counter === planets.length){
-    counter = 0;
+  if (cameraStateCounter === planets.length){
+    cameraStateCounter = 0;
   }
 
 }

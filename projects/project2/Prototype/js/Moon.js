@@ -11,7 +11,6 @@ class Moon{
     this.rotationalPeriod = rotationalPeriod;
     this.selfRotationPeriod = selfRotationPeriod;
     this.phase = initialPhase;
-    this.angle = angle;
   }
 
   display(){
