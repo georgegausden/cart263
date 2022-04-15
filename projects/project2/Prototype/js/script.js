@@ -8,7 +8,7 @@ An interactive solar system model
 "use strict";
 
 //set the initial state of the game
-let state = 'inTransit';
+let state = 'arrived';
 
 //set the background music
 let bgMusic = undefined;
@@ -54,6 +54,11 @@ let cameraAngle;
 let cameraStates = [];
 let cameraStateCounter = 0;
 
+//load the data set for the planets
+const PLANET_NAME_DATA_URL = `https://raw.githubusercontent.com/dariusk/corpora/master/data/science/minor_planets.json`;
+const ELEMENTS_DATA_URL = `https://raw.githubusercontent.com/dariusk/corpora/master/data/science/elements.json`;
+let planetNamesData;
+let elementsData;
 
 /**
 Preload all the images used for the planets as well as music, fonts, sound effects...
@@ -65,6 +70,10 @@ function preload() {
   }
   bgMusic = loadSound(`assets/sounds/bgMusic.mp3`);
   programFont = loadFont(`assets/fonts/ubuntu.ttf`);
+
+  //preload all the data for the planets
+  planetNamesData = loadJSON(PLANET_NAME_DATA_URL);
+  elementsData = loadJSON(ELEMENTS_DATA_URL);
 
 }
 
@@ -190,7 +199,7 @@ function inTransit(){
 
 function arrived(){
   //make sure the camera is back to a normal angle
-  
+
   //setup the music in the background
   if (!bgMusic.isPlaying){
     bgMusic.play();
@@ -312,5 +321,45 @@ function keyPressed(){
   if (cameraStateCounter === planets.length){
     cameraStateCounter = 0;
   }
+
+}
+
+function loadPlanetData(){
+  let planet = planets[0];
+
+  let r = random(0,planetNamesData['minor_planets'].length);
+  //load the name of the planet
+  let nameString = planetNamesData['minor_planets'][r];
+  let name = split(nameString, " ")[1];
+
+  //assume that if the planet is larger, the mass is larger
+  let weight =  planet.size * random(1000,2000);
+  let mass = `${weight}kg`;
+
+  //create the surface temperature data
+  //assume that the closer the planet is to the sun, the hotter it is
+  let distanceFromStar = planet.distanceFromStar;
+  let surfaceTemperatureVariable = 1/distanceFromStar * 100;
+  let surfaceTemperature = `${surfaceTemperatureVariable}°C`;
+
+  //create the elements present in the atmosphere
+  //pick 10 different elements and create a list of them
+  let numElementsInAtmosphere = 10;
+  let elements = [];
+  for (let i = 0; i<numElementsInAtmosphere; i++){
+    let r = int(random(0,elementsData.elements.length));
+
+    let elementName = elementsData.elements[r].name;
+    elements.push(elementName);
+  }
+
+
+
+  //number of moons
+  let numMoons = planet.numMoons;
+
+  //create a pronounciation component
+
+  return elements;
 
 }
