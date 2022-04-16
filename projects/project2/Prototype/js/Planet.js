@@ -28,6 +28,7 @@ class Planet{
     this.fillB = 0;
     this.fillOpacity = 0;
     this.clicked = false;
+    this.currentCharIndex = 0;
 
   }
 
@@ -53,22 +54,35 @@ class Planet{
         plane(200,200);
         pop();
 
-        push();
-        textSize(5);
-        fill(255);
-
-        translate(this.x,this.y,this.z + 110);
-        text(this.data.description,0,0);
-        pop();
-        console.log(this.data.description);
+        this.typeWriterEffect();
       }
     }
   }
 
   typeWriterEffect(){
     //convert the string of the description into a list of elements
-    let chars = split(this.data.description);
-    console.log(chars);
+    // let chars = split(this.data.description,'');
+    //
+    // if (this.descriptionTimer%5=0){
+    //   append(currentChars,currentCharIndex);
+    // }
+
+    let currentChars = this.data.description.substring(0,this.currentCharIndex+1);
+
+    // let displayedChars = join(chars,'');
+
+    push();
+    textSize(5);
+    fill(255);
+    translate(this.x,this.y,this.z + 110);
+    text(currentChars,0,0);
+    pop();
+
+    if (frameCount%4===0){
+      this.currentCharIndex += 1;
+    }
+
+
   }
 
   move(){
