@@ -155,6 +155,12 @@ function setup() {
         stars[i] = new Star();
   }
 
+  //load all the data for the planets before starting up the program
+  for (let i = 0; i<planets.length; i++){
+    let planet = planets[i];
+    planet.loadPlanetData();
+  }
+
 }
 
 
@@ -321,45 +327,5 @@ function keyPressed(){
   if (cameraStateCounter === planets.length){
     cameraStateCounter = 0;
   }
-
-}
-
-function loadPlanetData(){
-  let planet = planets[0];
-
-  let r = random(0,planetNamesData['minor_planets'].length);
-  //load the name of the planet
-  let nameString = planetNamesData['minor_planets'][r];
-  let name = split(nameString, " ")[1];
-
-  //assume that if the planet is larger, the mass is larger
-  let weight =  planet.size * random(1000,2000);
-  let mass = `${weight}kg`;
-
-  //create the surface temperature data
-  //assume that the closer the planet is to the sun, the hotter it is
-  let distanceFromStar = planet.distanceFromStar;
-  let surfaceTemperatureVariable = 1/distanceFromStar * 100;
-  let surfaceTemperature = `${surfaceTemperatureVariable}°C`;
-
-  //create the elements present in the atmosphere
-  //pick 10 different elements and create a list of them
-  let numElementsInAtmosphere = 10;
-  let elements = [];
-  for (let i = 0; i<numElementsInAtmosphere; i++){
-    let r = int(random(0,elementsData.elements.length));
-
-    let elementName = elementsData.elements[r].name;
-    elements.push(elementName);
-  }
-
-
-
-  //number of moons
-  let numMoons = planet.numMoons;
-
-  //create a pronounciation component
-
-  return elements;
 
 }

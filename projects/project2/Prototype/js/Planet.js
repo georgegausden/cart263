@@ -1,5 +1,5 @@
 class Planet{
-  constructor(size,landscape,distanceFromStar,rotationalPeriod,selfRotationPeriod,numMoons,initialPhase,index,numRings){
+  constructor(size,landscape,distanceFromStar,rotationalPeriod,selfRotationPeriod,numMoons,initialPhase,index,numRings,data){
     this.size = size;
     this.landscape = landscape;
     this.x = 0;
@@ -22,6 +22,7 @@ class Planet{
     this.rings = [];
     this.numRings = numRings;
     this.ringsCreated = false;
+    this.data = undefined;
 
   }
 
@@ -122,6 +123,49 @@ class Planet{
       ring.update(this.x,this.y);
 
     }
+  }
+
+  loadPlanetData(){
+    //load all the data inside of a variable
+    this.data = {
+      name: undefined,
+      mass: undefined,
+      surfaceTemperature: undefined,
+      elements: [],
+      numMoons: this.moons.length,
+    }
+
+
+    let r = int(random(0,planetNamesData['minor_planets'].length));
+
+    //load the name of the planet
+    let nameString = planetNamesData['minor_planets'][r];
+    let name = split(nameString, " ")[1];
+    this.data.name = name;
+
+    //assume that if the planet is larger, the mass is larger
+    let weight =  this.size * random(1000,2000);
+    let mass = `${weight}kg`;
+    this.data.mass = mass;
+
+    //create the surface temperature data
+    //assume that the closer the planet is to the sun, the hotter it is
+    let distanceFromStar = this.distanceFromStar;
+    let surfaceTemperatureVariable = 1/distanceFromStar * 100;
+    let surfaceTemperature = `${surfaceTemperatureVariable}°C`;
+    this.data.surfaceTemperature = surfaceTemperature;
+
+    // create the elements present in the atmosphere
+    // pick 10 different elements and create a list of them
+    let numElementsInAtmosphere = 10;
+    let elements = [];
+    for (let i = 0; i<numElementsInAtmosphere; i++){
+      let r = int(random(0,elementsData.elements.length));
+
+      let elementName = elementsData.elements[r].name;
+      elements.push(elementName);
+    }
+    this.data.elements = elements;
   }
 
 
