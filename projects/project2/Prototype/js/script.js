@@ -52,7 +52,10 @@ let cameraProperties = {
 let camera;
 let cameraAngle;
 let cameraStates = [];
-let cameraStateCounter = 0;
+let cameraStateCounter = 1;
+
+//mouse clicked variable
+let mouseClicked = false;
 
 //load the data set for the planets
 const PLANET_NAME_DATA_URL = `https://raw.githubusercontent.com/dariusk/corpora/master/data/science/minor_planets.json`;
@@ -271,8 +274,11 @@ function arrived(){
     // planet.createRings();
     planet.drawPath();
     planet.display();
-
     planet.move();
+
+    if (planet.beingViewed){
+      planet.checkIfClicked();
+    }
     // planet.updateViewing();
 
     for (let j = 0; j<planet.moons.length; j++){
@@ -327,5 +333,9 @@ function keyPressed(){
   if (cameraStateCounter === planets.length){
     cameraStateCounter = 0;
   }
+}
 
+function mousePressed(){
+  
+  mouseClicked = true;
 }

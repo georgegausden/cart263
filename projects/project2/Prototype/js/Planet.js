@@ -23,6 +23,11 @@ class Planet{
     this.numRings = numRings;
     this.ringsCreated = false;
     this.data = undefined;
+    this.fillR = 0;
+    this.fillG = 255;
+    this.fillB = 0;
+    this.fillOpacity = 0;
+    this.clicked = false;
 
   }
 
@@ -36,6 +41,34 @@ class Planet{
 
     this.cloudActions();
     this.ringActions();
+
+    if (this.beingViewed){
+      this.displayClickableZone();
+
+      if (this.clicked){
+        //create a pop up canvas
+        push();
+        fill(255,0,0,100);
+        translate(this.x,this.y,this.z+100);
+        plane(200,200);
+        pop();
+
+        push();
+        textSize(5);
+        fill(255);
+
+        translate(this.x,this.y,this.z + 110);
+        text(this.data.description,0,0);
+        pop();
+        console.log(this.data.description);
+      }
+    }
+  }
+
+  typeWriterEffect(){
+    //convert the string of the description into a list of elements
+    let chars = split(this.data.description);
+    console.log(chars);
   }
 
   move(){
@@ -133,6 +166,7 @@ class Planet{
       surfaceTemperature: undefined,
       elements: [],
       numMoons: this.moons.length,
+      description: undefined,
     }
 
 
@@ -166,7 +200,29 @@ class Planet{
       elements.push(elementName);
     }
     this.data.elements = elements;
+
+    //planet text
+    this.data.description =
+    `Planet name : ${this.data.name}
+     Mass : ${this.data.mass}
+     Surface Temperature : ${this.data.surfaceTemperature}
+     Natural Satellites : ${this.data.numMoons}`
   }
 
+  displayClickableZone(){
+    this.fillR = 0;
+    this.fillG = 255;
+    this.fillB = 0;
+    this.fillOpacity = 10;
+  }
+
+
+  checkIfClicked(){
+    let d = dist(width/2,height/2,mouseX,mouseY);
+
+    if (d <= this.size && mouseClicked){
+      this.clicked = true;
+    }
+  }
 
 }
