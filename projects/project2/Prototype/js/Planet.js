@@ -101,22 +101,19 @@ class Planet{
       if (this.planeDisappear){
         this.clicked = false;
         this.planeClicked = false;
-        this.planeDisappear = false;
         this.planeOpacity = 0;
         this.planeTextOpacity = 0;
         this.currentCharIndex = 0;
+        this.planeDisappear = false;
       }
-
     }
-
-
   }
 
   typeWriterEffect(){
 
-    // if (!typingSFX.isPlaying()){
-    //   typingSFX.play();
-    // }
+    if (!typingSFX.isPlaying()){
+      typingSFX.play();
+    }
 
     let currentChars = this.data.description.substring(0,this.currentCharIndex+1);
 
@@ -316,10 +313,5 @@ class Planet{
       this.planeTextOpacity = constrain(this.planeTextOpacity,0,255);
       this.planeOpacity = constrain(this.planeOpacity,0,150);
     }
-  }
-
-  updateBooleans(){
-    this.clicked = false;
-    this.planeDisappear = false;
   }
 }

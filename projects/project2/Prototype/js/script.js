@@ -285,7 +285,7 @@ function arrived(){
     let planet = planets[i];
     // planet.createClouds();
     // planet.createRings();
-    
+
     planet.drawPath();
     planet.display();
     planet.move();
