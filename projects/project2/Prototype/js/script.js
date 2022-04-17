@@ -62,6 +62,10 @@ let cameraStateCounter = 0;
 let mouseClicked = false;
 let mouseInsidePlane = false;
 
+//booleans
+let viewingPlanets = false;
+let cameraReset = false;
+
 //load the data set for the planets
 const PLANET_NAME_DATA_URL = `https://raw.githubusercontent.com/dariusk/corpora/master/data/science/minor_planets.json`;
 const ELEMENTS_DATA_URL = `https://raw.githubusercontent.com/dariusk/corpora/master/data/science/elements.json`;
@@ -215,6 +219,11 @@ function inTransit(){
 
 function arrived(){
   //make sure the camera is back to a normal angle
+  if (!cameraReset){
+    camera.reset();
+    cameraReset = true;
+  }
+
 
   //setup the music in the background
   if (!bgMusic.isPlaying){
@@ -227,13 +236,15 @@ function arrived(){
 
   // pointLight(255,255,255,0,0,0);
 
+  if (!viewingPlanets){
+    push();
+    textSize(40);
+    fill(sunTextFill);
+    stroke(sunTextFill);
+    text(`Press any key to view a planet`,0,1.5*height/6);
+    pop();
+  }
 
-  push();
-  textSize(40);
-  fill(sunTextFill);
-  stroke(sunTextFill);
-  text(`Press any key to view a planet`,0,1.2*height/6);
-  pop();
 
   sunTextFill -= 1;
 
@@ -274,9 +285,12 @@ function arrived(){
     let planet = planets[i];
     // planet.createClouds();
     // planet.createRings();
+    
     planet.drawPath();
     planet.display();
     planet.move();
+    planet.increaseOpacity();
+    planet.reduceOpacity();
 
 
 
@@ -310,13 +324,24 @@ function displayInTransitIntructions(){
 }
 
 function keyPressed(){
-  if (keyCode === 39){
+  if (keyCode === 39 && state === 'arrived'){
+
+    viewingPlanets = true;
+
     console.log(cameraStateCounter);
 
     let planet = planets[cameraStateCounter];
 
     //briefly stop the planet from moving
     planet.beingViewed = true;
+
+    for (let i = 0; i<planets.length; i++){
+      let planet = planets[i];
+
+      if (cameraStateCounter!=i){
+        planet.beingViewed = false;
+      }
+    }
 
     let x = planet.x;
     let y = planet.y;
@@ -357,8 +382,7 @@ function mousePressed(){
 
       if (planet.mouseInsidePlane){
         planet.planeClicked = true;
-        planet.clicked = false;
-        console.log(planet);
+
       }
     }
   }

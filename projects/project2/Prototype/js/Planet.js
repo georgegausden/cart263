@@ -34,6 +34,10 @@ class Planet{
     this.hoveringOverPlanet = false;
     this.mouseInsidePlane = false;
     this.planeClicked = false;
+    this.reduceOpacityTimer = 0;
+    this.planeOpacity = 0;
+    this.planeTextOpacity = 0;
+    this.planeDisappear = false;
 
 
   }
@@ -58,7 +62,7 @@ class Planet{
 
       this.displayClickableZone();
 
-      if (this.clicked && !this.planeClicked){
+      if (this.clicked && !this.planeDisappear){
 
         //show the texture of the planet
         this.hoveringOverPlanet = false;
@@ -86,7 +90,7 @@ class Planet{
         }
         //create a pop up canvas
         push();
-        fill(0,this.textG,0,150);
+        fill(0,this.textG,0,this.planeOpacity);
         translate(this.x,this.y,this.z+100);
         plane(this.planeSize,this.planeSize);
         pop();
@@ -106,10 +110,10 @@ class Planet{
 
     push();
     textSize(2);
-    fill(0,255,0);
+    fill(0,255,0,this.planeTextOpacity);
     textFont(digitalFont);
     textAlign(CENTER);
-    translate(this.x,this.y,this.z + 110);
+    translate(this.x,this.y-10,this.z + 110);
     text(currentChars,0,0);
     pop();
 
@@ -251,7 +255,7 @@ class Planet{
     this.data.elements = elements;
 
     //planet text
-    this.data.description = `Planet name : ${this.data.name}\nMass : ${this.data.mass}\nSurface Temperature : ${this.data.surfaceTemperature}\nNatural Satellites : ${this.data.numMoons}`
+    this.data.description = `Planet name : ${this.data.name}\nMass : ${this.data.mass}\nSurface Temperature : ${this.data.surfaceTemperature}\nNatural Satellites : ${this.data.numMoons}\nMain Elements : ${this.data.elements[0]}, ${this.data.elements[1]} and trace amounts of ${this.data.elements[2]}`
   }
 
   displayClickableZone(){
@@ -276,4 +280,29 @@ class Planet{
     }
   }
 
+  reduceOpacity(){
+    if (this.planeClicked){
+      //start a timer
+      this.reduceOpacityTimer += 0.3;
+
+      this.planeOpacity -= this.reduceOpacityTimer;
+      this.planeTextOpacity -= this.reduceOpacityTimer;
+
+      if (this.planeOpacity <= 0 && this.planeTextOpacity <= 0){
+        this.planeDisappear = true;
+      }
+
+    }
+  }
+
+  increaseOpacity(){
+    if (this.clicked){
+
+      this.planeTextOpacity += 0.6;
+      this.planeOpacity += 0.3;
+
+      this.planeTextOpacity = constrain(this.planeTextOpacity,0,255);
+      this.planeOpacity = constrain(this.planeOpacity,0,150);
+    }
+  }
 }
