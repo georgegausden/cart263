@@ -78,26 +78,7 @@ let loadingCounter = 0;
 let totalNumAssets = 30;
 
 
-let s = function( p ) { // p could be any variable name
-  let x = undefined;
-  let y = undefined;
-  let size = 50;
 
-  p.setup = function() {
-    p.createCanvas(windowWidth, windowHeight);
-    x = width/2;
-    y = height/2;
-
-  };
-
-  p.draw = function() {
-    p.background(0);
-    p.fill(255);
-    p.circle(x,y,size);
-    size+=10;
-  };
-};
-let myp5 = new p5(s, 'c1');
 
 /**
 Preload all the images used for the planets as well as music, fonts, sound effects...
