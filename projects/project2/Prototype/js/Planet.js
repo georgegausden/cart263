@@ -56,49 +56,43 @@ class Planet{
 
     if (this.beingViewed){
 
-
       this.displayClickableZone();
 
-      if (!this.planeClicked){
-        
-        if (this.clicked){
+      if (this.clicked && !this.planeClicked){
 
-          //show the texture of the planet
-          this.hoveringOverPlanet = false;
+        //show the texture of the planet
+        this.hoveringOverPlanet = false;
 
-          //set the camera to the state where we can see the information of the planet
-          let state = {
-            distance: this.size+160,
-            center: [this.x,this.y,this.z],
-            rotation: [1,0,0,0],
-          }
-          camera.setState(state);
-
-          // camera.removeMouseListeners();
-
-          //check to see if the mouse is over the rectangle box
-          let d = dist(width/2,height/2,mouseX,mouseY);
-
-          if (d < this.planeSize*4){
-            this.textG = 255;
-            this.mouseInsidePlane = true;
-
-          }
-          else{
-            this.textG = 0;
-            this.mouseInsidePlane = false;
-          }
-          //create a pop up canvas
-          push();
-          fill(0,this.textG,0,150);
-          translate(this.x,this.y,this.z+100);
-          plane(this.planeSize,this.planeSize);
-          pop();
-
-          this.typeWriterEffect();
+        //set the camera to the state where we can see the information of the planet
+        let state = {
+          distance: this.size+160,
+          center: [this.x,this.y,this.z],
+          rotation: [1,0,0,0],
         }
-      }
+        camera.setState(state);
 
+
+        //check to see if the mouse is over the rectangle box
+        let d = dist(width/2,height/2,mouseX,mouseY);
+
+        if (d < this.planeSize*4){
+          this.textG = 255;
+          this.mouseInsidePlane = true;
+
+        }
+        else{
+          this.textG = 0;
+          this.mouseInsidePlane = false;
+        }
+        //create a pop up canvas
+        push();
+        fill(0,this.textG,0,150);
+        translate(this.x,this.y,this.z+100);
+        plane(this.planeSize,this.planeSize);
+        pop();
+
+        this.typeWriterEffect();
+      }
     }
   }
 

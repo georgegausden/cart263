@@ -357,6 +357,7 @@ function mousePressed(){
 
       if (planet.mouseInsidePlane){
         planet.planeClicked = true;
+        planet.clicked = false;
         console.log(planet);
       }
     }
