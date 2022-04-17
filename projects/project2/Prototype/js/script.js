@@ -13,12 +13,15 @@ let state = 'arrived';
 //set the background music
 let bgMusic = undefined;
 
+//SFX variables
+let typingSFX = undefined;
+
 //planet related variables
 let planets = [];
 let maxMoonsPerPlanet = 6;
 let numPlanets = 5;
 let landscapes = [];
-let numLandscapeAssets = 5;
+let numLandscapeAssets = 24;
 
 //background of solar system variables
 let nightSky;
@@ -41,6 +44,7 @@ let speed;
 let transitText;
 let sunTextFill = 255;
 let programFont;
+let digitalFont;
 
 //camera related properties
 let cameraProperties = {
@@ -52,10 +56,11 @@ let cameraProperties = {
 let camera;
 let cameraAngle;
 let cameraStates = [];
-let cameraStateCounter = 1;
+let cameraStateCounter = 0;
 
 //mouse clicked variable
 let mouseClicked = false;
+let mouseInsidePlane = false;
 
 //load the data set for the planets
 const PLANET_NAME_DATA_URL = `https://raw.githubusercontent.com/dariusk/corpora/master/data/science/minor_planets.json`;
@@ -72,7 +77,9 @@ function preload() {
     landscapes.push(landscape);
   }
   bgMusic = loadSound(`assets/sounds/bgMusic.mp3`);
+  typingSFX = loadSound(`assets/sounds/typingSFX.mov`);
   programFont = loadFont(`assets/fonts/ubuntu.ttf`);
+  digitalFont = loadFont(`assets/fonts/digital-7.ttf`);
 
   //preload all the data for the planets
   planetNamesData = loadJSON(PLANET_NAME_DATA_URL);
@@ -88,7 +95,7 @@ function setup() {
   createCanvas(windowWidth,windowHeight,WEBGL);
 
   //create the camera and set the minimum/maximum distance
-  camera = createEasyCam();
+  camera = createEasyCam(p5.RendererGL);
   camera.setDistanceMin(500);
   camera.setDistanceMax(5000);
 
@@ -259,11 +266,6 @@ function arrived(){
   pop();
 
 
-  // setupCamera();
-
-  //add lighting to the scene
-  // pointLight(255,255,200,0,0,0);
-
   noStroke();
 
 
@@ -276,9 +278,8 @@ function arrived(){
     planet.display();
     planet.move();
 
-    if (planet.beingViewed){
-      planet.checkIfClicked();
-    }
+
+
     // planet.updateViewing();
 
     for (let j = 0; j<planet.moons.length; j++){
@@ -309,33 +310,59 @@ function displayInTransitIntructions(){
 }
 
 function keyPressed(){
+  if (keyCode === 39){
+    console.log(cameraStateCounter);
 
-  console.log(cameraStateCounter);
+    let planet = planets[cameraStateCounter];
 
-  let planet = planets[cameraStateCounter];
+    //briefly stop the planet from moving
+    planet.beingViewed = true;
 
-  //briefly stop the planet from moving
-  planet.beingViewed = true;
+    let x = planet.x;
+    let y = planet.y;
+    let z = planet.z;
 
-  let x = planet.x;
-  let y = planet.y;
-  let z = planet.z;
+    let center = [x,y,z];
 
-  let center = [x,y,z];
-
-  camera.setCenter(center,2000);
-  camera.setDistance(planet.size*10,1000);
-  camera.setDistanceMin(planet.size*6);
+    camera.setCenter(center,2000);
+    camera.setDistance(planet.size*10,1000);
+    camera.setDistanceMin(planet.size*6);
 
 
-  cameraStateCounter += 1;
+    cameraStateCounter += 1;
 
-  if (cameraStateCounter === planets.length){
-    cameraStateCounter = 0;
+    if (cameraStateCounter === planets.length){
+      cameraStateCounter = 0;
+    }
+
+    camera.attachMouseListeners(p5.RendererGL);
   }
+
+
+
 }
 
 function mousePressed(){
-  
-  mouseClicked = true;
+
+  //get current planet being viewed
+  for (let i = 0; i<planets.length; i++){
+    let planet = planets[i];
+
+    if (planet.beingViewed){
+      let d = dist(width/2,height/2,mouseX,mouseY);
+
+      if (d <= planet.size){
+        planet.clicked = true;
+      }
+
+      if (planet.mouseInsidePlane){
+        planet.planeClicked = true;
+        console.log(planet);
+      }
+    }
+  }
+
+
+
+
 }

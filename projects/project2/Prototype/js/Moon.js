@@ -20,6 +20,8 @@ class Moon{
     rotateZ(1/this.selfRotationPeriod*frameCount);
     sphere(this.size,40,40);
     pop();
+
+  
   }
 
   move(planetX,planetY){

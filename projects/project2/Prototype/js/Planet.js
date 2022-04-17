@@ -26,54 +26,95 @@ class Planet{
     this.fillR = 0;
     this.fillG = 255;
     this.fillB = 0;
-    this.fillOpacity = 0;
+    this.fillOpacity = 100;
     this.clicked = false;
     this.currentCharIndex = 0;
+    this.textG = 0;
+    this.planeSize = this.size*2;
+    this.hoveringOverPlanet = false;
+    this.mouseInsidePlane = false;
+    this.planeClicked = false;
+
 
   }
 
   display(){
     push();
-    texture(this.landscape);
+    if (this.hoveringOverPlanet){
+      fill(this.fillR,this.fillG,this.fillB,this.fillOpacity);
+    }
+    else{
+      texture(this.landscape);
+    }
     translate(this.x,this.y);
     rotateZ(1/this.selfRotationPeriod*frameCount);
     sphere(this.size,40,40);
     pop();
 
-    this.cloudActions();
-    this.ringActions();
+    // this.cloudActions();
+    // this.ringActions();
 
     if (this.beingViewed){
+
+
       this.displayClickableZone();
 
-      if (this.clicked){
-        //create a pop up canvas
-        push();
-        fill(255,0,0,100);
-        translate(this.x,this.y,this.z+100);
-        plane(200,200);
-        pop();
+      if (!this.planeClicked){
+        
+        if (this.clicked){
 
-        this.typeWriterEffect();
+          //show the texture of the planet
+          this.hoveringOverPlanet = false;
+
+          //set the camera to the state where we can see the information of the planet
+          let state = {
+            distance: this.size+160,
+            center: [this.x,this.y,this.z],
+            rotation: [1,0,0,0],
+          }
+          camera.setState(state);
+
+          // camera.removeMouseListeners();
+
+          //check to see if the mouse is over the rectangle box
+          let d = dist(width/2,height/2,mouseX,mouseY);
+
+          if (d < this.planeSize*4){
+            this.textG = 255;
+            this.mouseInsidePlane = true;
+
+          }
+          else{
+            this.textG = 0;
+            this.mouseInsidePlane = false;
+          }
+          //create a pop up canvas
+          push();
+          fill(0,this.textG,0,150);
+          translate(this.x,this.y,this.z+100);
+          plane(this.planeSize,this.planeSize);
+          pop();
+
+          this.typeWriterEffect();
+        }
       }
+
     }
   }
 
   typeWriterEffect(){
-    //convert the string of the description into a list of elements
-    // let chars = split(this.data.description,'');
-    //
-    // if (this.descriptionTimer%5=0){
-    //   append(currentChars,currentCharIndex);
+
+    // if (!typingSFX.isPlaying()){
+    //   typingSFX.play();
     // }
 
     let currentChars = this.data.description.substring(0,this.currentCharIndex+1);
 
-    // let displayedChars = join(chars,'');
-
     push();
-    textSize(5);
-    fill(255);
+    textSize(2);
+    fill(0,255,0);
+    textFont(digitalFont);
+    textAlign(CENTER);
     translate(this.x,this.y,this.z + 110);
     text(currentChars,0,0);
     pop();
@@ -192,15 +233,15 @@ class Planet{
     this.data.name = name;
 
     //assume that if the planet is larger, the mass is larger
-    let weight =  this.size * random(1000,2000);
-    let mass = `${weight}kg`;
+    let weight =  round(random(1,10),4);
+    let mass = `${weight} x 10^23 kg`;
     this.data.mass = mass;
 
     //create the surface temperature data
     //assume that the closer the planet is to the sun, the hotter it is
     let distanceFromStar = this.distanceFromStar;
-    let surfaceTemperatureVariable = 1/distanceFromStar * 100;
-    let surfaceTemperature = `${surfaceTemperatureVariable}°C`;
+    let surfaceTemperatureVariable = round(1/distanceFromStar * 1000000);
+    let surfaceTemperature = `${surfaceTemperatureVariable} Kelvin`;
     this.data.surfaceTemperature = surfaceTemperature;
 
     // create the elements present in the atmosphere
@@ -216,26 +257,28 @@ class Planet{
     this.data.elements = elements;
 
     //planet text
-    this.data.description =
-    `Planet name : ${this.data.name}
-     Mass : ${this.data.mass}
-     Surface Temperature : ${this.data.surfaceTemperature}
-     Natural Satellites : ${this.data.numMoons}`
+    this.data.description = `Planet name : ${this.data.name}\nMass : ${this.data.mass}\nSurface Temperature : ${this.data.surfaceTemperature}\nNatural Satellites : ${this.data.numMoons}`
   }
 
   displayClickableZone(){
-    this.fillR = 0;
-    this.fillG = 255;
-    this.fillB = 0;
-    this.fillOpacity = 10;
-  }
-
-
-  checkIfClicked(){
     let d = dist(width/2,height/2,mouseX,mouseY);
 
-    if (d <= this.size && mouseClicked){
-      this.clicked = true;
+    if (d <= this.size){
+      this.hoveringOverPlanet = true;
+    }
+    else{
+      this.hoveringOverPlanet = false;
+    }
+  }
+
+  checkMouseInsidePlane(){
+    let d = dist(width/2,height/2,mouseX,mouseY);
+
+    if (d <= this.planeSize){
+      this.mouseInsidePlane = true;
+    }
+    else{
+      this.mouseInsidePlane = false;
     }
   }
 
