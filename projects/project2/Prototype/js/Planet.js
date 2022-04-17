@@ -97,7 +97,19 @@ class Planet{
 
         this.typeWriterEffect();
       }
+
+      if (this.planeDisappear){
+        this.clicked = false;
+        this.planeClicked = false;
+        this.planeDisappear = false;
+        this.planeOpacity = 0;
+        this.planeTextOpacity = 0;
+        this.currentCharIndex = 0;
+      }
+
     }
+
+
   }
 
   typeWriterEffect(){
@@ -304,5 +316,10 @@ class Planet{
       this.planeTextOpacity = constrain(this.planeTextOpacity,0,255);
       this.planeOpacity = constrain(this.planeOpacity,0,150);
     }
+  }
+
+  updateBooleans(){
+    this.clicked = false;
+    this.planeDisappear = false;
   }
 }
