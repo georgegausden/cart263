@@ -99,6 +99,7 @@ class Planet{
       }
 
       if (this.planeDisappear){
+        typingSFX.stop()
         this.clicked = false;
         this.planeClicked = false;
         this.planeOpacity = 0;
@@ -111,8 +112,11 @@ class Planet{
 
   typeWriterEffect(){
 
-    if (!typingSFX.isPlaying()){
+    if (!typingSFX.isPlaying() && (this.currentCharIndex+1) < this.data.description.length){
       typingSFX.play();
+    }
+    else if (this.currentCharIndex+1 === this.data.description.length){
+      typingSFX.stop();
     }
 
     let currentChars = this.data.description.substring(0,this.currentCharIndex+1);
@@ -126,7 +130,7 @@ class Planet{
     text(currentChars,0,0);
     pop();
 
-    if (frameCount%4===0){
+    if (frameCount%3===0){
       this.currentCharIndex += 1;
     }
 
