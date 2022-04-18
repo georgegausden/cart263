@@ -133,7 +133,7 @@ function setup() {
 
   //create our planets in the solar system
   for (let i = 0; i<numPlanets; i++){
-    let planet = new Planet(random(20,50),random(landscapes),random(1000,4000),random(100,600),random(100,120),random(0,maxMoonsPerPlanet),random(-100,100),i,2);
+    let planet = new Planet(random(20,50),random(landscapes),random(1000,4000),random(100,600),random(100,120),int(random(0,maxMoonsPerPlanet)),random(-100,100),i,2);
     planets.push(planet);
   }
 
@@ -386,9 +386,11 @@ function mousePressed(){
 
       if (d <= planet.size){
         planet.clicked = true;
+        console.log('clicked');
+        console.log(planet.planeDisappear);
       }
 
-      if (planet.mouseInsidePlane){
+      if (planet.mouseInsidePlane && planet.typingDone){
         planet.planeClicked = true;
 
       }

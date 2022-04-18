@@ -1,5 +1,5 @@
 class Planet{
-  constructor(size,landscape,distanceFromStar,rotationalPeriod,selfRotationPeriod,numMoons,initialPhase,index,numRings,data){
+  constructor(size,landscape,distanceFromStar,rotationalPeriod,selfRotationPeriod,numMoons,initialPhase,index,numRings){
     this.size = size;
     this.landscape = landscape;
     this.x = 0;
@@ -29,7 +29,7 @@ class Planet{
     this.fillOpacity = 100;
     this.clicked = false;
     this.currentCharIndex = 0;
-    this.textG = 0;
+    this.textG = 255;
     this.planeSize = this.size*2;
     this.hoveringOverPlanet = false;
     this.mouseInsidePlane = false;
@@ -38,6 +38,8 @@ class Planet{
     this.planeOpacity = 0;
     this.planeTextOpacity = 0;
     this.planeDisappear = false;
+    this.currentChars = '';
+    this.typingDone = false;
 
 
   }
@@ -80,7 +82,7 @@ class Planet{
         let d = dist(width/2,height/2,mouseX,mouseY);
 
         if (d < this.planeSize*4){
-          this.textG = 255;
+          this.planeOpacity = 200;
           this.mouseInsidePlane = true;
 
         }
@@ -90,7 +92,7 @@ class Planet{
         }
         //create a pop up canvas
         push();
-        fill(0,this.textG,0,this.planeOpacity);
+        fill(255,255,255,this.planeOpacity);
         translate(this.x,this.y,this.z+100);
         plane(this.planeSize,this.planeSize);
         pop();
@@ -101,9 +103,12 @@ class Planet{
       if (this.planeDisappear){
         typingSFX.stop()
         this.clicked = false;
+        this.typingDone = false;
         this.planeClicked = false;
         this.planeOpacity = 0;
+        this.reduceOpacityTimer = 0;
         this.planeTextOpacity = 0;
+        this.currentChars = '';
         this.currentCharIndex = 0;
         this.planeDisappear = false;
       }
@@ -116,10 +121,11 @@ class Planet{
       typingSFX.play();
     }
     else if (this.currentCharIndex+1 === this.data.description.length){
+      this.typingDone = true;
       typingSFX.stop();
     }
 
-    let currentChars = this.data.description.substring(0,this.currentCharIndex+1);
+    this.currentChars = this.data.description.substring(0,this.currentCharIndex+1);
 
     push();
     textSize(2);
@@ -127,12 +133,14 @@ class Planet{
     textFont(digitalFont);
     textAlign(CENTER);
     translate(this.x,this.y-10,this.z + 110);
-    text(currentChars,0,0);
+    text(this.currentChars,0,0);
     pop();
 
     if (frameCount%3===0){
       this.currentCharIndex += 1;
     }
+
+
 
 
   }
@@ -268,7 +276,7 @@ class Planet{
     this.data.elements = elements;
 
     //planet text
-    this.data.description = `Planet name : ${this.data.name}\nMass : ${this.data.mass}\nSurface Temperature : ${this.data.surfaceTemperature}\nNatural Satellites : ${this.data.numMoons}\nMain Elements : ${this.data.elements[0]}, ${this.data.elements[1]} and trace amounts of ${this.data.elements[2]}`
+    this.data.description = `Planet name : ${this.data.name}\nMass : ${this.data.mass}\nSurface Temperature : ${this.data.surfaceTemperature}\nNatural Satellites : ${this.data.numMoons}\nMain Elements : ${this.data.elements[0]}, ${this.data.elements[1]}\n and trace amounts of ${this.data.elements[2]}`
   }
 
   displayClickableZone(){

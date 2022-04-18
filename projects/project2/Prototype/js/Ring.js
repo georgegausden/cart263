@@ -14,7 +14,7 @@ class Ring{
     push();
     translate(this.x,this.y);
     fill(this.r,this.g,this.b,this.opacity);
-    // ellipse(0,0,this.r);
+    ellipse(0,0,this.r);
     pop();
   }
 
