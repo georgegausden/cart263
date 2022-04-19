@@ -8,7 +8,7 @@ An interactive solar system model
 "use strict";
 
 //set the initial state of the game
-let state = 'arrived';
+let state = 'choose';
 
 //set the background music
 let bgMusic = undefined;
@@ -32,6 +32,9 @@ let numNightSkyStars = 1000;
 //star related variables
 let suns = [];
 let numSuns = 1;
+let typesOfSuns = [[255,0,0,255],[0,0,255,255],[200,200,255,255],[225,200,0,255]];
+let sunLandscapes = [];
+let numSunLandscapes = 3;
 
 //inTransit state related variables
 let stars = [];
@@ -65,6 +68,12 @@ let mouseInsidePlane = false;
 //booleans
 let viewingPlanets = false;
 let cameraReset = false;
+let pickingPlanetNumber = false;
+let enteredSolarSystemCreation = false;
+
+//creating a new solar system
+let numPlanetsChosen = 2;
+let choosingPlanetImg = undefined;
 
 //load the data set for the planets
 const PLANET_NAME_DATA_URL = `https://raw.githubusercontent.com/dariusk/corpora/master/data/science/minor_planets.json`;
@@ -88,6 +97,13 @@ function preload() {
     let landscape = loadImage(`assets/images/landscape${i}.jpeg`);
     landscapes.push(landscape);
   }
+  for (let i = 0; i<numSunLandscapes; i++){
+    let landscape = loadImage(`assets/images/sunLandscape${i}.png`);
+    sunLandscapes.push(landscape);
+  }
+
+  choosingPlanetImg = loadImage(`assets/images/choosingPlanet.jpg`);
+
   bgMusic = loadSound(`assets/sounds/bgMusic.mp3`);
   typingSFX = loadSound(`assets/sounds/typingSFX.mov`);
   programFont = loadFont(`assets/fonts/ubuntu.ttf`);
@@ -104,7 +120,7 @@ function preload() {
 Setup the camera system, load all the objects (planets,moons,suns)
 */
 function setup() {
-  createCanvas(windowWidth,windowHeight,WEBGL);
+  createCanvas(1000,800,WEBGL);
 
   //create the camera and set the minimum/maximum distance
   camera = createEasyCam(p5.RendererGL);
@@ -150,11 +166,8 @@ function setup() {
   //create the suns in the solar system
   for (let i = 0; i<numSuns; i++){
     let size = random(100,200);
-    let fill = {
-      r: random(200,255),
-      g: 200,
-      b: 0,
-    };
+
+    let landscape = random(sunLandscapes);
 
     let distanceFromCenter = 0;
 
@@ -168,7 +181,7 @@ function setup() {
     let rotationalPeriod = random(100,1000);
     let selfRotationPeriod = random(100,1000);
 
-    let sun = new Sun(size,fill.r,fill.g,fill.b,distanceFromCenter,rotationalPeriod,selfRotationPeriod);
+    let sun = new Sun(size,fill.r,fill.g,fill.b,distanceFromCenter,rotationalPeriod,selfRotationPeriod,landscape);
     suns.push(sun);
   }
 
@@ -196,6 +209,9 @@ function draw() {
   }
   else if (state === 'arrived'){
     arrived();
+  }
+  else if (state === 'choose'){
+    choose();
   }
 
 }
@@ -249,7 +265,7 @@ function arrived(){
     textSize(40);
     fill(sunTextFill);
     stroke(sunTextFill);
-    text(`Press any key to view a planet`,0,1.5*height/6);
+    text(`Press the right arrow key to view a planet`,0,2*height/6);
     pop();
   }
 
@@ -371,6 +387,25 @@ function keyPressed(){
     camera.attachMouseListeners(p5.RendererGL);
   }
 
+  if (keyCode === 38 && state === 'choose' && pickingPlanetNumber){
+    if (numPlanetsChosen < 12){
+      numPlanetsChosen += 1;
+    }
+  }
+  else if (keyCode === 40 && state === 'choose' && pickingPlanetNumber){
+    if (numPlanetsChosen > 2){
+      numPlanetsChosen -= 1;
+    }
+  }
+
+  if (keyCode === 13 && pickingPlanetNumber && state === 'choose'){
+    generateNewSolarSystem();
+  }
+
+  if (keyCode === 13 && state === 'choose'){
+    enteredSolarSystemCreation = true;
+  }
+
 
 
 }
@@ -396,8 +431,60 @@ function mousePressed(){
       }
     }
   }
+}
+
+function choose(){
+  background(255);
+  if (!enteredSolarSystemCreation){
+    push();
+    textSize(40);
+    fill(0);
+    text(`create a new solar system`,0,0);
+    pop();
+
+    push();
+    textSize(20);
+    fill(0);
+    text(`press enter to continue`,0,40);
+    pop();
+  }
 
 
+  if (enteredSolarSystemCreation){
+    pickingPlanetNumber = true;
+  }
 
+  if (pickingPlanetNumber){
+    push();
+    textSize(30);
+    fill(0);
+    text(`pick how many planets you'd like`,0,-30);
+    pop();
 
+    push();
+    textSize(20);
+    fill(0);
+    text(`when you've chosen, press enter`,0,10);
+    pop();
+
+    push();
+    noStroke();
+    translate(0,100);
+    rotateZ(1/100*frameCount);
+
+    texture(choosingPlanetImg);
+    sphere(numPlanetsChosen*5,24,24);
+    pop();
+    numPlanetsChosen = constrain(numPlanetsChosen,2,12);
+
+    push();
+    textSize(30);
+    fill(0);
+    text(`${numPlanetsChosen}`,0,200);
+    pop();
+  }
+}
+
+function generateNewSolarSystem(){
+  state = 'inTransit';
 }

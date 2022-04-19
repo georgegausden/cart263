@@ -1,5 +1,5 @@
 class Sun{
-  constructor(size,fillR,fillG,fillB,distanceFromCenter,rotationalPeriod,selfRotationPeriod){
+  constructor(size,fillR,fillG,fillB,distanceFromCenter,rotationalPeriod,selfRotationPeriod,landscape){
     this.x = 0;
     this.y = 0;
     this.size = size;
@@ -11,11 +11,13 @@ class Sun{
     this.distanceFromCenter = distanceFromCenter;
     this.rotationalPeriod = rotationalPeriod;
     this.selfRotationPeriod = selfRotationPeriod;
+    this.landscape = landscape;
   }
 
   display(){
     push();
-    fill(this.fill.r,this.fill.g,this.fill.b);
+    texture(this.landscape);
+    // fill(this.fill.r,this.fill.g,this.fill.b);
     // ambientMaterial(255);
     translate(this.x,this.y);
     rotateZ(1/this.selfRotationPeriod*frameCount);

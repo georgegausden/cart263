@@ -92,7 +92,7 @@ class Planet{
         }
         //create a pop up canvas
         push();
-        fill(255,255,255,this.planeOpacity);
+        fill(100,100,100,this.planeOpacity);
         translate(this.x,this.y,this.z+100);
         plane(this.planeSize,this.planeSize);
         pop();
