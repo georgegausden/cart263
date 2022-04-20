@@ -1,5 +1,5 @@
 class Sun{
-  constructor(size,fillR,fillG,fillB,distanceFromCenter,rotationalPeriod,selfRotationPeriod,landscape){
+  constructor(size,fillR,fillG,fillB,distanceFromCenter,rotationalPeriod,selfRotationPeriod,landscape,initialPhase){
     this.x = 0;
     this.y = 0;
     this.size = size;
@@ -12,6 +12,7 @@ class Sun{
     this.rotationalPeriod = rotationalPeriod;
     this.selfRotationPeriod = selfRotationPeriod;
     this.landscape = landscape;
+    this.initialPhase = initialPhase;
   }
 
   display(){
@@ -29,8 +30,9 @@ class Sun{
     //get the planets to move in a circular orbit relative to the center of the solar system
     this.x = this.vx;
     this.y = this.vy;
-    this.vx = this.distanceFromCenter*sin(1/this.rotationalPeriod*frameCount);
-    this.vy = this.distanceFromCenter*cos(1/this.rotationalPeriod*frameCount);
+    angleMode(RADIANS);
+    this.vx = this.distanceFromCenter*sin(1/this.rotationalPeriod*frameCount+this.initialPhase);
+    this.vy = this.distanceFromCenter*cos(1/this.rotationalPeriod*frameCount+this.initialPhase);
   }
 
   shine(){

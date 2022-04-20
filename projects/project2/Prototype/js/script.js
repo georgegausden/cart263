@@ -21,17 +21,18 @@ let planets = [];
 let maxMoonsPerPlanet = 6;
 let numPlanets = 5;
 let landscapes = [];
-let numLandscapeAssets = 24;
+let numLandscapeAssets = 21;
 
 //background of solar system variables
 let nightSky;
 let nightSkyRotation = 0;
 let nightSkyRotationSpeed = 0;
 let numNightSkyStars = 1000;
+let nightSkyChoosing;
 
 //star related variables
 let suns = [];
-let numSuns = 1;
+let numSuns = 5;
 let typesOfSuns = [[255,0,0,255],[0,0,255,255],[200,200,255,255],[225,200,0,255]];
 let sunLandscapes = [];
 let numSunLandscapes = 3;
@@ -41,7 +42,8 @@ let stars = [];
 let numStars = 3000;
 let inTransitBackground = 0;
 let backgroundFadeSpeed = 3;
-let speed;
+let speed = 0;
+let inTransitFrameCounter = 0;
 
 //text related variables
 let transitText;
@@ -70,11 +72,13 @@ let mouseInsidePlane = false;
 let viewingPlanets = false;
 let cameraReset = false;
 let pickingPlanetNumber = false;
+let pickingSunNumber = false;
 let enteredSolarSystemCreation = false;
 let fadeChoosingBg = false;
 
 //creating a new solar system
 let numPlanetsChosen = 2;
+let numSunsChosen = 1;
 let choosingPlanetImg = undefined;
 let choosingPlanetY = 100;
 let choosingBg = 255;
@@ -98,7 +102,7 @@ Preload all the images used for the planets as well as music, fonts, sound effec
 */
 function preload() {
   for (let i = 0; i<numLandscapeAssets; i++){
-    let landscape = loadImage(`assets/images/landscape${i}.jpeg`);
+    let landscape = loadImage(`assets/images/planets/landscape${i}.jpeg`);
     landscapes.push(landscape);
   }
   for (let i = 0; i<numSunLandscapes; i++){
@@ -140,14 +144,16 @@ function setup() {
     nightSky.circle(random(0,3000),random(0,3000),random(0,5));
   }
 
-  //create the text object that is displayed in the inTransit state
-  let transitTextSize = width/10000;
-  let transitTextRes = 80;
-  let transitTextDepth = 20;
-  let transitTextBevelled = false;
-  let transitTextFont = `Helvetica`;
-  let transitTextStyle = `Bold`;
-  transitText = createWord3D(`move the cursor to the right of the screen`,transitTextDepth,transitTextSize,transitTextRes,transitTextBevelled,transitTextFont,transitTextStyle);
+  //create the background night sky for our choosing page
+  nightSkyChoosing = createGraphics(3000,3000);
+  nightSkyChoosing.background(0);
+  nightSkyChoosing.fill(255);
+  nightSkyChoosing.stars = [];
+  for (let i = 0; i<numNightSkyStars; i++){
+    nightSkyChoosing.circle(random(0,3000),random(0,3000),random(0,5));
+  }
+
+
   textFont(programFont);
   textAlign(CENTER);
 
@@ -172,20 +178,25 @@ function setup() {
     let size = random(100,200);
 
     let landscape = random(sunLandscapes);
+    let initialPhase = 0;
 
     let distanceFromCenter = 0;
+    let rotationalPeriod;
 
     if (numSuns === 1){
       distanceFromCenter = 0;
+      rotationalPeriod = random(100,1000);
     }
     else{
+      rotationalPeriod = 300;
+      initialPhase = 2*PI/numSuns*i;
       distanceFromCenter = 500;
     }
 
-    let rotationalPeriod = random(100,1000);
+
     let selfRotationPeriod = random(100,1000);
 
-    let sun = new Sun(size,fill.r,fill.g,fill.b,distanceFromCenter,rotationalPeriod,selfRotationPeriod,landscape);
+    let sun = new Sun(size,fill.r,fill.g,fill.b,distanceFromCenter,rotationalPeriod,selfRotationPeriod,landscape,initialPhase);
     suns.push(sun);
   }
 
@@ -229,14 +240,17 @@ function draw() {
 //display what the user sees when they are in transit to their new solar system
 function inTransit(){
   //get current mouseX position
-  speed = map(mouseX, 0, width, 0, 100);
+  // speed = map(mouseX, 0, width, 0, 100);
+  inTransitFrameCounter += 1;
+  speed += 0.2;
+  cameraAngle += 0.0001;
 
-  cameraAngle = mouseX;
-  cameraAngle = map(cameraAngle,0,width,0,0.5);
+  // cameraAngle = mouseX;
+  // cameraAngle = map(cameraAngle,0,width,0,0.5);
   camera.rotateZ(cameraAngle);
 
   //make the background colour climb after a certain time when the user has kept their mouse past a certain amount of the canvas
-  if (frameCount > 200 && mouseX > 3*width/4){
+  if (inTransitFrameCounter > 400){
     inTransitBackground += backgroundFadeSpeed;
   }
 
@@ -251,10 +265,10 @@ function inTransit(){
     stars[i].show();
   }
 
-  displayInTransitIntructions();
 }
 
 function arrived(){
+
   cameraCounter += 1;
   //make sure the camera is back to a normal angle
   if (!cameraReset){
@@ -342,14 +356,14 @@ function arrived(){
   }
 
   //move the camera up to show the whole solar system, then go back down
-  if (cameraCounter <= 600){
+  if (cameraCounter <= 200){
     let center = [0,0,3000];
-    camera.setCenter(center,500);
+    camera.setCenter(center,200);
 
   }
   else{
     if (!viewingPlanets){
-      camera.setCenter([0,0,0],500);
+      camera.setCenter([0,0,0],200);
       push();
       textSize(40);
       fill(255);
@@ -376,10 +390,13 @@ function displayInTransitIntructions(){
 
 function keyPressed(){
   if (keyCode === 39 && state === 'arrived'){
+    if (typingSFX.isPlaying()){
+      typingSFX.stop();
+    }
 
     viewingPlanets = true;
 
-    console.log(cameraStateCounter);
+
 
     let planet = planets[cameraStateCounter];
 
@@ -425,7 +442,23 @@ function keyPressed(){
     }
   }
 
+  if (keyCode === 38 && state === 'choose' && pickingSunNumber){
+    if (numSunsChosen < 3){
+      numSunsChosen += 1;
+    }
+  }
+  else if (keyCode === 40 && state === 'choose' && pickingSunNumber){
+    if (numSunsChosen > 1){
+      numSunsChosen -= 1;
+    }
+  }
+
   if (keyCode === 13 && pickingPlanetNumber && state === 'choose'){
+    pickingPlanetNumber = false;
+    pickingSunNumber = true;
+  }
+
+  if (keyCode === 13 && pickingSunNumber && state === 'choose'){
     fadeChoosingBg = true;
   }
 
@@ -490,11 +523,50 @@ function choose(){
   }
 
 
-  if (enteredSolarSystemCreation){
+  if (enteredSolarSystemCreation && !pickingSunNumber){
     pickingPlanetNumber = true;
   }
 
   if (pickingPlanetNumber){
+    push();
+    textSize(30);
+
+    fill(255/2*sin(frameCount/100)+255/2);
+
+    text(`pick how many planets you'd like`,0,-90);
+    pop();
+
+    push();
+    textSize(25);
+    fill(255/2*sin(frameCount/100)+255/2);
+    text(`use the up and down arrow keys`,0,-40);
+    pop();
+
+    push();
+    textSize(20);
+    fill(255/2*sin(frameCount/100)+255/2);
+    text(`once you've chosen, press enter`,0,10);
+    pop();
+
+    push();
+    noStroke();
+    translate(0,choosingPlanetY);
+    rotateZ(1/100*frameCount);
+    rotateX(1/200*frameCount);
+    texture(choosingPlanetImg);
+    sphere(numPlanetsChosen*5,24,24);
+    pop();
+
+    numPlanetsChosen = constrain(numPlanetsChosen,2,12);
+
+    push();
+    textSize(30);
+    fill(255/2*sin(frameCount/100)+255/2);
+    text(`${numPlanetsChosen}`,0,200);
+    pop();
+  }
+
+  if (pickingSunNumber){
     push();
     textSize(30);
     if (fadeChoosingBg){
@@ -503,7 +575,7 @@ function choose(){
     else{
       fill(255/2*sin(frameCount/100)+255/2);
     }
-    text(`pick how many planets you'd like`,0,-90);
+    text(`pick how many suns you'd like`,0,-90);
     pop();
 
     push();
@@ -533,11 +605,11 @@ function choose(){
     translate(0,choosingPlanetY);
     rotateZ(1/100*frameCount);
     rotateX(1/200*frameCount);
-    texture(choosingPlanetImg);
-    sphere(numPlanetsChosen*5,24,24);
+    texture(sunLandscapes[0]);
+    sphere(numSunsChosen*10,24,24);
     pop();
 
-    numPlanetsChosen = constrain(numPlanetsChosen,2,12);
+    numSunsChosen = constrain(numSunsChosen,1,3);
 
     push();
     textSize(30);
@@ -547,8 +619,9 @@ function choose(){
     else{
       fill(255/2*sin(frameCount/100)+255/2);
     }
-    text(`${numPlanetsChosen}`,0,200);
+    text(`${numSunsChosen}`,0,200);
     pop();
+
   }
 
 }
@@ -580,13 +653,46 @@ function generateNewSolarSystem(){
     planet.loadPlanetData();
   }
 
+  numSuns = numSunsChosen;
+  suns = [];
+
+  //create the suns in the solar system
+  for (let i = 0; i<numSuns; i++){
+    let size = random(100,200);
+
+    let landscape = random(sunLandscapes);
+    let initialPhase = 0;
+
+    let distanceFromCenter = 0;
+    let rotationalPeriod;
+
+    if (numSuns === 1){
+      distanceFromCenter = 0;
+      rotationalPeriod = random(100,1000);
+    }
+    else{
+      rotationalPeriod = 300;
+      initialPhase = 2*PI/numSuns*i;
+      distanceFromCenter = 500;
+    }
+
+
+    let selfRotationPeriod = random(100,1000);
+
+    let sun = new Sun(size,fill.r,fill.g,fill.b,distanceFromCenter,rotationalPeriod,selfRotationPeriod,landscape,initialPhase);
+    suns.push(sun);
+  }
+
+
+
+
   state = 'inTransit';
 }
 
 function choosingBackground(){
   //create a bunch of circles that light and dim
   push();
-  texture(nightSky);
+  texture(nightSkyChoosing);
   rotateY(1/1000*frameCount);
   rotateX(1/1000*frameCount);
   sphere(5000,50,50);
