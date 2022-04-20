@@ -17,15 +17,15 @@ class Planet{
     this.currentFrame = undefined;
     this.index = index;
     this.clouds = [];
-    this.numClouds = 0;
+    this.numClouds = 3;
     this.cloudsCreated = false;
     this.rings = [];
     this.numRings = numRings;
     this.ringsCreated = false;
     this.data = undefined;
     this.fillR = 0;
-    this.fillG = 255;
-    this.fillB = 0;
+    this.fillG = 100;
+    this.fillB = 255;
     this.fillOpacity = 100;
     this.clicked = false;
     this.currentCharIndex = 0;
@@ -61,6 +61,9 @@ class Planet{
     // this.ringActions();
 
     if (this.beingViewed){
+
+      //limit the camera distance
+      camera.setDistanceMax(1000);
 
       this.displayClickableZone();
 
@@ -119,6 +122,7 @@ class Planet{
 
     if (!typingSFX.isPlaying() && (this.currentCharIndex+1) < this.data.description.length){
       typingSFX.play();
+      typingSFX.setVolume(0.1);
     }
     else if (this.currentCharIndex+1 === this.data.description.length){
       this.typingDone = true;
@@ -282,7 +286,7 @@ class Planet{
   displayClickableZone(){
     let d = dist(width/2,height/2,mouseX,mouseY);
 
-    if (d <= this.size){
+    if (d <= this.size*1.5){
       this.hoveringOverPlanet = true;
     }
     else{
