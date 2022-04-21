@@ -15,17 +15,17 @@ class Sun{
     this.initialPhase = initialPhase;
   }
 
+  //display the sun on the screen
   display(){
     push();
     texture(this.landscape);
-    // fill(this.fill.r,this.fill.g,this.fill.b);
-    // ambientMaterial(255);
     translate(this.x,this.y);
     rotateZ(1/this.selfRotationPeriod*frameCount);
     sphere(this.size,40,40);
     pop();
   }
 
+  //move the sun around the solar system
   move(){
     //get the planets to move in a circular orbit relative to the center of the solar system
     this.x = this.vx;
@@ -33,9 +33,5 @@ class Sun{
     angleMode(RADIANS);
     this.vx = this.distanceFromCenter*sin(1/this.rotationalPeriod*frameCount+this.initialPhase);
     this.vy = this.distanceFromCenter*cos(1/this.rotationalPeriod*frameCount+this.initialPhase);
-  }
-
-  shine(){
-    // pointLight(250,250,250,0,0,0);
   }
 }

@@ -8,6 +8,7 @@ class NightStar{
     this.fillB = b;
   }
 
+  //display each star as a circle
   display(){
     push();
     fill(this.fillR,this.fillG,this.fillB);

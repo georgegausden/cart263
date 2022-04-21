@@ -13,6 +13,7 @@ class Moon{
     this.phase = initialPhase;
   }
 
+  //display the moons of the planet
   display(){
     push();
     texture(this.landscape);
@@ -20,10 +21,9 @@ class Moon{
     rotateZ(1/this.selfRotationPeriod*frameCount);
     sphere(this.size,40,40);
     pop();
-
-  
   }
 
+  //move the moon of the planet
   move(planetX,planetY){
     //get the planets to move in a circular orbit relative to the center of the planet
     this.x = this.vx+planetX;
@@ -33,17 +33,4 @@ class Moon{
     this.vy = this.distanceFromCenter*cos(1/this.rotationalPeriod*frameCount+this.phase);
     this.vz = this.distanceFromCenter*cos(1/this.rotationalPeriod*frameCount+this.phase);
   }
-
-  drawPath(planetX,planetY){
-    //draw the path of the planet with an ellipse
-    push();
-    noFill();
-    stroke(255,0,255,100);
-    translate(planetX,planetY);
-    rotateX(mouseX);
-    ellipseMode(CENTER);
-    ellipse(0,0,2*this.distanceFromCenter,2*this.distanceFromCenter,50);
-    pop();
-  }
-
 }
