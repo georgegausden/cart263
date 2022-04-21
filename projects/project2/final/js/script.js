@@ -280,7 +280,6 @@ function arrived() {
     let sun = suns[i];
     sun.display();
     sun.move();
-    sun.shine();
   }
 
   //move the camera up to show the whole solar system, then go back down
