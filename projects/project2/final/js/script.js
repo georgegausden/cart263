@@ -2,7 +2,7 @@
 The Planets
 George Gausden
 
-An interactive solar system model
+An interactive solar system model!
 */
 
 "use strict";
