@@ -36,11 +36,10 @@ class Planet{
     this.planeClicked = false;
     this.reduceOpacityTimer = 0;
     this.planeOpacity = 0;
-    this.planeTextOpacity = 0;
+    this.planeTextOpacity = 255;
     this.planeDisappear = false;
     this.currentChars = '';
     this.typingDone = false;
-
 
   }
 
@@ -74,7 +73,7 @@ class Planet{
 
         //set the camera to the state where we can see the information of the planet
         let state = {
-          distance: this.size+160,
+          distance: this.size+this.size/180,
           center: [this.x,this.y,this.z],
           rotation: [1,0,0,0],
         }
@@ -97,7 +96,8 @@ class Planet{
         push();
         fill(100,100,100,this.planeOpacity);
         translate(this.x,this.y,this.z+100);
-        plane(this.planeSize,this.planeSize);
+        ellipsoid(this.planetSize,this.planetSize,1,100,100);
+        // plane(this.planeSize,this.planeSize);
         pop();
 
         this.typeWriterEffect();
@@ -132,8 +132,8 @@ class Planet{
     this.currentChars = this.data.description.substring(0,this.currentCharIndex+1);
 
     push();
-    textSize(2);
-    fill(0,255,0,this.planeTextOpacity);
+    textSize(4);
+    fill(255,255,255,this.planeTextOpacity);
     textFont(digitalFont);
     textAlign(CENTER);
     translate(this.x,this.y-10,this.z + 110);
@@ -322,11 +322,7 @@ class Planet{
 
   increaseOpacity(){
     if (this.clicked){
-
-      this.planeTextOpacity += 0.6;
       this.planeOpacity += 0.3;
-
-      this.planeTextOpacity = constrain(this.planeTextOpacity,0,255);
       this.planeOpacity = constrain(this.planeOpacity,0,150);
     }
   }

@@ -6,7 +6,6 @@ class NightStar{
     this.fillR = r;
     this.fillG = g;
     this.fillB = b;
-
   }
 
   display(){
@@ -16,7 +15,4 @@ class NightStar{
     pop();
   }
 
-  flicker(){
-
-  }
 }
